@@ -14,18 +14,16 @@
     <dependencies>
         <dependency>
             <groupId>com.tianminghao</groupId>
-            <artifactId>openapi-mapper</artifactId>
+            <artifactId>openapi-service</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.tianminghao</groupId>
-            <artifactId>openapi-service</artifactId>
+            <artifactId>openapi-common</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-
-
 
     </dependencies>
 

@@ -24,28 +24,20 @@
             elem: '#demo'
             //,height: 500
             ,toolbar:'#toolbarDemo'
-            ,url: '/user/layui/page' //数据接口地址：将来一个handler对应的url
+            ,url: '/customer/page' //数据接口地址：将来一个handler对应的url
             ,page: true
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', sort: true, width:40}
-                ,{field: 'loginName', title: '用户名', width:120}
-                ,{field: 'nickname', title: '昵称', width:80}
-                ,{field: 'gender', title: '性别', width:80, sort: true,
+                ,{field: 'username', title: '用户名', width:120}
+                ,{field: 'nickname', title: '公司名称', width:120}
+                ,{field: 'address', title: '住址', width:80}
+                ,{field: 'money', title: '余额(毫)', sort: true}
+                ,{field: 'state', title: '状态', width:60, sort: true,
                     templet: function(data){
-                        return data.gender == 1 ? '<span style="color: blue;">男</span>' : '<span style="color: pink;">女</span>';
+                        return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
                     }
                 }
-                ,{field: 'phone', title: '手机', width:80}
-                ,{field: 'email', title: '邮箱', width: 177}
-                ,{field: 'balance', title: '账户余额', sort: true}
-                ,{field: 'status', title: '状态', width:80, sort: true,
-                    templet: function(data){
-                        return data.status == 0 ? '<span style="color: red;">未激活</span>' : '<span style="color: green;">已激活</span>';
-                    }
-                }
-                ,{field: 'registTime', title: '注册时间', width: 80}
-                ,{field: 'updateTime', title: '更新时间', width: 135, sort: true}
                 ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:150}
             ]]
         });
@@ -78,10 +70,10 @@
             var data = obj.data;
             //console.log(obj)
             if(obj.event === 'del'){
-                layer.confirm('真的删除ID为'+data.id+'用户信息么?', function(index){
+                layer.confirm('真的删除ID为'+data.id+'的客户信息么?', function(index){
 
                     //向后台发送请求
-                    $.get('/user/layui/delete', {id:data.id}, function (result) {
+                    $.get('/customer/delete', {id:data.id}, function (result) {
                         if(result.status) {
                             //status 为 true时，代表删除成功
                             obj.del();
@@ -93,15 +85,18 @@
                     layer.close(index);
                 });
             } else if(obj.event === 'edit'){
-                layer.prompt({
-                    formType: 2
-                    ,value: data.email
-                }, function(value, index){
-                    obj.update({
-                        email: value
-                    });
-                    layer.close(index);
+
+                layer.open({
+                    type: 1,
+                    content: 'html/customerform.html' //这里content是一个普通的String
                 });
+                //同步更新缓存对应的值
+                obj.update({
+                    username: '123'
+                    ,title: 'xxx'
+                });
+                layer.close(index);
+
             }
         });
 
