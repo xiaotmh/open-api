@@ -1,37 +1,43 @@
-<div class="layui-fluid">
-    <div class="layui-form layui-card-header layuiadmin-card-header-auto">
-        <div class="layui-inline">
-            <label class="layui-form-label">名称</label>
-            <div class="layui-input-block">
-                <input type="text" name="content" placeholder="请输入" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">状态</label>
-            <div class="layui-input-block">
-                <select name="top">
-                    <option value="">请选择</option>
-                    <option value="1">正常</option>
-                    <option value="0">停用</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-inline">
-            <button class="layui-btn layuiadmin-btn-forum-list" lay-submit lay-filter="LAY-app-forumlist-search">
-                <i class="layui-icon layui-icon-search layuiadmin-button-btn">&nbsp;搜索</i>
-            </button>
-        </div>
-    </div>
-</div>
+
 
 <!-- 表格 -->
-<table id="demo" lay-filter="test"></table>
+<table id="demo" lay-filter="test">
+</table>
 
 <script type="text/html" id="toolbarDemo">
+
     <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索</button>
         <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加</button>
         <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除</button>
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto layui-inline layui-col-md5">
+            <div class="layui-inline">
+                <label class="layui-form-label">名称</label>
+                <div class="layui-input-block">
+                    <input id="search-content" type="text" name="search-content" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <select id="search-state" name="search-state">
+                        <option value="">请选择</option>
+                        <option value="1">正常</option>
+                        <option value="0">停用</option>
+                    </select>
+                </div>
+            </div>
+
+<!--            <div class="layui-inline">-->
+<!--                <button class="layui-btn layuiadmin-btn-forum-list" lay-submit lay-filter="LAY-app-forumlist-search" onclick="search()">-->
+<!--                    <i class="layui-icon layui-icon-search layuiadmin-button-btn">&nbsp;搜索</i>-->
+<!--                </button>-->
+<!--            </div>-->
+        </div>
     </div>
+
+
+
 </script>
 
 <script type="text/html" id="barDemo">
@@ -185,8 +191,32 @@
 
                     //layer.msg('选中了：'+ data.length + ' 个');
                     break;
-                case 'isAll':
-                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                case 'search':
+
+                    var searchContent=$("#search-content").val();
+                    var searchState=$("#search-state").val();
+                    table.render({
+                        elem: '#demo'
+                        //,height: 500
+                        ,toolbar:'#toolbarDemo'
+                        ,url: '/customer/search' //数据接口地址：将来一个handler对应的url
+                        ,page: true
+                        ,where: {searchContent: searchContent, searchState: searchState}
+                        ,cols: [[ //表头
+                            {type: 'checkbox', fixed: 'left'}
+                            ,{field: 'id', title: 'ID', sort: true, width:60}
+                            ,{field: 'username', title: '用户名', width:120}
+                            ,{field: 'nickname', title: '公司名称', width:180}
+                            ,{field: 'address', title: '住址', width:200}
+                            ,{field: 'money', title: '余额(毫)',width:120, sort: true}
+                            ,{field: 'state', title: '状态', width:80, sort: true,
+                                templet: function(data){
+                                    return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                }
+                            }
+                            ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
+                        ]]
+                    });
                     break;
 
                 //自定义头工具栏右侧图标 - 提示
@@ -245,7 +275,7 @@
                         $(form).find("[name=address]").attr('value',data.address);
                         $(form).find("[name=money]").attr('value',data.money);
                         //$(data.state) == 1 ?  $(form).find("#normal").attr('selected','selected') : $(form).find("#disabled").attr('selected','selected');//1为正常，0为停用
-                        alert($.trim(data.state) == 1 );
+                        //alert($.trim(data.state) == 1 );
                         if($.trim(data.state) == 1 ){
 
                             $(form).find("#normal").attr('checked','checked');

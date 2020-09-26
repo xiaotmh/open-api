@@ -58,8 +58,6 @@ public class CustomerController {
 //    }
 
 
-
-    //http://localhost/user/layui/page?page=1&limit=10
     @GetMapping("/page")
     @ResponseBody
     public TableData<Customer> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
@@ -119,5 +117,20 @@ public class CustomerController {
             throw new RuntimeException(e.getMessage());
         }
         return new Result(true, "添加成功!");
+    }
+
+    @GetMapping("/search")
+    @ResponseBody
+    public TableData<Customer> search(@RequestParam(defaultValue = "1") Integer page,
+                                      @RequestParam(defaultValue = "10") Integer limit,
+                                      @RequestParam("searchContent") String content,
+                                      @RequestParam("searchState") String state) throws Exception {
+        log.fatal("searchContent====>"+content);
+        log.fatal("searchState====>"+state);
+        PageInfo<Customer> pageInfo = customerService.findPage(page, limit);
+        TableData<Customer> tableData = new TableData<>();
+        tableData.setCount(pageInfo.getTotal());  //从数据库获取
+        tableData.setData(pageInfo.getList());
+        return tableData;
     }
 }
