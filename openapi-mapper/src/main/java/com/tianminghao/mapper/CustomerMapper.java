@@ -10,14 +10,14 @@ import org.apache.ibatis.annotations.Param;
 *  @author Athena
 */
 public interface CustomerMapper {
-    int insertCustomer(Customer object);
+    int insertCustomer(Customer customer);
 
 
     /**
      * 更新客户
      * @return
      */
-    int update(Customer object);
+    int update(Customer customer);
 
 
     /**
@@ -32,4 +32,7 @@ public interface CustomerMapper {
      * @return
      */
     int delete(@Param("id") Integer id);
+
+
+    int insert(Customer customer);
 }

@@ -43,7 +43,7 @@ public interface CustomerService {
      * @param id
      * @return
      */
-    int delete(Integer id) throws Exception;
+    int drop(Integer id) throws Exception;
 
 
     /**
@@ -52,5 +52,14 @@ public interface CustomerService {
      * @return
      * @throws Exception
      */
-    int update(Customer customer) throws Exception;
+    int alter(Customer customer) throws Exception;
+
+
+    /**
+     * 添加客户信息
+     * @param customer
+     * @return
+     * @throws Exception
+     */
+    int add(Customer customer) throws Exception;
 }

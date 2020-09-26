@@ -75,7 +75,7 @@ public class CustomerController {
     public Result delete(Integer id) throws Exception {
 
         try {
-            customerService.delete(id);
+            customerService.drop(id);
             //int i=1/0;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -88,14 +88,23 @@ public class CustomerController {
     @PostMapping("/update")
     @ResponseBody
     public Result update(@RequestBody Customer customer) throws Exception {
-        log.fatal("前台传入customer================>"+customer);
-        System.out.println("前台传入customer================>"+customer);
         try {
-            customerService.update(customer);
+            customerService.alter(customer);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
 
         return new Result(true, "更新成功!");
+    }
+
+    @PostMapping("/insert")
+    @ResponseBody
+    public Result insert(@RequestBody Customer customer) throws Exception {
+        try {
+            customerService.add(customer);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return new Result(true, "添加成功!");
     }
 }

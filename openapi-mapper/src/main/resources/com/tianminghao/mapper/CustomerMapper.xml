@@ -97,7 +97,14 @@
         WHERE `id` = #{id}
     </update>
 
-
+    <insert id="insert" parameterType="Customer">
+        INSERT INTO `tb_customer`(`username`,
+            `password`,
+            `nickname`,
+            `address`,
+            `money`,
+            `state`) VALUE(#{username},#{password},#{nickname}, #{address},#{money}, #{state})
+    </insert>
 
     <resultMap type="com.tianminghao.pojo.Customer" id="CustomerMap">
         <result property="id" column="id"/>

@@ -77,7 +77,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @return
      */
     @Override
-    public int delete(Integer id) throws Exception {
+    public int drop(Integer id) throws Exception {
         int delete = customerMapper.delete(id);
         return delete;
     }
@@ -90,10 +90,23 @@ public class CustomerServiceImpl implements CustomerService {
      * @throws Exception
      */
     @Override
-    public int update(Customer customer) throws Exception {
+    public int alter(Customer customer) throws Exception {
         int update = customerMapper.update(customer);
-        log.fatal("update result==============>"+update);
-        System.out.println("update result==============>"+update);
         return update;
     }
+
+    /**
+     * 添加客户信息
+     *
+     * @param customer
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int add(Customer customer) throws Exception {
+        int insert = customerMapper.insert(customer);
+        return insert;
+    }
+
+
 }
