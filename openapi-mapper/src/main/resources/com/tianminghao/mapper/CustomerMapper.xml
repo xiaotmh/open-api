@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianminghao.mapper.CustomerMapper">
+
+
+    <insert id="insertCustomer"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `tb_customer`
+        (
+        <trim suffixOverrides=",">
+            <if test="id!=null">
+                `id`,
+            </if>
+            <if test="username!=null">
+                `username`,
+            </if>
+            <if test="password!=null">
+                `password`,
+            </if>
+            <if test="nickname!=null">
+                `nickname`,
+            </if>
+            <if test="address!=null">
+                `address`,
+            </if>
+            <if test="money!=null">
+                `money`,
+            </if>
+            <if test="state!=null">
+                `state`,
+            </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="username!=null">
+                #{username},
+            </if>
+            <if test="password!=null">
+                #{password},
+            </if>
+            <if test="nickname!=null">
+                #{nickname},
+            </if>
+            <if test="address!=null">
+                #{address},
+            </if>
+            <if test="money!=null">
+                #{money},
+            </if>
+            <if test="state!=null">
+                #{state},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="findAll" resultMap="CustomerMap">
+        select
+        <include refid="allResult"></include>
+        from  `tb_customer`
+    </select>
+
+
+    <delete id="delete">
+        delete from  `tb_customer` where id=#{id}
+    </delete>
+
+
+    <update id="update" parameterType="Customer">
+        UPDATE `tb_customer`
+        SET
+        <trim suffixOverrides=",">
+            <if test="username != null and username!=''">
+                `username` = #{username},
+            </if>
+            <if test="password != null and password!=''">
+                `password` = #{password},
+            </if>
+            <if test="nickname != null and nickname!=''">
+                `nickname` = #{nickname},
+            </if>
+            <if test="address != null and address!=''">
+                `address` = #{address},
+            </if>
+            <if test="money != null">
+                `money` = #{money},
+            </if>
+            <if test="state != null">
+                `state` = #{state},
+            </if>
+        </trim>
+        WHERE `id` = #{id}
+    </update>
+
+
+
+    <resultMap type="com.tianminghao.pojo.Customer" id="CustomerMap">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="nickname" column="nickname"/>
+        <result property="address" column="address"/>
+        <result property="money" column="money"/>
+        <result property="state" column="state"/>
+    </resultMap>
+
+
+
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+            `id`,
+            `username`,
+            `password`,
+            `nickname`,
+            `address`,
+            `money`,
+            `state`,
+        </trim>
+    </sql>
+
+
+
+
+
+</mapper>

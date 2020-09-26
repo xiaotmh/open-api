@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.tianminghao.mapper.CustomerMapper;
 import com.tianminghao.pojo.Customer;
 import com.tianminghao.service.CustomerService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
+@Log4j
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
@@ -78,5 +80,20 @@ public class CustomerServiceImpl implements CustomerService {
     public int delete(Integer id) throws Exception {
         int delete = customerMapper.delete(id);
         return delete;
+    }
+
+    /**
+     * 更新客户信息
+     *
+     * @param customer
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int update(Customer customer) throws Exception {
+        int update = customerMapper.update(customer);
+        log.fatal("update result==============>"+update);
+        System.out.println("update result==============>"+update);
+        return update;
     }
 }

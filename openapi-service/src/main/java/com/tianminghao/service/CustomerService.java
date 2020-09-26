@@ -45,4 +45,12 @@ public interface CustomerService {
      */
     int delete(Integer id) throws Exception;
 
+
+    /**
+     * 更新客户信息
+     * @param customer
+     * @return
+     * @throws Exception
+     */
+    int update(Customer customer) throws Exception;
 }

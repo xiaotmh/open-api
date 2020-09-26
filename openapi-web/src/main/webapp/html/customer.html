@@ -3,9 +3,31 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition" style="font-size: 30px; color: #1E9FFF;"></i>添加</button>
+        <button class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon layui-icon-delete" style="font-size: 30px; color: #1E9FFF;"></i>删除</button>
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="layui-inline">
+                <label class="layui-form-label">名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="content" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block">
+                    <select name="top">
+                        <option value="1">正常</option>
+                        <option value="0">停用</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layuiadmin-btn-forum-list" lay-submit lay-filter="LAY-app-forumlist-search">
+                    <i class="layui-icon layui-icon-search layuiadmin-button-btn">&nbsp;搜索</i>
+                </button>
+            </div>
+        </div>
+
     </div>
 </script>
 
@@ -18,7 +40,7 @@
 <script>
     layui.use(['table','form'], function(){
         var table = layui.table;
-
+        var form = layui.form;
         //第一个实例
         table.render({
             elem: '#demo'
@@ -28,17 +50,17 @@
             ,page: true
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', sort: true, width:40}
+                ,{field: 'id', title: 'ID', sort: true, width:60}
                 ,{field: 'username', title: '用户名', width:120}
                 ,{field: 'nickname', title: '公司名称', width:120}
                 ,{field: 'address', title: '住址', width:80}
-                ,{field: 'money', title: '余额(毫)', sort: true}
-                ,{field: 'state', title: '状态', width:60, sort: true,
+                ,{field: 'money', title: '余额(毫)',width:120, sort: true}
+                ,{field: 'state', title: '状态', width:120, sort: true,
                     templet: function(data){
                         return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
                     }
                 }
-                ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:150}
+                ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
             ]]
         });
 
@@ -46,11 +68,11 @@
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
-                case 'getCheckData':
+                case 'add':
                     var data = checkStatus.data;
                     layer.alert(JSON.stringify(data));
                     break;
-                case 'getCheckLength':
+                case 'del':
                     var data = checkStatus.data;
                     layer.msg('选中了：'+ data.length + ' 个');
                     break;
@@ -73,29 +95,109 @@
                 layer.confirm('真的删除ID为'+data.id+'的客户信息么?', function(index){
 
                     //向后台发送请求
-                    $.get('/customer/delete', {id:data.id}, function (result) {
+                    $.post('/customer/delete', {id:data.id}, function (result) {
                         if(result.status) {
                             //status 为 true时，代表删除成功
                             obj.del();
                         } else {
-                            layer.msg("删除失败!" + result.message)
+                            layer.msg("删除失败!" + result.message);
                         }
                     });
 
                     layer.close(index);
                 });
             } else if(obj.event === 'edit'){
-
+                //弹出修改页面iframe
+                window.PartitionId=data;
                 layer.open({
-                    type: 1,
-                    content: 'html/customerform.html' //这里content是一个普通的String
+                    type: 2,
+                    content: ['html/iframe.html','no'] ,//加no不允许出现滚动条
+                    title:'修改信息',
+                    //area: ['500px', '300px'],
+                    area: ['50%', '70%'],
+                    skin: "layui-layer-molv",
+                    btn: ['确定', '关闭'],
+                    success: function (layero, index) {    //成功获得加载changefile.html时，预先加载，将值从父窗口传到 子窗口
+                        var iframe = window['layui-layer-iframe' + index];//子窗口
+
+                        //父窗口向子窗口传值
+                        var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
+                        //使用#id就可以获取到弹出层里面的子元素。前面的写法都是固定的。
+                        //form.find(":checkbox").prop("checked", true);
+                        //form.find(":input").prop("checked", true);
+                        //var username=form.find(".username");
+                        //var formdata=form.serializeArray();
+                        //alert(formdata);
+                        //alert(data.id);
+                        //装载修改的原内容
+                        $(form).find("[name=id]").attr('value',data.id);
+                        $(form).find("[name=username]").attr('value',data.username);
+                        $(form).find("[name=password]").attr('value',data.password);
+                        $(form).find("[name=nickname]").attr('value',data.nickname);
+                        $(form).find("[name=address]").attr('value',data.address);
+                        $(form).find("[name=money]").attr('value',data.money);
+
+                        $(data.state) == '1' ?  $(form).find("[name=state][value='1']").attr('checked','checked') : $(form).find("[name=state][value='0']").attr('checked','checked');//1为正常，0为停用
+
+
+
+
+
+                        let body = layer.getChildFrame('body', index);
+                        //console.log(rowselect[0].filename);
+                        //body.find(".filename").val(rowselect[0].filename);   //通过class名进行获取数据
+                        //body.find(".filepath").val(rowselect[0].path);//意思是将rowselect[0].path这个值传递到子窗口的class="filepath"这个的文本框中，（预先加载）
+                        //body.find(".menuid").val(rowselect[0].previousid);
+                        //layui.form.render();
+                    },
+                    yes: function(index, layero){
+                        //do something
+                        var iframe = window['layui-layer-iframe' + index];//子窗口
+
+                        //父窗口向子窗口传值
+                        var form = $(layero).find("iframe").contents().find("#form");//获取子页面元素
+                        //使用#id就可以获取到弹出层里面的子元素。前面的写法都是固定的。
+                        //form.find(":checkbox").prop("checked", true);
+                        //form.find(":input").prop("checked", true);
+                        //var username=$(layero).find("iframe").contents().find(".username").val();
+                        var formdata=form.serializeJSON();
+                        alert(formdata);
+                        $.ajax({
+                            //请求方式
+                            type : "POST",
+                            //请求的媒体类型
+                            contentType: "application/json;charset=UTF-8",
+                            //请求地址
+                            url : "/customer/update",
+                            //数据，json字符串
+                            data : JSON.stringify(formdata),
+                            //请求成功
+                            success : function(data) {
+                                layer.msg("更新成功===》" + data.message+" =>"+ data.status);
+                            },
+                            //请求失败，包含具体的错误信息
+                            error : function(data){
+                                layer.msg("更新失败===》" + data.message+" =>"+ data.status);
+                            }
+                        });
+
+
+                        layui.table.render()
+                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                    },
+                    cancel: function(index, layero){
+                        layer.close(index);
+                        return false;
+                    }
+                },function(index){
+                    layer.close(index);
+
                 });
                 //同步更新缓存对应的值
                 obj.update({
                     username: '123'
                     ,title: 'xxx'
                 });
-                layer.close(index);
 
             }
         });

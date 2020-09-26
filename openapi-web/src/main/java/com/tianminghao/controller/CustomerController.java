@@ -10,12 +10,10 @@ import com.tianminghao.common.Result;
 import com.tianminghao.common.TableData;
 import com.tianminghao.pojo.Customer;
 import com.tianminghao.service.CustomerService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -27,6 +25,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/customer")
+@Log4j
 public class CustomerController {
 
     @Autowired
@@ -71,7 +70,7 @@ public class CustomerController {
         return tableData;
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     @ResponseBody
     public Result delete(Integer id) throws Exception {
 
@@ -83,5 +82,20 @@ public class CustomerController {
         }
 
         return new Result(true, "删除成功!");
+    }
+
+
+    @PostMapping("/update")
+    @ResponseBody
+    public Result update(@RequestBody Customer customer) throws Exception {
+        log.fatal("前台传入customer================>"+customer);
+        System.out.println("前台传入customer================>"+customer);
+        try {
+            customerService.update(customer);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        return new Result(true, "更新成功!");
     }
 }
