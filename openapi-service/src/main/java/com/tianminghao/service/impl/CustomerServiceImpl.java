@@ -83,6 +83,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
+     * 批量删除
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int dropBatch(Integer id) throws Exception {
+        return 0;
+    }
+
+    /**
      * 更新客户信息
      *
      * @param customer

@@ -5,6 +5,7 @@ package com.tianminghao.controller;/**
  * @Description no description
  */
 
+import cn.hutool.core.convert.Convert;
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.common.Result;
 import com.tianminghao.common.TableData;
@@ -84,6 +85,19 @@ public class CustomerController {
         return new Result(true, "删除成功!");
     }
 
+    @PostMapping("/deleteBatch")
+    @ResponseBody
+    public Result deleteBatch(@RequestBody List<Customer> customerList ) throws Exception {
+        for (Customer customer : customerList) {
+            try {
+                customerService.drop(customer.getId());
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+        return new Result(true, "删除成功!");
+    }
+
 
     @PostMapping("/update")
     @ResponseBody
@@ -93,7 +107,6 @@ public class CustomerController {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-
         return new Result(true, "更新成功!");
     }
 

@@ -45,6 +45,14 @@ public interface CustomerService {
      */
     int drop(Integer id) throws Exception;
 
+    /**
+     * 批量删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    int dropBatch(Integer id) throws Exception;
+
 
     /**
      * 更新客户信息

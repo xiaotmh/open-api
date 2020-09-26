@@ -30,7 +30,7 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加</button>
-        <button class="layui-btn layui-btn-danger" lay-event="del"><i class="layui-icon layui-icon-delete" ></i>删除</button>
+        <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除</button>
     </div>
 </script>
 
@@ -55,7 +55,7 @@
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', sort: true, width:60}
                 ,{field: 'username', title: '用户名', width:120}
-                ,{field: 'nickname', title: '公司名称', width:120}
+                ,{field: 'nickname', title: '公司名称', width:180}
                 ,{field: 'address', title: '住址', width:200}
                 ,{field: 'money', title: '余额(毫)',width:120, sort: true}
                 ,{field: 'state', title: '状态', width:80, sort: true,
@@ -107,6 +107,7 @@
                                 success : function(data) {
                                     layer.msg(data.message);
                                     //添加后无法解决动态页面更新问题，因为在最后一页
+                                    table.reload("demo");
                                 },
                                 //请求失败，包含具体的错误信息
                                 error : function(data){
@@ -129,9 +130,60 @@
 
 //////////////////////////
                     break;
-                case 'del':
+                case 'delbat':
                     var data = checkStatus.data;
-                    layer.msg('选中了：'+ data.length + ' 个');
+                    if(checkStatus.isAll){
+                        layer.confirm('你疯了吧？要删所有用户？这可是'+data.length+'个，你确定？', {icon: 3, title:'提示'}, function(index){
+                            //do something
+                            $.ajax({
+                                //请求方式
+                                type : "POST",
+                                //请求的媒体类型
+                                contentType: "application/json;charset=UTF-8",
+                                //请求地址
+                                url : "/customer/deleteBatch",
+                                //数据，json字符串
+                                data : JSON.stringify(data),
+                                //请求成功
+                                success : function(data) {
+                                    layer.msg(data.message);
+                                },
+                                //请求失败，包含具体的错误信息
+                                error : function(data){
+                                    layer.msg(data.message);
+                                }
+                            });
+
+                            layer.close(index);
+                        });
+                    } else{
+                        layer.confirm('确定要删除这'+data.length+'个客户吗？', {icon: 3, title:'提示'}, function(index){
+                            //do something
+                            alert(JSON.stringify(data));
+                            $.ajax({
+                                //请求方式
+                                type : "POST",
+                                //请求的媒体类型
+                                contentType: "application/json;charset=UTF-8",
+                                //请求地址
+                                url : "/customer/deleteBatch",
+                                //数据，json字符串
+                                data : JSON.stringify(data),
+                                //请求成功
+                                success : function(data) {
+                                    table.reload("demo");
+                                    layer.msg(data.message);
+                                },
+                                //请求失败，包含具体的错误信息
+                                error : function(data){
+                                    layer.msg(data.message);
+                                }
+                            });
+                            layer.close(index);
+                        });
+                    }
+
+                    //layer.msg('选中了：'+ data.length + ' 个');
                     break;
                 case 'isAll':
                     layer.msg(checkStatus.isAll ? '全选': '未全选');
@@ -192,7 +244,20 @@
                         $(form).find("[name=nickname]").attr('value',data.nickname);
                         $(form).find("[name=address]").attr('value',data.address);
                         $(form).find("[name=money]").attr('value',data.money);
-                        $(data.state) == '1' ?  $(form).find("[name=state][value='1']").attr('checked','checked') : $(form).find("[name=state][value='0']").attr('checked','checked');//1为正常，0为停用
+                        //$(data.state) == 1 ?  $(form).find("#normal").attr('selected','selected') : $(form).find("#disabled").attr('selected','selected');//1为正常，0为停用
+                        alert($.trim(data.state) == 1 );
+                        if($.trim(data.state) == 1 ){
+
+                            $(form).find("#normal").attr('checked','checked');
+                        }else{
+                            $(form).find("#disabled").attr('checked','checked');
+                        }
+
+
+
+
+
+                        //$($.trim(data.state)) == 1 ?  $(form).find("#normal").attr('checked','checked') : $(form).find("#disabled").attr('checked','checked');//1为正常，0为停用
                     },
                     yes: function(index, layero){
                         var iframe = window['layui-layer-iframe' + index];//子窗口

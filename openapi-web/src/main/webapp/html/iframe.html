@@ -55,9 +55,15 @@
     <div class="layui-form-item" lay-filter="state">
       <label class="layui-form-label">选择状态</label>
       <div class="layui-input-block">
-        <input type="radio" name="state" value="1" title="正常">
-        <input type="radio" name="state" value="0" title="停用">
+        <input id="normal" type="radio" name="state" value="1" title="正常">
+        <input id="disabled" type="radio" name="state" value="0" title="停用">
       </div>
+<!--      <div class="layui-input-inline">-->
+<!--        <select name="top">-->
+<!--          <option id="normal" value="1" >正常</option>-->
+<!--          <option id="disabled" value="0">停用</option>-->
+<!--        </select>-->
+<!--      </div>-->
     </div>
     <div class="layui-form-item layui-hide">
       <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
