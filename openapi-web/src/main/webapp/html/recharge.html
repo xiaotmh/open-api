@@ -1,0 +1,408 @@
+
+
+<!-- 表格 -->
+<table id="demo" lay-filter="test">
+</table>
+
+<script type="text/html" id="toolbarDemo">
+
+    <div class="layui-btn-fluid">
+        <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索</button>
+        <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加</button>
+        <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除</button>
+        <button class="layui-btn" lay-event="refresh"><i class="layui-icon layui-icon-refresh" ></i>刷新</button>
+
+    </div>
+
+
+
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<script>
+    layui.use(['table','form'], function(){
+        var table = layui.table;
+        var form = layui.form;
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            //,height: 500
+            ,toolbar:'#toolbarDemo'
+            ,url: '/customer/page' //数据接口地址：将来一个handler对应的url
+            ,page: true
+            ,cols: [[ //表头
+                {type: 'checkbox', fixed: 'left'}
+                ,{field: 'id', title: 'ID', sort: true, width:60}
+                ,{field: 'username', title: '用户名', width:120}
+                ,{field: 'nickname', title: '公司名称', width:180}
+                ,{field: 'address', title: '住址', width:200}
+                ,{field: 'money', title: '余额(毫)',width:120, sort: true}
+                ,{field: 'state', title: '状态', width:80, sort: true,
+                    templet: function(data){
+                        return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                    }
+                }
+                ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
+            ]]
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'add':
+                    /////////////////////////////////////////////
+                    //弹出增加页面iframe
+                    window.PartitionId=data;
+                    layer.open({
+                        type: 2,
+                        content: ['html/customerForm.html','no'] ,//加no不允许出现滚动条
+                        title:'修改信息',
+                        //area: ['500px', '300px'],
+                        area: ['50%', '70%'],
+                        skin: "layui-layer-molv",
+                        btn: ['确定', '关闭'],
+                        success: function (layero, index) {    //成功获得加载changefile.html时，预先加载，将值从父窗口传到 子窗口
+                            var iframe = window['layui-layer-iframe' + index];//子窗口
+                            //父窗口向子窗口传值
+                            var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
+                        },
+                        yes: function(index, layero){
+                            var iframe = window['layui-layer-iframe' + index];//子窗口
+                            //父窗口向子窗口传值
+                            var form = $(layero).find("iframe").contents().find("#form");//获取子页面元素
+                            var formdata=form.serializeJSON();
+                            //alert(formdata);
+                            $.ajax({
+                                //请求方式
+                                type : "POST",
+                                //请求的媒体类型
+                                contentType: "application/json;charset=UTF-8",
+                                //请求地址
+                                url : "/customer/insert",
+                                //数据，json字符串
+                                data : JSON.stringify(formdata),
+                                //请求成功
+                                success : function(data) {
+                                    layer.msg(data.message);
+                                    //添加后无法解决动态页面更新问题，因为在最后一页
+                                    table.reload("demo");
+                                },
+                                //请求失败，包含具体的错误信息
+                                error : function(data){
+                                    layer.msg(data.message);
+                                }
+                            });
+
+
+                            layui.table.render()
+                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        },
+                        cancel: function(index, layero){
+                            layer.close(index);
+                            return false;
+                        }
+                    },function(index){
+                        layer.close(index);
+
+                    });
+
+//////////////////////////
+                    break;
+                case 'delbat':
+                    var data = checkStatus.data;
+                    if(checkStatus.data.length==0){
+                        layer.msg('您还未选中');
+                    }else if(checkStatus.isAll){
+                        layer.confirm('你疯了吧？要删所有用户？这可是'+data.length+'个，你确定？', {icon: 3, title:'提示'}, function(index){
+                            //do something
+                            $.ajax({
+                                //请求方式
+                                type : "POST",
+                                //请求的媒体类型
+                                contentType: "application/json;charset=UTF-8",
+                                //请求地址
+                                url : "/customer/deleteBatch",
+                                //数据，json字符串
+                                data : JSON.stringify(data),
+                                //请求成功
+                                success : function(data) {
+                                    layer.msg(data.message);
+                                },
+                                //请求失败，包含具体的错误信息
+                                error : function(data){
+                                    layer.msg(data.message);
+                                }
+                            });
+
+                            layer.close(index);
+                        });
+                    } else{
+                        layer.confirm('确定要删除这'+data.length+'个客户吗？', {icon: 3, title:'提示'}, function(index){
+                            //do something
+                            alert(JSON.stringify(data));
+                            $.ajax({
+                                //请求方式
+                                type : "POST",
+                                //请求的媒体类型
+                                contentType: "application/json;charset=UTF-8",
+                                //请求地址
+                                url : "/customer/deleteBatch",
+                                //数据，json字符串
+                                data : JSON.stringify(data),
+                                //请求成功
+                                success : function(data) {
+                                    table.reload("demo");
+                                    layer.msg(data.message);
+                                },
+                                //请求失败，包含具体的错误信息
+                                error : function(data){
+                                    layer.msg(data.message);
+                                }
+                            });
+                            layer.close(index);
+                        });
+                    }
+
+                    //layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+
+                //搜索
+                case 'search':
+                    //弹出搜索页面iframe
+                    window.PartitionId=data;
+                    layer.open({
+                        type: 2,
+                        content: ['html/customerSearch.html','no'] ,//加no不允许出现滚动条
+                        title:'查找数据',
+                        //area: ['500px', '300px'],
+                        area: ['50%', '30%'],
+                        skin: "layui-layer-molv",
+                        btn: ['确定', '关闭'],
+                        success: function (layero, index) {    //成功获得加载changefile.html时，预先加载，将值从父窗口传到 子窗口
+                            var iframe = window['layui-layer-iframe' + index];//子窗口
+                            //父窗口向子窗口传值
+                            var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
+                        },
+                        yes: function(index, layero){
+                            var iframe = window['layui-layer-iframe' + index];//子窗口
+                            //父窗口向子窗口传值
+                            var form = $(layero).find("iframe").contents().find("#search-form");//获取子页面元素
+                            //使用#id就可以获取到弹出层里面的子元素。前面的写法都是固定的。
+                            var formdata=form.serializeJSON();
+                            var searchContent=$(layero).find("iframe").contents().find("#search-content").val();
+                            var searchState=$(layero).find("iframe").contents().find("#search-state").val();
+                            table.render({
+                                elem: '#demo'
+                                //,height: 500
+                                ,toolbar:'#toolbarDemo'
+                                ,url: '/customer/search' //数据接口地址：将来一个handler对应的url
+                                ,page: true
+                                ,where: {searchContent: searchContent, searchState: searchState}
+                                ,cols: [[ //表头
+                                    {type: 'checkbox', fixed: 'left'}
+                                    ,{field: 'id', title: 'ID', sort: true, width:60}
+                                    ,{field: 'username', title: '用户名', width:120}
+                                    ,{field: 'nickname', title: '公司名称', width:180}
+                                    ,{field: 'address', title: '住址', width:200}
+                                    ,{field: 'money', title: '余额(毫)',width:120, sort: true}
+                                    ,{field: 'state', title: '状态', width:80, sort: true,
+                                        templet: function(data){
+                                            return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                        }
+                                    }
+                                    ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
+                                ]],
+                                done: function(res, curr, count){
+                                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                                    if(count==0){
+                                        layer.msg("对不起，没有搜索到");
+                                    }else{
+                                        layer.msg("搜索到"+count+"条数据");
+                                    }
+                                    console.log(res);
+
+                                    //得到当前页码
+                                    console.log(curr);
+
+                                    //得到数据总量
+                                    console.log(count);
+                                }
+                            });
+                            layui.table.render()
+                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        },
+                        cancel: function(index, layero){
+                            layer.close(index);
+                            return false;
+                        }
+                    },function(index){
+                        layer.close(index);
+
+                    });
+
+
+
+                    break;
+
+                //刷新
+                case 'refresh':
+                    table.render({
+                        elem: '#demo'
+                        //,height: 500
+                        ,toolbar:'#toolbarDemo'
+                        ,url: '/customer/page' //数据接口地址：将来一个handler对应的url
+                        ,page: true
+                        ,cols: [[ //表头
+                            {type: 'checkbox', fixed: 'left'}
+                            ,{field: 'id', title: 'ID', sort: true, width:60}
+                            ,{field: 'username', title: '用户名', width:120}
+                            ,{field: 'nickname', title: '公司名称', width:180}
+                            ,{field: 'address', title: '住址', width:200}
+                            ,{field: 'money', title: '余额(毫)',width:120, sort: true}
+                            ,{field: 'state', title: '状态', width:80, sort: true,
+                                templet: function(data){
+                                    return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                }
+                            }
+                            ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
+                        ]]
+                    });
+                    break;
+
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            if(obj.event === 'del'){
+                layer.confirm('真的删除ID为'+data.id+'的客户信息么?', function(index){
+
+                    //向后台发送请求
+                    $.post('/customer/delete', {id:data.id}, function (result) {
+                        if(result.status) {
+                            //status 为 true时，代表删除成功
+                            obj.del();
+                        } else {
+                            layer.msg("删除失败!" + result.message);
+                        }
+                    });
+
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                //弹出修改页面iframe
+                window.PartitionId=data;
+                layer.open({
+                    type: 2,
+                    content: ['html/customerForm.html','no'] ,//加no不允许出现滚动条
+                    title:'修改信息',
+                    //area: ['500px', '300px'],
+                    area: ['50%', '70%'],
+                    skin: "layui-layer-molv",
+                    btn: ['确定', '关闭'],
+                    success: function (layero, index) {    //成功获得加载changefile.html时，预先加载，将值从父窗口传到 子窗口
+                        var iframe = window['layui-layer-iframe' + index];//子窗口
+                        //父窗口向子窗口传值
+                        var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
+                        //使用#id就可以获取到弹出层里面的子元素。前面的写法都是固定的。
+                        //form.find(":checkbox").prop("checked", true);
+                        //form.find(":input").prop("checked", true);
+                        //var username=form.find(".username");
+                        //var formdata=form.serializeArray();
+                        //alert(formdata);
+                        //alert(data.id);
+                        //装载修改的原内容
+                        $(form).find("[name=id]").attr('value',data.id);
+                        $(form).find("[name=username]").attr('value',data.username);
+                        $(form).find("[name=password]").attr('value',data.password);
+                        $(form).find("[name=nickname]").attr('value',data.nickname);
+                        $(form).find("[name=address]").attr('value',data.address);
+                        $(form).find("[name=money]").attr('value',data.money);
+                        //$(data.state) == 1 ?  $(form).find("#normal").attr('selected','selected') : $(form).find("#disabled").attr('selected','selected');//1为正常，0为停用
+                        //alert($.trim(data.state) == 1 );
+                        if($.trim(data.state) == 1 ){
+
+                            $(form).find("#normal").attr('checked','checked');
+                        }else{
+                            $(form).find("#disabled").attr('checked','checked');
+                        }
+
+
+
+
+
+                        //$($.trim(data.state)) == 1 ?  $(form).find("#normal").attr('checked','checked') : $(form).find("#disabled").attr('checked','checked');//1为正常，0为停用
+                    },
+                    yes: function(index, layero){
+                        var iframe = window['layui-layer-iframe' + index];//子窗口
+                        //父窗口向子窗口传值
+                        var form = $(layero).find("iframe").contents().find("#form");//获取子页面元素
+                        //使用#id就可以获取到弹出层里面的子元素。前面的写法都是固定的。
+                        //form.find(":checkbox").prop("checked", true);
+                        //form.find(":input").prop("checked", true);
+                        //var username=$(layero).find("iframe").contents().find(".username").val();
+                        var formdata=form.serializeJSON();
+                        //alert(formdata);
+                        $.ajax({
+                            //请求方式
+                            type : "POST",
+                            //请求的媒体类型
+                            contentType: "application/json;charset=UTF-8",
+                            //请求地址
+                            url : "/customer/update",
+                            //数据，json字符串
+                            data : JSON.stringify(formdata),
+                            //请求成功
+                            success : function(data) {
+                                layer.msg(data.message);
+                                //同步更新缓存对应的值
+                                obj.update({
+                                    username: formdata.username,
+                                    password: formdata.password
+                                    ,nickname: formdata.nickname
+                                    ,address: formdata.address
+                                    ,money: formdata.money
+                                    ,state: formdata.state
+
+                                });
+                            },
+                            //请求失败，包含具体的错误信息
+                            error : function(data){
+                                layer.msg(data.message);
+                            }
+                        });
+
+
+                        layui.table.render()
+                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                    },
+                    cancel: function(index, layero){
+                        layer.close(index);
+                        return false;
+                    }
+                },function(index){
+                    layer.close(index);
+
+                });
+
+
+
+
+            }
+        });
+
+    });
+</script>
