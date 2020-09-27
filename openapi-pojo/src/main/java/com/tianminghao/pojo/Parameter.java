@@ -43,7 +43,7 @@ public class Parameter implements Serializable {
     * 状态 1 启用,0 禁用
     * isNullAble:1
     */
-    private Integer state;
+    private Integer state=0;
 
 
 

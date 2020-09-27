@@ -55,7 +55,7 @@ public class Route implements Serializable {
     * 状态 1 有效,0 无效
     * isNullAble:1
     */
-    private Integer state;
+    private Integer state=0;
 
     /**
     * 幂等性 1 幂等 0 非幂等

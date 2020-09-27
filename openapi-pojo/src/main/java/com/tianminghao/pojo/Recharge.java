@@ -55,7 +55,7 @@ public class Recharge implements Serializable {
     * 支付类型 0 银联,1 微信,2支付宝
     * isNullAble:1
     */
-    private Integer paymentType;
+    private Integer paymentType=0;
 
 
 }

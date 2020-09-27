@@ -79,7 +79,7 @@ public class Application implements Serializable {
     * 状态
     * isNullAble:1
     */
-    private Integer state;
+    private Integer state=0;
 
 
 

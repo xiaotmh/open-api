@@ -145,7 +145,7 @@
                     } else{
                         layer.confirm('确定要删除这'+data.length+'个客户吗？', {icon: 3, title:'提示'}, function(index){
                             //do something
-                            alert(JSON.stringify(data));
+
                             $.ajax({
                                 //请求方式
                                 type : "POST",

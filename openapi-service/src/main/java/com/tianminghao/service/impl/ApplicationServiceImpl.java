@@ -8,11 +8,8 @@ package com.tianminghao.service.impl;/**
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.mapper.ApplicationMapper;
-import com.tianminghao.mapper.CustomerMapper;
 import com.tianminghao.pojo.Application;
-import com.tianminghao.pojo.Customer;
 import com.tianminghao.service.ApplicationService;
-import com.tianminghao.service.CustomerService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,8 +50,8 @@ public class ApplicationServiceImpl implements ApplicationService {
      */
     @Override
     public List<Application> findAll() throws Exception {
-        List<Application> customers = applicationMapper.findAll();
-        return customers;
+        List<Application> applicationList = applicationMapper.findAll();
+        return applicationList;
     }
 
     /**
@@ -68,8 +65,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public PageInfo<Application> findPage(Integer pageNum, Integer pageSize) throws Exception {
         PageHelper.startPage(pageNum, pageSize);
-        List<Application> customers = applicationMapper.findAll();
-        PageInfo<Application> pageInfo = new PageInfo<>(customers);
+        List<Application> applications = applicationMapper.findAll();
+        PageInfo<Application> pageInfo = new PageInfo<>(applications);
         return pageInfo;
     }
 
@@ -85,30 +82,25 @@ public class ApplicationServiceImpl implements ApplicationService {
     public PageInfo<Application> searchPage(Integer pageNum, Integer pageSize, String content, String state) throws Exception {
         //先用用户名搜索，然后用公司名搜索
         PageHelper.startPage(pageNum, pageSize);
-        List<Application> customers = applicationMapper.ferretByAppName(content, state);
-        PageInfo<Application> pageInfo = null;
-        PageHelper.startPage(pageNum, pageSize);
-        customers = applicationMapper.ferretByAppName(content, state);
-        //如果用户名和公司名都没找到，那么检测字符串长度，如果>1就分割后再查一次
-        if (customers.size() == 0) {
+        List<Application> applicationList = applicationMapper.ferretByAppName(content, state);
+
+        PageInfo<Application> pageInfo = new PageInfo<>(applicationList);
+        System.out.println(applicationList);
+        if (applicationList.size() == 0) {
             if (content.length() > 1) {
                 log.fatal("进入删减搜索");
                 for (int i = 0; i < content.length(); i++) {//jack1 01234     5
                     String newContent = content.substring(0, content.length() - i - 1);
                     PageHelper.startPage(pageNum, pageSize);
-                    customers = applicationMapper.ferretByAppName(newContent, state);
-                    if (customers.size() != 0) {
+                    applicationList = applicationMapper.ferretByAppName(newContent, state);
+                    if (applicationList.size() != 0) {
                         log.fatal("删减搜索成功==>" + newContent);
                         break;
                     }
                 }
-                //如果这个时候还是空，则需要遍历内容搜索公司名
-                if (customers.size() == 0) {
-                    log.fatal("单字搜索失败");
-                }
-                pageInfo = new PageInfo<>(customers);
+                pageInfo = new PageInfo<>(applicationList);
             } else {
-                pageInfo = new PageInfo<>(customers);
+                pageInfo = null;
             }
         }
         return pageInfo;

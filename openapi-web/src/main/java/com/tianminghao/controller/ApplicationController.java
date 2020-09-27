@@ -3,7 +3,9 @@ package com.tianminghao.controller;
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.common.Result;
 import com.tianminghao.common.TableData;
+import com.tianminghao.pojo.Application;
 import com.tianminghao.pojo.Customer;
+import com.tianminghao.service.ApplicationService;
 import com.tianminghao.service.CustomerService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,45 +20,22 @@ import java.util.List;
  * @description: 客户控制器
  */
 @Controller
-@RequestMapping("/customer")
+@RequestMapping("/application")
 @Log4j
 public class ApplicationController {
 
     @Autowired
-    CustomerService customerService;
+    ApplicationService applicationService;
 
-//    @GetMapping("/list")
-//    public ModelAndView list() throws Exception {
-//        System.out.println("list--------------");
-//
-//        List<Customer> customers = customerService.findAll();
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("customer-list");
-//        modelAndView.addObject("customers", customers);
-//
-//        return modelAndView;
-//    }
-//
-//    @GetMapping("/page")
-//    public ModelAndView findPage(@RequestParam(defaultValue = "1") Integer pageNum,
-//                                 @RequestParam(defaultValue = "5") Integer pageSize) throws Exception {
-//
-//        PageInfo<Customer> pageInfo = customerService.findPage(pageNum, pageSize);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("customer-page");
-//        modelAndView.addObject("pageInfo", pageInfo);
-//
-//        return modelAndView;
-//    }
+
 
 
     @GetMapping("/page")
     @ResponseBody
-    public TableData<Customer> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
+    public TableData<Application> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
                                              @RequestParam(defaultValue = "10") Integer limit) throws Exception {
-        PageInfo<Customer> pageInfo = customerService.findPage(page, limit);
-        TableData<Customer> tableData = new TableData<>();
+        PageInfo<Application> pageInfo = applicationService.findPage(page, limit);
+        TableData<Application> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
         tableData.setData(pageInfo.getList());
         return tableData;
@@ -67,7 +46,7 @@ public class ApplicationController {
     public Result delete(Integer id) throws Exception {
 
         try {
-            customerService.drop(id);
+            applicationService.drop(id);
             //int i=1/0;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -78,10 +57,10 @@ public class ApplicationController {
 
     @PostMapping("/deleteBatch")
     @ResponseBody
-    public Result deleteBatch(@RequestBody List<Customer> customerList ) throws Exception {
-        for (Customer customer : customerList) {
+    public Result deleteBatch(@RequestBody List<Application> applications ) throws Exception {
+        for (Application application : applications) {
             try {
-                customerService.drop(customer.getId());
+                applicationService.drop(application.getId());
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
             }
@@ -92,9 +71,9 @@ public class ApplicationController {
 
     @PostMapping("/update")
     @ResponseBody
-    public Result update(@RequestBody Customer customer) throws Exception {
+    public Result update(@RequestBody Application application) throws Exception {
         try {
-            customerService.alter(customer);
+            applicationService.alter(application);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -103,9 +82,9 @@ public class ApplicationController {
 
     @PostMapping("/insert")
     @ResponseBody
-    public Result insert(@RequestBody Customer customer) throws Exception {
+    public Result insert(@RequestBody Application application) throws Exception {
         try {
-            customerService.add(customer);
+            applicationService.add(application);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -114,17 +93,16 @@ public class ApplicationController {
 
     @GetMapping("/search")
     @ResponseBody
-    public TableData<Customer> search(@RequestParam(defaultValue = "1") Integer page,
+    public TableData<Application> search(@RequestParam(defaultValue = "1") Integer page,
                                       @RequestParam(defaultValue = "10") Integer limit,
                                       @RequestParam("searchContent") String content,
                                       @RequestParam("searchState") String state) throws Exception {
-        log.fatal("searchContent====>"+content);
-        log.fatal("searchState====>"+state);
+
         if(state.equals("")){
             state=null;
         }
-        PageInfo<Customer> pageInfo = customerService.searchPage(page, limit,content,state);
-        TableData<Customer> tableData = new TableData<>();
+        PageInfo<Application> pageInfo = applicationService.searchPage(page, limit,content,state);
+        TableData<Application> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
         tableData.setData(pageInfo.getList());
         return tableData;

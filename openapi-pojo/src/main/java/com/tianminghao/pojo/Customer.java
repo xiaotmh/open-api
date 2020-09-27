@@ -61,7 +61,7 @@ public class Customer implements Serializable {
     * 状态 1 正常,0 停用
     * isNullAble:1
     */
-    private Integer state;
+    private Integer state=0;
 
 
 }

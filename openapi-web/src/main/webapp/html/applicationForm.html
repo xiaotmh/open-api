@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>layer iframe 示例</title>
+  <title>iframe</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -22,34 +22,52 @@
 <form id="form">
   <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
     <div class="layui-form-item">
-      <label class="layui-form-label">用户名</label>
+      <label class="layui-form-label">企业名称</label>
       <div class="layui-input-inline">
         <input type="hidden" name="id">
-        <input type="text" name="username" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        <input type="text" name="corpName" lay-verify="required" placeholder="请输入企业名称" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">密码</label>
+      <label class="layui-form-label">应用名称</label>
       <div class="layui-input-inline">
-        <input type="text" name="password" lay-verify="password" placeholder="请输入号码" autocomplete="off" class="layui-input">
+        <input type="text" name="appName" lay-verify="required" placeholder="请输入应用名称" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">公司名</label>
+      <label class="layui-form-label">应用唯一标示 KEY</label>
       <div class="layui-input-inline">
-        <input type="text" name="nickname" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+        <input type="text" name="appKey" lay-verify="required" placeholder="请输入KEY" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">地址</label>
+      <label class="layui-form-label">应用签名秘钥</label>
       <div class="layui-input-inline">
-        <input type="text" name="address" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+        <input type="text" name="appSecret" lay-verify="required" placeholder="请输入应用签名秘钥" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">余额</label>
+      <label class="layui-form-label">应用回调用 URL</label>
       <div class="layui-input-inline">
-        <input type="text" name="money" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+        <input type="text" name="redirectUrl" lay-verify="required" placeholder="请输入URL" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">免费接口日调用限制次数</label>
+      <div class="layui-input-inline">
+        <input type="text" name="limitCount" lay-verify="required" placeholder="请输入次数" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">应用介绍</label>
+      <div class="layui-input-inline">
+        <input type="text" name="description" lay-verify="required" placeholder="请输入应用介绍" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">客户 id</label>
+      <div class="layui-input-inline">
+        <input type="text" name="cusId" lay-verify="required" placeholder="请输入客户 id" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item" lay-filter="state">
