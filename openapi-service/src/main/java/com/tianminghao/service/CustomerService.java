@@ -38,6 +38,19 @@ public interface CustomerService {
      */
     PageInfo<Customer> findPage(Integer pageNum, Integer pageSize) throws Exception;
 
+
+    /**
+     * 搜索并分页
+     * @param pageNum
+     * @param pageSize
+     * @param content
+     * @param state
+     * @return
+     * @throws Exception
+     */
+    PageInfo<Customer> searchPage(Integer pageNum, Integer pageSize, String content, String state) throws Exception;
+
+
     /**
      * 删除
      * @param id

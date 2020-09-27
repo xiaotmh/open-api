@@ -12,7 +12,8 @@
     <!-- 加载Log4J 配置文件  -->
     <context-param>
         <param-name>log4jConfigLocation</param-name>
-        <param-value>classpath*:conf/log4j.properties</param-value>
+<!--        <param-value>classpath*:conf/log4j.properties</param-value>-->
+        <param-value>classpath:/conf/log4j.properties</param-value>
     </context-param>
 
 

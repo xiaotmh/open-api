@@ -71,6 +71,71 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
+     * 搜索并分页
+     *
+     * @param pageNum
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public PageInfo<Customer> searchPage(Integer pageNum, Integer pageSize, String content, String state) throws Exception {
+        //先用用户名搜索，然后用公司名搜索
+        PageHelper.startPage(pageNum, pageSize);
+        List<Customer> customers = customerMapper.ferretByUsername(content,state);
+        PageInfo<Customer> pageInfo =null;
+        if (customers.size() == 0) {
+            PageHelper.startPage(pageNum, pageSize);
+            customers = customerMapper.ferretByNickname(content,state);
+            //如果用户名和公司名都没找到，那么检测字符串长度，如果>1就分割后再查一次
+            if (customers.size() == 0) {
+                if(content.length()>1){
+                    log.fatal("进入删减搜索");
+                    for (int i = 0; i < content.length() ; i++) {//jack1 01234     5
+                        String newContent=content.substring(0,content.length()-i-1);
+
+                        PageHelper.startPage(pageNum, pageSize);
+                        customers = customerMapper.ferretByUsername(newContent,state);
+                        if (customers.size() != 0) {
+                            log.fatal("删减搜索成功==>"+newContent);
+                            break;
+                        }
+                    }
+
+                    if (customers.size() == 0) {
+                        for (int i = 0; i < content.length(); i++) {
+                            String newContent=content.substring(0,content.length()-i-1);
+                            PageHelper.startPage(pageNum, pageSize);
+                            customers = customerMapper.ferretByNickname(newContent,state);
+                            if (customers.size() != 0) {
+                                log.fatal("删减搜索成功==>"+newContent);
+                                break;
+                            }
+                        }
+                    }
+
+                    //如果这个时候还是空，则需要遍历内容搜索公司名
+
+                    if (customers.size() == 0) {
+                        log.fatal("单字搜索失败");
+                    }
+
+
+                    pageInfo = new PageInfo<>(customers);
+                    return pageInfo;
+                }else {
+                    pageInfo = new PageInfo<>(customers);
+                    return pageInfo;
+                }
+            }
+        }else{
+            pageInfo = new PageInfo<>(customers);
+            return pageInfo;
+        }
+        return pageInfo;
+    }
+
+    /**
      * 删除
      *
      * @param id

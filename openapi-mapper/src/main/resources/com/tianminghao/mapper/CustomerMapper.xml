@@ -65,6 +65,26 @@
         from  `tb_customer`
     </select>
 
+    <select id="ferretByUsername" resultMap="CustomerMap">
+        select
+        <include refid="allResult"></include>
+        from  `tb_customer`
+        where username LIKE '%${content}%'
+        <if test="state != null and state!=''">
+             and state LIKE '%${state}%'
+        </if>
+    </select>
+
+    <select id="ferretByNickname" resultMap="CustomerMap">
+        select
+        <include refid="allResult"></include>
+        from  `tb_customer`
+        where nickname LIKE '%${content}%'
+        <if test="state != null and state!=''">
+            and state LIKE '%${state}%'
+        </if>
+    </select>
+
 
     <delete id="delete">
         delete from  `tb_customer` where id=#{id}

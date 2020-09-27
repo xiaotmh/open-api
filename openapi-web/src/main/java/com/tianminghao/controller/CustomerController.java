@@ -1,10 +1,14 @@
-package com.tianminghao.controller;/**
- * @Author Athena
- * @Date 2020/9/25 17:19
- * @Version 1.0
- * @Description no description
- */
+package com.tianminghao.controller;
 
+import com.github.pagehelper.PageInfo;
+import com.tianminghao.common.TableData;
+import com.tianminghao.pojo.Customer;
+import com.tianminghao.service.CustomerService;
+import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 import cn.hutool.core.convert.Convert;
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.common.Result;
@@ -61,7 +65,7 @@ public class CustomerController {
     @GetMapping("/page")
     @ResponseBody
     public TableData<Customer> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
-                                         @RequestParam(defaultValue = "10") Integer limit) throws Exception {
+                                             @RequestParam(defaultValue = "10") Integer limit) throws Exception {
         PageInfo<Customer> pageInfo = customerService.findPage(page, limit);
         TableData<Customer> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
@@ -127,7 +131,10 @@ public class CustomerController {
                                       @RequestParam("searchState") String state) throws Exception {
         log.fatal("searchContent====>"+content);
         log.fatal("searchState====>"+state);
-        PageInfo<Customer> pageInfo = customerService.findPage(page, limit);
+        if(state.equals("")){
+            state=null;
+        }
+        PageInfo<Customer> pageInfo = customerService.searchPage(page, limit,content,state);
         TableData<Customer> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
         tableData.setData(pageInfo.getList());

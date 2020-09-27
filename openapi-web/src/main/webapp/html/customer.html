@@ -6,34 +6,12 @@
 
 <script type="text/html" id="toolbarDemo">
 
-    <div class="layui-btn-container">
+    <div class="layui-btn-fluid">
         <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索</button>
         <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加</button>
         <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除</button>
-        <div class="layui-form layui-card-header layuiadmin-card-header-auto layui-inline layui-col-md5">
-            <div class="layui-inline">
-                <label class="layui-form-label">名称</label>
-                <div class="layui-input-block">
-                    <input id="search-content" type="text" name="search-content" placeholder="请输入" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">状态</label>
-                <div class="layui-input-inline">
-                    <select id="search-state" name="search-state">
-                        <option value="">请选择</option>
-                        <option value="1">正常</option>
-                        <option value="0">停用</option>
-                    </select>
-                </div>
-            </div>
+        <button class="layui-btn" lay-event="refresh"><i class="layui-icon layui-icon-refresh" ></i>刷新</button>
 
-<!--            <div class="layui-inline">-->
-<!--                <button class="layui-btn layuiadmin-btn-forum-list" lay-submit lay-filter="LAY-app-forumlist-search" onclick="search()">-->
-<!--                    <i class="layui-icon layui-icon-search layuiadmin-button-btn">&nbsp;搜索</i>-->
-<!--                </button>-->
-<!--            </div>-->
-        </div>
     </div>
 
 
@@ -83,7 +61,7 @@
                     window.PartitionId=data;
                     layer.open({
                         type: 2,
-                        content: ['html/iframe.html','no'] ,//加no不允许出现滚动条
+                        content: ['html/customerForm.html','no'] ,//加no不允许出现滚动条
                         title:'修改信息',
                         //area: ['500px', '300px'],
                         area: ['50%', '70%'],
@@ -138,7 +116,9 @@
                     break;
                 case 'delbat':
                     var data = checkStatus.data;
-                    if(checkStatus.isAll){
+                    if(checkStatus.data.length==0){
+                        layer.msg('您还未选中');
+                    }else if(checkStatus.isAll){
                         layer.confirm('你疯了吧？要删所有用户？这可是'+data.length+'个，你确定？', {icon: 3, title:'提示'}, function(index){
                             //do something
                             $.ajax({
@@ -191,17 +171,94 @@
 
                     //layer.msg('选中了：'+ data.length + ' 个');
                     break;
-                case 'search':
 
-                    var searchContent=$("#search-content").val();
-                    var searchState=$("#search-state").val();
+                //搜索
+                case 'search':
+                    //弹出搜索页面iframe
+                    window.PartitionId=data;
+                    layer.open({
+                        type: 2,
+                        content: ['html/customerSearch.html','no'] ,//加no不允许出现滚动条
+                        title:'查找数据',
+                        //area: ['500px', '300px'],
+                        area: ['50%', '30%'],
+                        skin: "layui-layer-molv",
+                        btn: ['确定', '关闭'],
+                        success: function (layero, index) {    //成功获得加载changefile.html时，预先加载，将值从父窗口传到 子窗口
+                            var iframe = window['layui-layer-iframe' + index];//子窗口
+                            //父窗口向子窗口传值
+                            var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
+                        },
+                        yes: function(index, layero){
+                            var iframe = window['layui-layer-iframe' + index];//子窗口
+                            //父窗口向子窗口传值
+                            var form = $(layero).find("iframe").contents().find("#search-form");//获取子页面元素
+                            //使用#id就可以获取到弹出层里面的子元素。前面的写法都是固定的。
+                            var formdata=form.serializeJSON();
+                            var searchContent=$(layero).find("iframe").contents().find("#search-content").val();
+                            var searchState=$(layero).find("iframe").contents().find("#search-state").val();
+                            table.render({
+                                elem: '#demo'
+                                //,height: 500
+                                ,toolbar:'#toolbarDemo'
+                                ,url: '/customer/search' //数据接口地址：将来一个handler对应的url
+                                ,page: true
+                                ,where: {searchContent: searchContent, searchState: searchState}
+                                ,cols: [[ //表头
+                                    {type: 'checkbox', fixed: 'left'}
+                                    ,{field: 'id', title: 'ID', sort: true, width:60}
+                                    ,{field: 'username', title: '用户名', width:120}
+                                    ,{field: 'nickname', title: '公司名称', width:180}
+                                    ,{field: 'address', title: '住址', width:200}
+                                    ,{field: 'money', title: '余额(毫)',width:120, sort: true}
+                                    ,{field: 'state', title: '状态', width:80, sort: true,
+                                        templet: function(data){
+                                            return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                        }
+                                    }
+                                    ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
+                                ]],
+                                done: function(res, curr, count){
+                                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                                    if(count==0){
+                                        layer.msg("对不起，没有搜索到");
+                                    }else{
+                                        layer.msg("搜索到"+count+"条数据");
+                                    }
+                                    console.log(res);
+
+                                    //得到当前页码
+                                    console.log(curr);
+
+                                    //得到数据总量
+                                    console.log(count);
+                                }
+                            });
+                            layui.table.render()
+                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        },
+                        cancel: function(index, layero){
+                            layer.close(index);
+                            return false;
+                        }
+                    },function(index){
+                        layer.close(index);
+
+                    });
+
+
+
+                    break;
+
+                //刷新
+                case 'refresh':
                     table.render({
                         elem: '#demo'
                         //,height: 500
                         ,toolbar:'#toolbarDemo'
-                        ,url: '/customer/search' //数据接口地址：将来一个handler对应的url
+                        ,url: '/customer/page' //数据接口地址：将来一个handler对应的url
                         ,page: true
-                        ,where: {searchContent: searchContent, searchState: searchState}
                         ,cols: [[ //表头
                             {type: 'checkbox', fixed: 'left'}
                             ,{field: 'id', title: 'ID', sort: true, width:60}
@@ -250,7 +307,7 @@
                 window.PartitionId=data;
                 layer.open({
                     type: 2,
-                    content: ['html/iframe.html','no'] ,//加no不允许出现滚动条
+                    content: ['html/customerForm.html','no'] ,//加no不允许出现滚动条
                     title:'修改信息',
                     //area: ['500px', '300px'],
                     area: ['50%', '70%'],

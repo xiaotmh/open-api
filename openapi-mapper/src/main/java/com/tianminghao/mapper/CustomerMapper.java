@@ -27,6 +27,18 @@ public interface CustomerMapper {
     List<Customer> findAll();
 
     /**
+     * 通过用户名查找
+     * @return
+     */
+    List<Customer> ferretByUsername(@Param("content") String content,@Param("state") String state);
+
+    /**
+     * 通过公司名查找
+     * @return
+     */
+    List<Customer> ferretByNickname(@Param("content") String content,@Param("state") String state);
+
+    /**
      * 删除一个客户
      * @param id
      * @return
