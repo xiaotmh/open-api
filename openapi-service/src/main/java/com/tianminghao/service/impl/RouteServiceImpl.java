@@ -90,55 +90,25 @@ public class RouteServiceImpl implements RouteService {
     public PageInfo<Route> searchPage(Integer pageNum, Integer pageSize, String content, String state) throws Exception {
         //先用用户名搜索，然后用公司名搜索
         PageHelper.startPage(pageNum, pageSize);
-        List<Route> routes = routeMapper.ferretByGaName(content,state);
-        PageInfo<Route> pageInfo =null;
+        List<Route> routes = routeMapper.ferretByGaName(content, state);
+        PageInfo<Route> pageInfo = new PageInfo<>(routes);;
         if (routes.size() == 0) {
-            PageHelper.startPage(pageNum, pageSize);
-            routes = routeMapper.ferretByGaName(content,state);
-            //如果用户名和公司名都没找到，那么检测字符串长度，如果>1就分割后再查一次
-            if (routes.size() == 0) {
-                if(content.length()>1){
-                    log.fatal("进入删减搜索");
-                    for (int i = 0; i < content.length() ; i++) {//jack1 01234     5
-                        String newContent=content.substring(0,content.length()-i-1);
+            if (content.length() > 1) {
+                log.fatal("进入删减搜索");
+                for (int i = 0; i < content.length(); i++) {//jack1 01234     5
+                    String newContent = content.substring(0, content.length() - i - 1);
 
-                        PageHelper.startPage(pageNum, pageSize);
-                        routes = routeMapper.ferretByGaName(newContent,state);
-                        if (routes.size() != 0) {
-                            log.fatal("删减搜索成功==>"+newContent);
-                            break;
-                        }
+                    PageHelper.startPage(pageNum, pageSize);
+                    routes = routeMapper.ferretByGaName(newContent, state);
+                    if (routes.size() != 0) {
+                        log.fatal("删减搜索成功==>" + newContent);
+                        break;
                     }
-
-                    if (routes.size() == 0) {
-                        for (int i = 0; i < content.length(); i++) {
-                            String newContent=content.substring(0,content.length()-i-1);
-                            PageHelper.startPage(pageNum, pageSize);
-                            routes = routeMapper.ferretByGaName(newContent,state);
-                            if (routes.size() != 0) {
-                                log.fatal("删减搜索成功==>"+newContent);
-                                break;
-                            }
-                        }
-                    }
-
-                    //如果这个时候还是空，则需要遍历内容搜索公司名
-
-                    if (routes.size() == 0) {
-                        log.fatal("单字搜索失败");
-                    }
-
-
-                    pageInfo = new PageInfo<>(routes);
-                    return pageInfo;
-                }else {
-                    pageInfo = new PageInfo<>(routes);
-                    return pageInfo;
                 }
+                pageInfo = new PageInfo<>(routes);
+            } else {
+                pageInfo = new PageInfo<>(routes);
             }
-        }else{
-            pageInfo = new PageInfo<>(routes);
-            return pageInfo;
         }
         return pageInfo;
     }

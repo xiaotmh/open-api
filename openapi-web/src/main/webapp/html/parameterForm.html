@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>layer iframe 示例</title>
+  <title>iframe</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -22,34 +22,16 @@
 <form id="form">
   <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
     <div class="layui-form-item">
-      <label class="layui-form-label">用户名</label>
+      <label class="layui-form-label">参数名</label>
       <div class="layui-input-inline">
         <input type="hidden" name="id">
-        <input type="text" name="username" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        <input type="text" name="name" lay-verify="required" placeholder="请输入参数名" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">密码</label>
+      <label class="layui-form-label">参数介绍</label>
       <div class="layui-input-inline">
-        <input type="text" name="password" lay-verify="password" placeholder="请输入号码" autocomplete="off" class="layui-input">
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">公司名</label>
-      <div class="layui-input-inline">
-        <input type="text" name="nickname" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">地址</label>
-      <div class="layui-input-inline">
-        <input type="text" name="address" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">余额</label>
-      <div class="layui-input-inline">
-        <input type="text" name="money" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+        <input type="text" name="description" lay-verify="required" placeholder="请输入参数介绍" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item" lay-filter="state">

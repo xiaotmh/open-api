@@ -1,13 +1,14 @@
 package com.tianminghao.pojo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
+
 /**
 *
 *  @author Athena
@@ -37,13 +38,23 @@ public class Recharge implements Serializable {
     * 创建订单时间
     * isNullAble:1
     */
-    private java.time.LocalDateTime createtime;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date createtime;
 
     /**
     * 更新时间
     * isNullAble:1
     */
-    private java.time.LocalDateTime updatetime;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date updatetime;
+
+    /**
+     * 充值金额
+     * isNullAble:1
+     */
+    private BigDecimal money;
 
     /**
     * 状态,0未支付,1 已支付,2 已取消

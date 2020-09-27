@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>layer iframe 示例</title>
+  <title>iframe</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -22,48 +22,50 @@
 <form id="form">
   <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
     <div class="layui-form-item">
-      <label class="layui-form-label">用户名</label>
+      <label class="layui-form-label">路由名称标识</label>
       <div class="layui-input-inline">
         <input type="hidden" name="id">
-        <input type="text" name="username" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        <input type="text" name="gatewayApiName" lay-verify="required" placeholder="请输入路由名称标识" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">密码</label>
+      <label class="layui-form-label">服务接口地址</label>
       <div class="layui-input-inline">
-        <input type="text" name="password" lay-verify="password" placeholder="请输入号码" autocomplete="off" class="layui-input">
+        <input type="text" name="insideApiUrl" lay-verify="required" placeholder="请输入服务接口地址" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">公司名</label>
+      <label class="layui-form-label">服务名称</label>
       <div class="layui-input-inline">
-        <input type="text" name="nickname" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+        <input type="text" name="serviceId" lay-verify="required" placeholder="请输入服务名称" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">地址</label>
+      <label class="layui-form-label">介绍信息</label>
       <div class="layui-input-inline">
-        <input type="text" name="address" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">余额</label>
-      <div class="layui-input-inline">
-        <input type="text" name="money" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+        <input type="text" name="description" lay-verify="required" placeholder="请输入介绍信息" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item" lay-filter="state">
-      <label class="layui-form-label">选择状态</label>
+      <label class="layui-form-label">状态</label>
       <div class="layui-input-block">
-        <input id="normal" type="radio" name="state" value="1" title="正常">
-        <input id="disabled" type="radio" name="state" value="0" title="停用">
+        <input id="stateNormal" type="radio" name="state" value="1" title="正常">
+        <input id="stateDisabled" type="radio" name="state" value="0" title="停用">
       </div>
-<!--      <div class="layui-input-inline">-->
-<!--        <select name="top">-->
-<!--          <option id="normal" value="1" >正常</option>-->
-<!--          <option id="disabled" value="0">停用</option>-->
-<!--        </select>-->
-<!--      </div>-->
+    </div>
+    <div class="layui-form-item" lay-filter="state">
+      <label class="layui-form-label">幂等性</label>
+      <div class="layui-input-block">
+        <input id="idempotentsNormal" type="radio" name="state" value="1" title="幂等">
+        <input id="idempotentsDisabled" type="radio" name="state" value="0" title="非幂等">
+      </div>
+    </div>
+    <div class="layui-form-item" lay-filter="state">
+      <label class="layui-form-label">是否收费</label>
+      <div class="layui-input-block">
+        <input id="needfeeNormal" type="radio" name="state" value="1" title="收费">
+        <input id="needfeeDisabled" type="radio" name="state" value="0" title="免费">
+      </div>
     </div>
     <div class="layui-form-item layui-hide">
       <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">

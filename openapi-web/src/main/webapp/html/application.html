@@ -148,7 +148,7 @@
                             layer.close(index);
                         });
                     } else{
-                        layer.confirm('确定要删除这'+data.length+'个客户吗？', {icon: 3, title:'提示'}, function(index){
+                        layer.confirm('确定要删除这'+data.length+'个吗？', {icon: 3, title:'提示'}, function(index){
                             //do something
 
                             $.ajax({
@@ -301,7 +301,7 @@
             var data = obj.data;
             //console.log(obj)
             if(obj.event === 'del'){
-                layer.confirm('真的删除ID为'+data.id+'的客户信息么?', function(index){
+                layer.confirm('真的删除ID为'+data.id+'的信息么?', function(index){
 
                     //向后台发送请求
                     $.post('/application/delete', {id:data.id}, function (result) {

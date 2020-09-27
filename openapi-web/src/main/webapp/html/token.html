@@ -33,20 +33,15 @@
             elem: '#demo'
             //,height: 500
             ,toolbar:'#toolbarDemo'
-            ,url: '/customer/page' //数据接口地址：将来一个handler对应的url
+            ,url: '/token/page' //数据接口地址：将来一个handler对应的url
             ,page: true
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', sort: true, width:60}
-                ,{field: 'username', title: '用户名', width:120}
-                ,{field: 'nickname', title: '公司名称', width:180}
-                ,{field: 'address', title: '住址', width:200}
-                ,{field: 'money', title: '余额(毫)',width:120, sort: true}
-                ,{field: 'state', title: '状态', width:80, sort: true,
-                    templet: function(data){
-                        return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
-                    }
-                }
+                ,{field: 'userId', title: '客户 id', width:120}
+                ,{field: 'accessToken', title: 'token 内容', width:220}
+                ,{field: 'startTime', title: '开始时间', width:180}
+                ,{field: 'expireTime', title: '结束时间',width:180, sort: true}
                 ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
             ]]
         });
@@ -61,7 +56,7 @@
                     window.PartitionId=data;
                     layer.open({
                         type: 2,
-                        content: ['html/customerForm.html','no'] ,//加no不允许出现滚动条
+                        content: ['html/tokenForm.html','no'] ,//加no不允许出现滚动条
                         title:'修改信息',
                         //area: ['500px', '300px'],
                         area: ['50%', '70%'],
@@ -84,7 +79,7 @@
                                 //请求的媒体类型
                                 contentType: "application/json;charset=UTF-8",
                                 //请求地址
-                                url : "/customer/insert",
+                                url : "/token/insert",
                                 //数据，json字符串
                                 data : JSON.stringify(formdata),
                                 //请求成功
@@ -127,7 +122,7 @@
                                 //请求的媒体类型
                                 contentType: "application/json;charset=UTF-8",
                                 //请求地址
-                                url : "/customer/deleteBatch",
+                                url : "/token/deleteBatch",
                                 //数据，json字符串
                                 data : JSON.stringify(data),
                                 //请求成功
@@ -143,7 +138,7 @@
                             layer.close(index);
                         });
                     } else{
-                        layer.confirm('确定要删除这'+data.length+'个客户吗？', {icon: 3, title:'提示'}, function(index){
+                        layer.confirm('确定要删除这'+data.length+'个吗？', {icon: 3, title:'提示'}, function(index){
                             //do something
                             alert(JSON.stringify(data));
                             $.ajax({
@@ -152,7 +147,7 @@
                                 //请求的媒体类型
                                 contentType: "application/json;charset=UTF-8",
                                 //请求地址
-                                url : "/customer/deleteBatch",
+                                url : "/token/deleteBatch",
                                 //数据，json字符串
                                 data : JSON.stringify(data),
                                 //请求成功
@@ -178,7 +173,7 @@
                     window.PartitionId=data;
                     layer.open({
                         type: 2,
-                        content: ['html/customerSearch.html','no'] ,//加no不允许出现滚动条
+                        content: ['html/tokenSearch.html','no'] ,//加no不允许出现滚动条
                         title:'查找数据',
                         //area: ['500px', '300px'],
                         area: ['50%', '30%'],
@@ -201,21 +196,16 @@
                                 elem: '#demo'
                                 //,height: 500
                                 ,toolbar:'#toolbarDemo'
-                                ,url: '/customer/search' //数据接口地址：将来一个handler对应的url
+                                ,url: '/token/search' //数据接口地址：将来一个handler对应的url
                                 ,page: true
                                 ,where: {searchContent: searchContent, searchState: searchState}
-                                ,cols: [[ //表头
+                                ,cols:[[ //表头
                                     {type: 'checkbox', fixed: 'left'}
                                     ,{field: 'id', title: 'ID', sort: true, width:60}
-                                    ,{field: 'username', title: '用户名', width:120}
-                                    ,{field: 'nickname', title: '公司名称', width:180}
-                                    ,{field: 'address', title: '住址', width:200}
-                                    ,{field: 'money', title: '余额(毫)',width:120, sort: true}
-                                    ,{field: 'state', title: '状态', width:80, sort: true,
-                                        templet: function(data){
-                                            return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
-                                        }
-                                    }
+                                    ,{field: 'userId', title: '客户 id', width:120}
+                                    ,{field: 'accessToken', title: 'token 内容', width:220}
+                                    ,{field: 'startTime', title: '开始时间', width:180}
+                                    ,{field: 'expireTime', title: '结束时间',width:180, sort: true}
                                     ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
                                 ]],
                                 done: function(res, curr, count){
@@ -257,20 +247,15 @@
                         elem: '#demo'
                         //,height: 500
                         ,toolbar:'#toolbarDemo'
-                        ,url: '/customer/page' //数据接口地址：将来一个handler对应的url
+                        ,url: '/token/page' //数据接口地址：将来一个handler对应的url
                         ,page: true
                         ,cols: [[ //表头
                             {type: 'checkbox', fixed: 'left'}
                             ,{field: 'id', title: 'ID', sort: true, width:60}
-                            ,{field: 'username', title: '用户名', width:120}
-                            ,{field: 'nickname', title: '公司名称', width:180}
-                            ,{field: 'address', title: '住址', width:200}
-                            ,{field: 'money', title: '余额(毫)',width:120, sort: true}
-                            ,{field: 'state', title: '状态', width:80, sort: true,
-                                templet: function(data){
-                                    return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
-                                }
-                            }
+                            ,{field: 'userId', title: '客户 id', width:120}
+                            ,{field: 'accessToken', title: 'token 内容', width:220}
+                            ,{field: 'startTime', title: '开始时间', width:180}
+                            ,{field: 'expireTime', title: '结束时间',width:180, sort: true}
                             ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
                         ]]
                     });
@@ -288,10 +273,10 @@
             var data = obj.data;
             //console.log(obj)
             if(obj.event === 'del'){
-                layer.confirm('真的删除ID为'+data.id+'的客户信息么?', function(index){
+                layer.confirm('真的删除ID为'+data.id+'的信息么?', function(index){
 
                     //向后台发送请求
-                    $.post('/customer/delete', {id:data.id}, function (result) {
+                    $.post('/token/delete', {id:data.id}, function (result) {
                         if(result.status) {
                             //status 为 true时，代表删除成功
                             obj.del();
@@ -307,7 +292,7 @@
                 window.PartitionId=data;
                 layer.open({
                     type: 2,
-                    content: ['html/customerForm.html','no'] ,//加no不允许出现滚动条
+                    content: ['html/tokenForm.html','no'] ,//加no不允许出现滚动条
                     title:'修改信息',
                     //area: ['500px', '300px'],
                     area: ['50%', '70%'],
@@ -317,34 +302,15 @@
                         var iframe = window['layui-layer-iframe' + index];//子窗口
                         //父窗口向子窗口传值
                         var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
-                        //使用#id就可以获取到弹出层里面的子元素。前面的写法都是固定的。
-                        //form.find(":checkbox").prop("checked", true);
-                        //form.find(":input").prop("checked", true);
-                        //var username=form.find(".username");
-                        //var formdata=form.serializeArray();
-                        //alert(formdata);
-                        //alert(data.id);
-                        //装载修改的原内容
                         $(form).find("[name=id]").attr('value',data.id);
-                        $(form).find("[name=username]").attr('value',data.username);
-                        $(form).find("[name=password]").attr('value',data.password);
-                        $(form).find("[name=nickname]").attr('value',data.nickname);
-                        $(form).find("[name=address]").attr('value',data.address);
-                        $(form).find("[name=money]").attr('value',data.money);
-                        //$(data.state) == 1 ?  $(form).find("#normal").attr('selected','selected') : $(form).find("#disabled").attr('selected','selected');//1为正常，0为停用
-                        //alert($.trim(data.state) == 1 );
-                        if($.trim(data.state) == 1 ){
-
-                            $(form).find("#normal").attr('checked','checked');
-                        }else{
-                            $(form).find("#disabled").attr('checked','checked');
-                        }
-
-
-
-
-
-                        //$($.trim(data.state)) == 1 ?  $(form).find("#normal").attr('checked','checked') : $(form).find("#disabled").attr('checked','checked');//1为正常，0为停用
+                        $(form).find("[name=userId]").attr('value',data.username);
+                        $(form).find("[name=accessToken]").attr('value',data.password);
+                        $(form).find("[name=startTime]").attr('value',data.nickname);
+                        $(form).find("[name=startTime]").attr('disabled','disabled');
+                        $(form).find("[name=startTime]").attr('readonly','readonly');
+                        $(form).find("[name=expireTime]").attr('value',data.address);
+                        $(form).find("[name=expireTime]").attr('disabled','disabled');
+                        $(form).find("[name=expireTime]").attr('readonly','readonly');
                     },
                     yes: function(index, layero){
                         var iframe = window['layui-layer-iframe' + index];//子窗口
@@ -362,7 +328,7 @@
                             //请求的媒体类型
                             contentType: "application/json;charset=UTF-8",
                             //请求地址
-                            url : "/customer/update",
+                            url : "/token/update",
                             //数据，json字符串
                             data : JSON.stringify(formdata),
                             //请求成功
@@ -370,13 +336,10 @@
                                 layer.msg(data.message);
                                 //同步更新缓存对应的值
                                 obj.update({
-                                    username: formdata.username,
-                                    password: formdata.password
-                                    ,nickname: formdata.nickname
-                                    ,address: formdata.address
-                                    ,money: formdata.money
-                                    ,state: formdata.state
-
+                                    userId: formdata.userId,
+                                    accessToken: formdata.accessToken
+                                    ,startTime: formdata.startTime
+                                    ,expireTime: formdata.expireTime
                                 });
                             },
                             //请求失败，包含具体的错误信息

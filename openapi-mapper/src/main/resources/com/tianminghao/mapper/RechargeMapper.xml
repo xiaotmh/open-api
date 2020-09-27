@@ -4,13 +4,14 @@
   <resultMap id="BaseResultMap" type="Recharge">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="cus_id" jdbcType="INTEGER" property="cusId" />
-    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
-    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createtime" jdbcType="DATE" property="createtime" />
+    <result column="updatetime" jdbcType="DATE" property="updatetime" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="payment_type" jdbcType="INTEGER" property="paymentType" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, cus_id, createtime, updatetime, `state`, payment_type
+    id, cus_id, createtime, updatetime, money,`state`, payment_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,7 +24,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="Recharge" useGeneratedKeys="true">
-    insert into tb_recharge (cus_id, createtime, updatetime, 
+    insert into tb_recharge (cus_id, createtime, updatetime, money,
       `state`, payment_type)
     values (#{cusId,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
       #{state,jdbcType=INTEGER}, #{paymentType,jdbcType=INTEGER})
@@ -39,6 +40,9 @@
       </if>
       <if test="updatetime != null">
         updatetime,
+      </if>
+      <if test="money != null">
+        money,
       </if>
       <if test="state != null">
         `state`,
@@ -56,6 +60,9 @@
       </if>
       <if test="updatetime != null">
         #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
@@ -77,6 +84,9 @@
       <if test="updatetime != null">
         updatetime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
       <if test="state != null">
         `state` = #{state,jdbcType=INTEGER},
       </if>
@@ -91,6 +101,7 @@
     set cus_id = #{cusId,jdbcType=INTEGER},
       createtime = #{createtime,jdbcType=TIMESTAMP},
       updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      money = #{money,jdbcType=DECIMAL},
       `state` = #{state,jdbcType=INTEGER},
       payment_type = #{paymentType,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

@@ -23,23 +23,18 @@
 
     <div class="layui-form layui-card-header  layuiadmin-card-header-auto">
       <div class="layui-inline">
-        <label class="layui-form-label">名称</label>
+        <label class="layui-form-label">用户</label>
         <div class="layui-input-block">
-          <input id="search-content" type="text" name="search-content" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div>
-      </div>
-      <div class="layui-inline">
-        <label class="layui-form-label">状态</label>
-        <div class="layui-input-block">
-          <select id="search-state" name="search-state">
-            <option value="">请选择</option>
-            <option value="1">正常</option>
-            <option value="0">停用</option>
+          <select name="userId" lay-verify="">
+            <option value="">请选择用户</option>
+            <option value="010">北京</option>
+            <option value="021" disabled>上海（禁用效果）</option>
+            <option value="0571" selected>杭州</option>
           </select>
         </div>
       </div>
-      <div class="layui-show-md-block">(注：名称一栏填写用户名、公司名称皆可)</div>
-      <div class="layui-show-md-block">(状态如果想搜索所有状态，空选即可)</div>
+
+
     </div>
 
 

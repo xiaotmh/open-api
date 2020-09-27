@@ -4,10 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.util.*;
+
 /**
 *
 *  @author Athena
@@ -43,13 +41,13 @@ public class Token implements Serializable {
     * 开始时间
     * isNullAble:1
     */
-    private java.time.LocalDateTime startTime;
+    private Date startTime;
 
     /**
     * 结束时间
     * isNullAble:1
     */
-    private java.time.LocalDateTime expireTime;
+    private Date expireTime;
 
 
 

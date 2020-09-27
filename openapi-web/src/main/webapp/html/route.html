@@ -33,18 +33,28 @@
             elem: '#demo'
             //,height: 500
             ,toolbar:'#toolbarDemo'
-            ,url: '/customer/page' //数据接口地址：将来一个handler对应的url
+            ,url: '/route/page' //数据接口地址：将来一个handler对应的url
             ,page: true
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', sort: true, width:60}
-                ,{field: 'username', title: '用户名', width:120}
-                ,{field: 'nickname', title: '公司名称', width:180}
-                ,{field: 'address', title: '住址', width:200}
-                ,{field: 'money', title: '余额(毫)',width:120, sort: true}
+                ,{field: 'gatewayApiName', title: '路由名称标识', width:180}
+                ,{field: 'insideApiUrl', title: '服务接口地址', width:180}
+                ,{field: 'serviceId', title: '服务名称', width:120}
+                ,{field: 'description', title: '介绍信息',width:180, sort: true}
                 ,{field: 'state', title: '状态', width:80, sort: true,
                     templet: function(data){
                         return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                    }
+                }
+                ,{field: 'idempotents', title: '幂等性', width:80, sort: true,
+                    templet: function(data){
+                        return data.idempotents == 1 ? '<span style="color: green;">幂等</span>' : '<span style="color: red;">非幂等</span>';
+                    }
+                }
+                ,{field: 'needfee', title: '是否收费', width:80, sort: true,
+                    templet: function(data){
+                        return data.needfee == 0 ? '<span style="color: green;">免费</span>' : '<span style="color: red;">收费</span>';
                     }
                 }
                 ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
@@ -61,7 +71,7 @@
                     window.PartitionId=data;
                     layer.open({
                         type: 2,
-                        content: ['html/customerForm.html','no'] ,//加no不允许出现滚动条
+                        content: ['html/routeForm.html','no'] ,//加no不允许出现滚动条
                         title:'修改信息',
                         //area: ['500px', '300px'],
                         area: ['50%', '70%'],
@@ -71,6 +81,9 @@
                             var iframe = window['layui-layer-iframe' + index];//子窗口
                             //父窗口向子窗口传值
                             var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
+                            $(form).find("#stateNormal").attr('checked','checked');
+                            $(form).find("#idempotentsNormal").attr('checked','checked');
+                            $(form).find("#needfeeNormal").attr('checked','checked');
                         },
                         yes: function(index, layero){
                             var iframe = window['layui-layer-iframe' + index];//子窗口
@@ -84,7 +97,7 @@
                                 //请求的媒体类型
                                 contentType: "application/json;charset=UTF-8",
                                 //请求地址
-                                url : "/customer/insert",
+                                url : "/route/insert",
                                 //数据，json字符串
                                 data : JSON.stringify(formdata),
                                 //请求成功
@@ -127,7 +140,7 @@
                                 //请求的媒体类型
                                 contentType: "application/json;charset=UTF-8",
                                 //请求地址
-                                url : "/customer/deleteBatch",
+                                url : "/route/deleteBatch",
                                 //数据，json字符串
                                 data : JSON.stringify(data),
                                 //请求成功
@@ -152,7 +165,7 @@
                                 //请求的媒体类型
                                 contentType: "application/json;charset=UTF-8",
                                 //请求地址
-                                url : "/customer/deleteBatch",
+                                url : "/route/deleteBatch",
                                 //数据，json字符串
                                 data : JSON.stringify(data),
                                 //请求成功
@@ -178,7 +191,7 @@
                     window.PartitionId=data;
                     layer.open({
                         type: 2,
-                        content: ['html/customerSearch.html','no'] ,//加no不允许出现滚动条
+                        content: ['html/routeSearch.html','no'] ,//加no不允许出现滚动条
                         title:'查找数据',
                         //area: ['500px', '300px'],
                         area: ['50%', '30%'],
@@ -201,19 +214,29 @@
                                 elem: '#demo'
                                 //,height: 500
                                 ,toolbar:'#toolbarDemo'
-                                ,url: '/customer/search' //数据接口地址：将来一个handler对应的url
+                                ,url: '/route/search' //数据接口地址：将来一个handler对应的url
                                 ,page: true
                                 ,where: {searchContent: searchContent, searchState: searchState}
                                 ,cols: [[ //表头
                                     {type: 'checkbox', fixed: 'left'}
                                     ,{field: 'id', title: 'ID', sort: true, width:60}
-                                    ,{field: 'username', title: '用户名', width:120}
-                                    ,{field: 'nickname', title: '公司名称', width:180}
-                                    ,{field: 'address', title: '住址', width:200}
-                                    ,{field: 'money', title: '余额(毫)',width:120, sort: true}
+                                    ,{field: 'gatewayApiName', title: '路由名称标识', width:180}
+                                    ,{field: 'insideApiUrl', title: '服务接口地址', width:180}
+                                    ,{field: 'serviceId', title: '服务名称', width:120}
+                                    ,{field: 'description', title: '介绍信息',width:180, sort: true}
                                     ,{field: 'state', title: '状态', width:80, sort: true,
                                         templet: function(data){
                                             return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                        }
+                                    }
+                                    ,{field: 'idempotents', title: '幂等性', width:80, sort: true,
+                                        templet: function(data){
+                                            return data.idempotents == 1 ? '<span style="color: green;">幂等</span>' : '<span style="color: red;">非幂等</span>';
+                                        }
+                                    }
+                                    ,{field: 'needfee', title: '是否收费', width:80, sort: true,
+                                        templet: function(data){
+                                            return data.needfee == 0 ? '<span style="color: green;">免费</span>' : '<span style="color: red;">收费</span>';
                                         }
                                     }
                                     ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
@@ -257,18 +280,28 @@
                         elem: '#demo'
                         //,height: 500
                         ,toolbar:'#toolbarDemo'
-                        ,url: '/customer/page' //数据接口地址：将来一个handler对应的url
+                        ,url: '/route/page' //数据接口地址：将来一个handler对应的url
                         ,page: true
                         ,cols: [[ //表头
                             {type: 'checkbox', fixed: 'left'}
                             ,{field: 'id', title: 'ID', sort: true, width:60}
-                            ,{field: 'username', title: '用户名', width:120}
-                            ,{field: 'nickname', title: '公司名称', width:180}
-                            ,{field: 'address', title: '住址', width:200}
-                            ,{field: 'money', title: '余额(毫)',width:120, sort: true}
+                            ,{field: 'gatewayApiName', title: '路由名称标识', width:180}
+                            ,{field: 'insideApiUrl', title: '服务接口地址', width:180}
+                            ,{field: 'serviceId', title: '服务名称', width:120}
+                            ,{field: 'description', title: '介绍信息',width:180, sort: true}
                             ,{field: 'state', title: '状态', width:80, sort: true,
                                 templet: function(data){
                                     return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                }
+                            }
+                            ,{field: 'idempotents', title: '幂等性', width:80, sort: true,
+                                templet: function(data){
+                                    return data.idempotents == 1 ? '<span style="color: green;">幂等</span>' : '<span style="color: red;">非幂等</span>';
+                                }
+                            }
+                            ,{field: 'needfee', title: '是否收费', width:80, sort: true,
+                                templet: function(data){
+                                    return data.needfee == 0 ? '<span style="color: green;">免费</span>' : '<span style="color: red;">收费</span>';
                                 }
                             }
                             ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
@@ -291,7 +324,7 @@
                 layer.confirm('真的删除ID为'+data.id+'的客户信息么?', function(index){
 
                     //向后台发送请求
-                    $.post('/customer/delete', {id:data.id}, function (result) {
+                    $.post('/route/delete', {id:data.id}, function (result) {
                         if(result.status) {
                             //status 为 true时，代表删除成功
                             obj.del();
@@ -307,7 +340,7 @@
                 window.PartitionId=data;
                 layer.open({
                     type: 2,
-                    content: ['html/customerForm.html','no'] ,//加no不允许出现滚动条
+                    content: ['html/routeForm.html','no'] ,//加no不允许出现滚动条
                     title:'修改信息',
                     //area: ['500px', '300px'],
                     area: ['50%', '70%'],
@@ -318,33 +351,27 @@
                         //父窗口向子窗口传值
                         var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
                         //使用#id就可以获取到弹出层里面的子元素。前面的写法都是固定的。
-                        //form.find(":checkbox").prop("checked", true);
-                        //form.find(":input").prop("checked", true);
-                        //var username=form.find(".username");
-                        //var formdata=form.serializeArray();
-                        //alert(formdata);
-                        //alert(data.id);
                         //装载修改的原内容
                         $(form).find("[name=id]").attr('value',data.id);
-                        $(form).find("[name=username]").attr('value',data.username);
-                        $(form).find("[name=password]").attr('value',data.password);
-                        $(form).find("[name=nickname]").attr('value',data.nickname);
-                        $(form).find("[name=address]").attr('value',data.address);
-                        $(form).find("[name=money]").attr('value',data.money);
-                        //$(data.state) == 1 ?  $(form).find("#normal").attr('selected','selected') : $(form).find("#disabled").attr('selected','selected');//1为正常，0为停用
-                        //alert($.trim(data.state) == 1 );
+                        $(form).find("[name=gatewayApiName]").attr('value',data.gatewayApiName);
+                        $(form).find("[name=insideApiUrl]").attr('value',data.insideApiUrl);
+                        $(form).find("[name=serviceId]").attr('value',data.serviceId);
+                        $(form).find("[name=description]").attr('value',data.description);
                         if($.trim(data.state) == 1 ){
-
-                            $(form).find("#normal").attr('checked','checked');
+                            $(form).find("#stateNormal").attr('checked','checked');
                         }else{
-                            $(form).find("#disabled").attr('checked','checked');
+                            $(form).find("#stateDisabled").attr('checked','checked');
                         }
-
-
-
-
-
-                        //$($.trim(data.state)) == 1 ?  $(form).find("#normal").attr('checked','checked') : $(form).find("#disabled").attr('checked','checked');//1为正常，0为停用
+                        if($.trim(data.idempotents) == 1 ){
+                            $(form).find("#idempotentsNormal").attr('checked','checked');
+                        }else{
+                            $(form).find("#idempotentsDisabled").attr('checked','checked');
+                        }
+                        if($.trim(data.needfee) == 1 ){
+                            $(form).find("#needfeeNormal").attr('checked','checked');
+                        }else{
+                            $(form).find("#needfeeDisabled").attr('checked','checked');
+                        }
                     },
                     yes: function(index, layero){
                         var iframe = window['layui-layer-iframe' + index];//子窗口
@@ -362,7 +389,7 @@
                             //请求的媒体类型
                             contentType: "application/json;charset=UTF-8",
                             //请求地址
-                            url : "/customer/update",
+                            url : "/route/update",
                             //数据，json字符串
                             data : JSON.stringify(formdata),
                             //请求成功
@@ -370,12 +397,13 @@
                                 layer.msg(data.message);
                                 //同步更新缓存对应的值
                                 obj.update({
-                                    username: formdata.username,
-                                    password: formdata.password
-                                    ,nickname: formdata.nickname
-                                    ,address: formdata.address
-                                    ,money: formdata.money
+                                    gatewayApiName: formdata.gatewayApiName,
+                                    insideApiUrl: formdata.insideApiUrl
+                                    ,serviceId: formdata.serviceId
+                                    ,description: formdata.description
+                                    ,idempotents: formdata.idempotents
                                     ,state: formdata.state
+                                    ,needfee: formdata.needfee
 
                                 });
                             },
