@@ -46,5 +46,10 @@ public interface CustomerMapper {
     int delete(@Param("id") Integer id);
 
 
+    /**
+     * 插入新客户
+     * @param customer
+     * @return
+     */
     int insert(Customer customer);
 }

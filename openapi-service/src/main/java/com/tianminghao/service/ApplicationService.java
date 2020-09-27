@@ -1,8 +1,8 @@
 package com.tianminghao.service;
 
 import com.github.pagehelper.PageInfo;
+import com.tianminghao.pojo.Application;
 import com.tianminghao.pojo.Customer;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -10,24 +10,24 @@ import java.util.List;
  * @Author Athena
  * @Date 2020/9/25 20:03
  * @Version 1.0
- * @Description 客户服务接口
+ * @Description 应用服务接口
  */
 
-public interface CustomerService {
+public interface ApplicationService {
 
     /**
      * 增加
-     * @param customer
+     * @param application
      * @return
      */
-    int save(Customer customer) throws Exception;
+    int save(Application application) throws Exception;
 
     /**
      * 查询所有
      * @return
      * @throws Exception
      */
-    List<Customer> findAll() throws Exception;
+    List<Application> findAll() throws Exception;
 
     /**
      * 分页
@@ -36,7 +36,7 @@ public interface CustomerService {
      * @return
      * @throws Exception
      */
-    PageInfo<Customer> findPage(Integer pageNum, Integer pageSize) throws Exception;
+    PageInfo<Application> findPage(Integer pageNum, Integer pageSize) throws Exception;
 
 
     /**
@@ -48,7 +48,7 @@ public interface CustomerService {
      * @return
      * @throws Exception
      */
-    PageInfo<Customer> searchPage(Integer pageNum, Integer pageSize, String content, String state) throws Exception;
+    PageInfo<Application> searchPage(Integer pageNum, Integer pageSize, String content, String state) throws Exception;
 
 
     /**
@@ -68,19 +68,19 @@ public interface CustomerService {
 
 
     /**
-     * 更新客户信息
-     * @param customer
+     * 更新应用信息
+     * @param application
      * @return
      * @throws Exception
      */
-    int alter(Customer customer) throws Exception;
+    int alter(Application application) throws Exception;
 
 
     /**
-     * 添加客户信息
-     * @param customer
+     * 添加应用信息
+     * @param application
      * @return
      * @throws Exception
      */
-    int add(Customer customer) throws Exception;
+    int add(Application application) throws Exception;
 }

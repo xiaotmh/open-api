@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 @Log4j
-public class CustomerServiceImpl implements CustomerService {
+public class TokenServiceImpl implements CustomerService {
 
     @Autowired
     CustomerMapper customerMapper;

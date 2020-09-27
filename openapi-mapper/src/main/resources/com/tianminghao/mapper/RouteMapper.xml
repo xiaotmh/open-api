@@ -1,7 +1,140 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tianminghao.mapper.RouteMapper">
+  <resultMap id="BaseResultMap" type="Route">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="gateway_api_name" jdbcType="VARCHAR" property="gatewayApiName" />
+    <result column="inside_api_url" jdbcType="VARCHAR" property="insideApiUrl" />
+    <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="idempotents" jdbcType="INTEGER" property="idempotents" />
+    <result column="needfee" jdbcType="INTEGER" property="needfee" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gateway_api_name, inside_api_url, service_id, description, `state`, idempotents, 
+    needfee
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_route
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_route
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="Route" useGeneratedKeys="true">
+    insert into tb_route (gateway_api_name, inside_api_url, service_id, 
+      description, `state`, idempotents, 
+      needfee)
+    values (#{gatewayApiName,jdbcType=VARCHAR}, #{insideApiUrl,jdbcType=VARCHAR}, #{serviceId,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{idempotents,jdbcType=INTEGER}, 
+      #{needfee,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="Route" useGeneratedKeys="true">
+    insert into tb_route
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gatewayApiName != null">
+        gateway_api_name,
+      </if>
+      <if test="insideApiUrl != null">
+        inside_api_url,
+      </if>
+      <if test="serviceId != null">
+        service_id,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="idempotents != null">
+        idempotents,
+      </if>
+      <if test="needfee != null">
+        needfee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gatewayApiName != null">
+        #{gatewayApiName,jdbcType=VARCHAR},
+      </if>
+      <if test="insideApiUrl != null">
+        #{insideApiUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceId != null">
+        #{serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="idempotents != null">
+        #{idempotents,jdbcType=INTEGER},
+      </if>
+      <if test="needfee != null">
+        #{needfee,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="Route">
+    update tb_route
+    <set>
+      <if test="gatewayApiName != null">
+        gateway_api_name = #{gatewayApiName,jdbcType=VARCHAR},
+      </if>
+      <if test="insideApiUrl != null">
+        inside_api_url = #{insideApiUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceId != null">
+        service_id = #{serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="idempotents != null">
+        idempotents = #{idempotents,jdbcType=INTEGER},
+      </if>
+      <if test="needfee != null">
+        needfee = #{needfee,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="Route">
+    update tb_route
+    set gateway_api_name = #{gatewayApiName,jdbcType=VARCHAR},
+      inside_api_url = #{insideApiUrl,jdbcType=VARCHAR},
+      service_id = #{serviceId,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      `state` = #{state,jdbcType=INTEGER},
+      idempotents = #{idempotents,jdbcType=INTEGER},
+      needfee = #{needfee,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from  `tb_route`
+  </select>
+
+  <select id="ferretByGaName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from  `tb_route`
+    where username LIKE '%${content}%'
+    <if test="state != null and state!=''">
+      and state LIKE '%${state}%'
+    </if>
+  </select>
 
 </mapper>

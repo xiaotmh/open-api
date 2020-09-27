@@ -2,7 +2,6 @@ package com.tianminghao.service;
 
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.pojo.Customer;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
  * @Description 客户服务接口
  */
 
-public interface CustomerService {
+public interface TokenService {
 
     /**
      * 增加
