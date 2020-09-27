@@ -71,7 +71,7 @@
         from  `tb_customer`
         where username LIKE '%${content}%'
         <if test="state != null and state!=''">
-             and state LIKE '%${state}%'
+             and state LIKE #{state}
         </if>
     </select>
 
@@ -81,7 +81,7 @@
         from  `tb_customer`
         where nickname LIKE '%${content}%'
         <if test="state != null and state!=''">
-            and state LIKE '%${state}%'
+            and state =#{state}
         </if>
     </select>
 

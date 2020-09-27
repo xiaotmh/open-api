@@ -2,6 +2,7 @@ package com.tianminghao.service;
 
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.pojo.Customer;
+import com.tianminghao.pojo.Recharge;
 
 import java.util.List;
 
@@ -9,24 +10,24 @@ import java.util.List;
  * @Author Athena
  * @Date 2020/9/25 20:03
  * @Version 1.0
- * @Description 客户服务接口
+ * @Description 充值服务接口
  */
 
 public interface RechargeService {
 
     /**
      * 增加
-     * @param customer
+     * @param recharge
      * @return
      */
-    int save(Customer customer) throws Exception;
+    int save(Recharge recharge) throws Exception;
 
     /**
      * 查询所有
      * @return
      * @throws Exception
      */
-    List<Customer> findAll() throws Exception;
+    List<Recharge> findAll() throws Exception;
 
     /**
      * 分页
@@ -35,19 +36,19 @@ public interface RechargeService {
      * @return
      * @throws Exception
      */
-    PageInfo<Customer> findPage(Integer pageNum, Integer pageSize) throws Exception;
+    PageInfo<Recharge> findPage(Integer pageNum, Integer pageSize) throws Exception;
 
 
     /**
      * 搜索并分页
      * @param pageNum
      * @param pageSize
-     * @param content
+     * @param cid
      * @param state
      * @return
      * @throws Exception
      */
-    PageInfo<Customer> searchPage(Integer pageNum, Integer pageSize, String content, String state) throws Exception;
+    PageInfo<Recharge> searchPage(Integer pageNum, Integer pageSize, Integer cid, String state) throws Exception;
 
 
     /**
@@ -67,19 +68,19 @@ public interface RechargeService {
 
 
     /**
-     * 更新客户信息
-     * @param customer
+     * 更新充值信息
+     * @param recharge
      * @return
      * @throws Exception
      */
-    int alter(Customer customer) throws Exception;
+    int alter(Recharge recharge) throws Exception;
 
 
     /**
-     * 添加客户信息
-     * @param customer
+     * 添加充值信息
+     * @param recharge
      * @return
      * @throws Exception
      */
-    int add(Customer customer) throws Exception;
+    int add(Recharge recharge) throws Exception;
 }

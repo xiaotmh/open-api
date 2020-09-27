@@ -3,8 +3,8 @@ package com.tianminghao.controller;
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.common.Result;
 import com.tianminghao.common.TableData;
-import com.tianminghao.pojo.Customer;
-import com.tianminghao.service.CustomerService;
+import com.tianminghao.pojo.Token;
+import com.tianminghao.service.TokenService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,48 +15,24 @@ import java.util.List;
 /**
  * @author: Athena
  * @date: 2020/9/25 17:19
- * @description: 客户控制器
+ * @description: token控制器
  */
 @Controller
-@RequestMapping("/customer")
+@RequestMapping("/token")
 @Log4j
 public class TokenController {
 
     @Autowired
-    CustomerService customerService;
+    TokenService tokenService;
 
-//    @GetMapping("/list")
-//    public ModelAndView list() throws Exception {
-//        System.out.println("list--------------");
-//
-//        List<Customer> customers = customerService.findAll();
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("customer-list");
-//        modelAndView.addObject("customers", customers);
-//
-//        return modelAndView;
-//    }
-//
-//    @GetMapping("/page")
-//    public ModelAndView findPage(@RequestParam(defaultValue = "1") Integer pageNum,
-//                                 @RequestParam(defaultValue = "5") Integer pageSize) throws Exception {
-//
-//        PageInfo<Customer> pageInfo = customerService.findPage(pageNum, pageSize);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("customer-page");
-//        modelAndView.addObject("pageInfo", pageInfo);
-//
-//        return modelAndView;
-//    }
 
 
     @GetMapping("/page")
     @ResponseBody
-    public TableData<Customer> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
-                                             @RequestParam(defaultValue = "10") Integer limit) throws Exception {
-        PageInfo<Customer> pageInfo = customerService.findPage(page, limit);
-        TableData<Customer> tableData = new TableData<>();
+    public TableData<Token> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
+                                          @RequestParam(defaultValue = "10") Integer limit) throws Exception {
+        PageInfo<Token> pageInfo = tokenService.findPage(page, limit);
+        TableData<Token> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
         tableData.setData(pageInfo.getList());
         return tableData;
@@ -67,7 +43,7 @@ public class TokenController {
     public Result delete(Integer id) throws Exception {
 
         try {
-            customerService.drop(id);
+            tokenService.drop(id);
             //int i=1/0;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -78,10 +54,10 @@ public class TokenController {
 
     @PostMapping("/deleteBatch")
     @ResponseBody
-    public Result deleteBatch(@RequestBody List<Customer> customerList ) throws Exception {
-        for (Customer customer : customerList) {
+    public Result deleteBatch(@RequestBody List<Token> tokenList ) throws Exception {
+        for (Token token : tokenList) {
             try {
-                customerService.drop(customer.getId());
+                tokenService.drop(token.getId());
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
             }
@@ -92,9 +68,9 @@ public class TokenController {
 
     @PostMapping("/update")
     @ResponseBody
-    public Result update(@RequestBody Customer customer) throws Exception {
+    public Result update(@RequestBody Token token) throws Exception {
         try {
-            customerService.alter(customer);
+            tokenService.alter(token);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -103,9 +79,9 @@ public class TokenController {
 
     @PostMapping("/insert")
     @ResponseBody
-    public Result insert(@RequestBody Customer customer) throws Exception {
+    public Result insert(@RequestBody Token token) throws Exception {
         try {
-            customerService.add(customer);
+            tokenService.add(token);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -114,17 +90,16 @@ public class TokenController {
 
     @GetMapping("/search")
     @ResponseBody
-    public TableData<Customer> search(@RequestParam(defaultValue = "1") Integer page,
+    public TableData<Token> search(@RequestParam(defaultValue = "1") Integer page,
                                       @RequestParam(defaultValue = "10") Integer limit,
-                                      @RequestParam("searchContent") String content,
+                                      @RequestParam("searchContent") Integer uid,
                                       @RequestParam("searchState") String state) throws Exception {
-        log.fatal("searchContent====>"+content);
-        log.fatal("searchState====>"+state);
+
         if(state.equals("")){
             state=null;
         }
-        PageInfo<Customer> pageInfo = customerService.searchPage(page, limit,content,state);
-        TableData<Customer> tableData = new TableData<>();
+        PageInfo<Token> pageInfo = tokenService.searchPage(page, limit,uid,state);
+        TableData<Token> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
         tableData.setData(pageInfo.getList());
         return tableData;

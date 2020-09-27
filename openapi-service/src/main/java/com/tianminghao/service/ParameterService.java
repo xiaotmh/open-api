@@ -2,6 +2,7 @@ package com.tianminghao.service;
 
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.pojo.Customer;
+import com.tianminghao.pojo.Parameter;
 
 import java.util.List;
 
@@ -9,24 +10,24 @@ import java.util.List;
  * @Author Athena
  * @Date 2020/9/25 20:03
  * @Version 1.0
- * @Description 客户服务接口
+ * @Description 参数服务接口
  */
 
 public interface ParameterService {
 
     /**
      * 增加
-     * @param customer
+     * @param parameter
      * @return
      */
-    int save(Customer customer) throws Exception;
+    int save(Parameter parameter) throws Exception;
 
     /**
      * 查询所有
      * @return
      * @throws Exception
      */
-    List<Customer> findAll() throws Exception;
+    List<Parameter> findAll() throws Exception;
 
     /**
      * 分页
@@ -35,7 +36,7 @@ public interface ParameterService {
      * @return
      * @throws Exception
      */
-    PageInfo<Customer> findPage(Integer pageNum, Integer pageSize) throws Exception;
+    PageInfo<Parameter> findPage(Integer pageNum, Integer pageSize) throws Exception;
 
 
     /**
@@ -47,7 +48,7 @@ public interface ParameterService {
      * @return
      * @throws Exception
      */
-    PageInfo<Customer> searchPage(Integer pageNum, Integer pageSize, String content, String state) throws Exception;
+    PageInfo<Parameter> searchPage(Integer pageNum, Integer pageSize, String content, String state) throws Exception;
 
 
     /**
@@ -67,19 +68,19 @@ public interface ParameterService {
 
 
     /**
-     * 更新客户信息
-     * @param customer
+     * 更新参数信息
+     * @param parameter
      * @return
      * @throws Exception
      */
-    int alter(Customer customer) throws Exception;
+    int alter(Parameter parameter) throws Exception;
 
 
     /**
-     * 添加客户信息
-     * @param customer
+     * 添加参数信息
+     * @param parameter
      * @return
      * @throws Exception
      */
-    int add(Customer customer) throws Exception;
+    int add(Parameter parameter) throws Exception;
 }

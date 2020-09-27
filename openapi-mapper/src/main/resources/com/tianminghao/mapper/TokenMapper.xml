@@ -92,5 +92,13 @@
   </select>
 
 
-
+  <select id="ferretByUid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from  `tb_token`
+    where user_id = #{uid}
+    <if test="state != null and state!=''">
+      and state = #{state}
+    </if>
+  </select>
 </mapper>

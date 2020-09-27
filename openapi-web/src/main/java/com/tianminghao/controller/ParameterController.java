@@ -3,8 +3,10 @@ package com.tianminghao.controller;
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.common.Result;
 import com.tianminghao.common.TableData;
-import com.tianminghao.pojo.Customer;
-import com.tianminghao.service.CustomerService;
+
+import com.tianminghao.pojo.Parameter;
+
+import com.tianminghao.service.ParameterService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,48 +17,23 @@ import java.util.List;
 /**
  * @author: Athena
  * @date: 2020/9/25 17:19
- * @description: 客户控制器
+ * @description: 参数控制器
  */
 @Controller
-@RequestMapping("/customer")
+@RequestMapping("/parameter")
 @Log4j
 public class ParameterController {
 
     @Autowired
-    CustomerService customerService;
-
-//    @GetMapping("/list")
-//    public ModelAndView list() throws Exception {
-//        System.out.println("list--------------");
-//
-//        List<Customer> customers = customerService.findAll();
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("customer-list");
-//        modelAndView.addObject("customers", customers);
-//
-//        return modelAndView;
-//    }
-//
-//    @GetMapping("/page")
-//    public ModelAndView findPage(@RequestParam(defaultValue = "1") Integer pageNum,
-//                                 @RequestParam(defaultValue = "5") Integer pageSize) throws Exception {
-//
-//        PageInfo<Customer> pageInfo = customerService.findPage(pageNum, pageSize);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("customer-page");
-//        modelAndView.addObject("pageInfo", pageInfo);
-//
-//        return modelAndView;
-//    }
+    ParameterService parameterService;
 
 
     @GetMapping("/page")
     @ResponseBody
-    public TableData<Customer> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
+    public TableData<Parameter> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
                                              @RequestParam(defaultValue = "10") Integer limit) throws Exception {
-        PageInfo<Customer> pageInfo = customerService.findPage(page, limit);
-        TableData<Customer> tableData = new TableData<>();
+        PageInfo<Parameter> pageInfo = parameterService.findPage(page, limit);
+        TableData<Parameter> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
         tableData.setData(pageInfo.getList());
         return tableData;
@@ -67,7 +44,7 @@ public class ParameterController {
     public Result delete(Integer id) throws Exception {
 
         try {
-            customerService.drop(id);
+            parameterService.drop(id);
             //int i=1/0;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -78,10 +55,10 @@ public class ParameterController {
 
     @PostMapping("/deleteBatch")
     @ResponseBody
-    public Result deleteBatch(@RequestBody List<Customer> customerList ) throws Exception {
-        for (Customer customer : customerList) {
+    public Result deleteBatch(@RequestBody List<Parameter> parameterList ) throws Exception {
+        for (Parameter parameter : parameterList) {
             try {
-                customerService.drop(customer.getId());
+                parameterService.drop(parameter.getId());
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
             }
@@ -92,9 +69,9 @@ public class ParameterController {
 
     @PostMapping("/update")
     @ResponseBody
-    public Result update(@RequestBody Customer customer) throws Exception {
+    public Result update(@RequestBody Parameter parameter) throws Exception {
         try {
-            customerService.alter(customer);
+            parameterService.alter(parameter);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -103,9 +80,9 @@ public class ParameterController {
 
     @PostMapping("/insert")
     @ResponseBody
-    public Result insert(@RequestBody Customer customer) throws Exception {
+    public Result insert(@RequestBody Parameter parameter) throws Exception {
         try {
-            customerService.add(customer);
+            parameterService.add(parameter);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -114,7 +91,7 @@ public class ParameterController {
 
     @GetMapping("/search")
     @ResponseBody
-    public TableData<Customer> search(@RequestParam(defaultValue = "1") Integer page,
+    public TableData<Parameter> search(@RequestParam(defaultValue = "1") Integer page,
                                       @RequestParam(defaultValue = "10") Integer limit,
                                       @RequestParam("searchContent") String content,
                                       @RequestParam("searchState") String state) throws Exception {
@@ -123,8 +100,8 @@ public class ParameterController {
         if(state.equals("")){
             state=null;
         }
-        PageInfo<Customer> pageInfo = customerService.searchPage(page, limit,content,state);
-        TableData<Customer> tableData = new TableData<>();
+        PageInfo<Parameter> pageInfo = parameterService.searchPage(page, limit,content,state);
+        TableData<Parameter> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
         tableData.setData(pageInfo.getList());
         return tableData;

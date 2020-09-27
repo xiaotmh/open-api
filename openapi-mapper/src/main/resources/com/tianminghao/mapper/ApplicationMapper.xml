@@ -164,7 +164,7 @@
         from  `tb_application`
         where username LIKE '%${content}%'
         <if test="state != null and state!=''">
-            and state LIKE '%${state}%'
+            and state LIKE #{state}
         </if>
     </select>
 

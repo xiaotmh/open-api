@@ -2,6 +2,7 @@ package com.tianminghao.service;
 
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.pojo.Customer;
+import com.tianminghao.pojo.Route;
 
 import java.util.List;
 
@@ -9,24 +10,24 @@ import java.util.List;
  * @Author Athena
  * @Date 2020/9/25 20:03
  * @Version 1.0
- * @Description 客户服务接口
+ * @Description 路由服务接口
  */
 
 public interface RouteService {
 
     /**
      * 增加
-     * @param customer
+     * @param route
      * @return
      */
-    int save(Customer customer) throws Exception;
+    int save(Route route) throws Exception;
 
     /**
      * 查询所有
      * @return
      * @throws Exception
      */
-    List<Customer> findAll() throws Exception;
+    List<Route> findAll() throws Exception;
 
     /**
      * 分页
@@ -35,7 +36,7 @@ public interface RouteService {
      * @return
      * @throws Exception
      */
-    PageInfo<Customer> findPage(Integer pageNum, Integer pageSize) throws Exception;
+    PageInfo<Route> findPage(Integer pageNum, Integer pageSize) throws Exception;
 
 
     /**
@@ -47,7 +48,7 @@ public interface RouteService {
      * @return
      * @throws Exception
      */
-    PageInfo<Customer> searchPage(Integer pageNum, Integer pageSize, String content, String state) throws Exception;
+    PageInfo<Route> searchPage(Integer pageNum, Integer pageSize, String content, String state) throws Exception;
 
 
     /**
@@ -67,19 +68,19 @@ public interface RouteService {
 
 
     /**
-     * 更新客户信息
-     * @param customer
+     * 更新路由信息
+     * @param route
      * @return
      * @throws Exception
      */
-    int alter(Customer customer) throws Exception;
+    int alter(Route route) throws Exception;
 
 
     /**
-     * 添加客户信息
-     * @param customer
+     * 添加路由信息
+     * @param route
      * @return
      * @throws Exception
      */
-    int add(Customer customer) throws Exception;
+    int add(Route route) throws Exception;
 }

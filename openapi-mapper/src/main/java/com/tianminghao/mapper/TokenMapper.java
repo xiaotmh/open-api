@@ -2,6 +2,7 @@ package com.tianminghao.mapper;
 
 
 import com.tianminghao.pojo.Customer;
+import com.tianminghao.pojo.Recharge;
 import com.tianminghao.pojo.Token;
 import org.apache.ibatis.annotations.Param;
 
@@ -60,4 +61,9 @@ public interface TokenMapper {
     List<Token> findAll();
 
 
+    /**
+     * 通过uid查找token
+     * @return
+     */
+    List<Token> ferretByUid(@Param("uid") Integer uid, @Param("state") String state);
 }

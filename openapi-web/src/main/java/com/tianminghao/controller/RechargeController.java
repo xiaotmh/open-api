@@ -3,8 +3,8 @@ package com.tianminghao.controller;
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.common.Result;
 import com.tianminghao.common.TableData;
-import com.tianminghao.pojo.Customer;
-import com.tianminghao.service.CustomerService;
+import com.tianminghao.pojo.Recharge;
+import com.tianminghao.service.RechargeService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,48 +15,24 @@ import java.util.List;
 /**
  * @author: Athena
  * @date: 2020/9/25 17:19
- * @description: 客户控制器
+ * @description: 充值控制器
  */
 @Controller
-@RequestMapping("/customer")
+@RequestMapping("/recharge")
 @Log4j
 public class RechargeController {
 
     @Autowired
-    CustomerService customerService;
+    RechargeService rechargeService;
 
-//    @GetMapping("/list")
-//    public ModelAndView list() throws Exception {
-//        System.out.println("list--------------");
-//
-//        List<Customer> customers = customerService.findAll();
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("customer-list");
-//        modelAndView.addObject("customers", customers);
-//
-//        return modelAndView;
-//    }
-//
-//    @GetMapping("/page")
-//    public ModelAndView findPage(@RequestParam(defaultValue = "1") Integer pageNum,
-//                                 @RequestParam(defaultValue = "5") Integer pageSize) throws Exception {
-//
-//        PageInfo<Customer> pageInfo = customerService.findPage(pageNum, pageSize);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("customer-page");
-//        modelAndView.addObject("pageInfo", pageInfo);
-//
-//        return modelAndView;
-//    }
 
 
     @GetMapping("/page")
     @ResponseBody
-    public TableData<Customer> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
+    public TableData<Recharge> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
                                              @RequestParam(defaultValue = "10") Integer limit) throws Exception {
-        PageInfo<Customer> pageInfo = customerService.findPage(page, limit);
-        TableData<Customer> tableData = new TableData<>();
+        PageInfo<Recharge> pageInfo = rechargeService.findPage(page, limit);
+        TableData<Recharge> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
         tableData.setData(pageInfo.getList());
         return tableData;
@@ -67,7 +43,7 @@ public class RechargeController {
     public Result delete(Integer id) throws Exception {
 
         try {
-            customerService.drop(id);
+            rechargeService.drop(id);
             //int i=1/0;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -78,10 +54,10 @@ public class RechargeController {
 
     @PostMapping("/deleteBatch")
     @ResponseBody
-    public Result deleteBatch(@RequestBody List<Customer> customerList ) throws Exception {
-        for (Customer customer : customerList) {
+    public Result deleteBatch(@RequestBody List<Recharge> rechargeList ) throws Exception {
+        for (Recharge recharge : rechargeList) {
             try {
-                customerService.drop(customer.getId());
+                rechargeService.drop(recharge.getId());
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
             }
@@ -92,9 +68,9 @@ public class RechargeController {
 
     @PostMapping("/update")
     @ResponseBody
-    public Result update(@RequestBody Customer customer) throws Exception {
+    public Result update(@RequestBody Recharge recharge) throws Exception {
         try {
-            customerService.alter(customer);
+            rechargeService.alter(recharge);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -103,9 +79,9 @@ public class RechargeController {
 
     @PostMapping("/insert")
     @ResponseBody
-    public Result insert(@RequestBody Customer customer) throws Exception {
+    public Result insert(@RequestBody Recharge recharge) throws Exception {
         try {
-            customerService.add(customer);
+            rechargeService.add(recharge);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -114,17 +90,16 @@ public class RechargeController {
 
     @GetMapping("/search")
     @ResponseBody
-    public TableData<Customer> search(@RequestParam(defaultValue = "1") Integer page,
+    public TableData<Recharge> search(@RequestParam(defaultValue = "1") Integer page,
                                       @RequestParam(defaultValue = "10") Integer limit,
-                                      @RequestParam("searchContent") String content,
+                                      @RequestParam("searchContent") Integer cid,
                                       @RequestParam("searchState") String state) throws Exception {
-        log.fatal("searchContent====>"+content);
-        log.fatal("searchState====>"+state);
+
         if(state.equals("")){
             state=null;
         }
-        PageInfo<Customer> pageInfo = customerService.searchPage(page, limit,content,state);
-        TableData<Customer> tableData = new TableData<>();
+        PageInfo<Recharge> pageInfo = rechargeService.searchPage(page, limit,cid,state);
+        TableData<Recharge> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
         tableData.setData(pageInfo.getList());
         return tableData;

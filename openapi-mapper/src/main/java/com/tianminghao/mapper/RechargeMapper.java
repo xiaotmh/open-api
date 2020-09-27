@@ -1,6 +1,7 @@
 package com.tianminghao.mapper;
 
 
+import com.tianminghao.pojo.Application;
 import com.tianminghao.pojo.Customer;
 import com.tianminghao.pojo.Recharge;
 import org.apache.ibatis.annotations.Param;
@@ -58,4 +59,10 @@ public interface RechargeMapper {
      */
     List<Recharge> findAll();
 
+
+    /**
+     * 通过客户查找充值记录
+     * @return
+     */
+    List<Recharge> ferretByCid(@Param("cid") Integer cid, @Param("state") String state);
 }
