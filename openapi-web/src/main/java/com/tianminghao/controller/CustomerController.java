@@ -36,18 +36,20 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-//    @GetMapping("/list")
-//    public ModelAndView list() throws Exception {
-//        System.out.println("list--------------");
-//
-//        List<Customer> customers = customerService.findAll();
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("customer-list");
-//        modelAndView.addObject("customers", customers);
-//
-//        return modelAndView;
-//    }
+    /**
+     * 获取全部用户
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/list")
+    @ResponseBody
+    public Result list() throws Exception {
+        List<Customer> customers = customerService.findAll();
+        if (customers == null||customers.size()==0) {
+            return new Result(false, "获取失败!");
+        }
+        return new Result(true, customers);
+    }
 //
 //    @GetMapping("/page")
 //    public ModelAndView findPage(@RequestParam(defaultValue = "1") Integer pageNum,

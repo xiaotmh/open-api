@@ -23,15 +23,17 @@
 <!--        <property name="suffix" value=".jsp"/>-->
 <!--    </bean>-->
 
-    <mvc:resources mapping="/js/" location="/js/**"/>
-    <mvc:resources mapping="/layui/" location="/layui/**"/>
-    <mvc:resources mapping="/layuiadmin/" location="/layuiadmin/**"/>
-    <mvc:resources mapping="/slidingValidation/" location="/slidingValidation/**"/>
+<!--    <mvc:resources mapping="/js/" location="/js/**"/>-->
+
 
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/admin/login"/>
+            <mvc:exclude-mapping path="/layui/**"/>
+            <mvc:exclude-mapping path="/layuiadmin/**"/>
+            <mvc:exclude-mapping path="/slidingValidation/**"/>
+            <mvc:exclude-mapping path="/js/**"/>
             <mvc:exclude-mapping path="/login.html"/>
 <!--            <mvc:exclude-mapping path="/**"/>-->
 

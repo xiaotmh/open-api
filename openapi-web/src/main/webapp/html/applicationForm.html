@@ -19,7 +19,7 @@
 
 
 
-<form id="form">
+<form id="form" class="layui-form">
   <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
     <div class="layui-form-item">
       <label class="layui-form-label">企业名称</label>
@@ -65,9 +65,14 @@
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">客户 id</label>
-      <div class="layui-input-inline">
-        <input type="text" name="cusId" lay-verify="required" placeholder="请输入客户 id" autocomplete="off" class="layui-input">
+      <label class="layui-form-label">客户</label>
+      <div class="layui-input-block">
+<!--        <input type="text" name="cusId" lay-verify="required" placeholder="请输入客户 id" autocomplete="off" class="layui-input">-->
+        <select name="cusId" id="select_cus">-->
+            <option id="select_cus_none" value="">请选择用户</option>
+<!--                    <option id="normal" value="1" >正常</option>-->
+<!--                    <option id="disabled" value="0">停用</option>-->
+        </select>
       </div>
     </div>
     <div class="layui-form-item" lay-filter="state">
@@ -99,19 +104,28 @@
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'form'], function(){
-    var $ = layui.$
-            ,form = layui.form;
+    var $ = layui.$;
+            // ,form = layui.form;
 
 
 
 
-  })
+  });
+  function refresh() {
+    layui.use('form', function(){
+      var form = layui.form;
+      form.render();
+      form.render('select','test');
+
+    });
+  }
 </script>
 
 <script>
 layui.use('layer', function(){
   var $ = layui.$
   ,layer = layui.layer
+          ,form = layui.form
   ,index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 
 

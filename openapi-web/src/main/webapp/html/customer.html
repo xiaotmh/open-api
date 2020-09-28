@@ -71,6 +71,7 @@
                             var iframe = window['layui-layer-iframe' + index];//子窗口
                             //父窗口向子窗口传值
                             var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
+                            $(form).find("#disabled").attr('checked','checked');
                         },
                         yes: function(index, layero){
                             var iframe = window['layui-layer-iframe' + index];//子窗口
