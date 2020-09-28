@@ -162,7 +162,7 @@
         select
         <include refid="Base_Column_List"></include>
         from  `tb_application`
-        where corp_name LIKE '%${content}%'
+        where app_name LIKE '%${content}%'
         <if test="state != null and state!=''">
             and state = #{state}
         </if>

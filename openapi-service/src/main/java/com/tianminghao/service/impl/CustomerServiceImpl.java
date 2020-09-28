@@ -185,5 +185,18 @@ public class CustomerServiceImpl implements CustomerService {
         return insert;
     }
 
+    /**
+     * 通过id获取客户
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Customer getById(Integer id) throws Exception {
+        Customer customer = customerMapper.findById(id);
+        return customer;
+    }
+
 
 }

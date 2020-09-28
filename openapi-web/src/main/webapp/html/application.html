@@ -32,6 +32,7 @@
             ,toolbar:'#toolbarDemo'
             ,url: '/application/page' //数据接口地址：将来一个handler对应的url
             ,page: true
+            ,loading:true
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', sort: true, width:60}
@@ -42,7 +43,8 @@
                 ,{field: 'redirectUrl', title: '应用回调用 URL', width:150, sort: true}
                 ,{field: 'limitCount', title: '免费接口日调用次数', width:150, sort: true}
                 ,{field: 'description', title: '应用介绍', width:120, sort: true}
-                ,{field: 'cusId', title: '客户 id', width:100, sort: true}
+                ,{field: 'cusId', title: '客户 id', width:100, sort: true, templet:function (d) {
+                        return '<label id="cusId'+ d.cusId+'" onmouseover="show('+d.cusId+',);">' + d.cusId + '</label>';}}
                 ,{field: 'state', title: '状态', width:80, sort: true,
                     templet: function(data){
                         return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
@@ -51,6 +53,9 @@
                 ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
             ]]
         });
+//onmouseleave='closeTips();'
+
+
 
         //头工具栏事件
         table.on('toolbar(test)', function(obj){
@@ -248,7 +253,8 @@
                                     ,{field: 'redirectUrl', title: '应用回调用 URL', width:150, sort: true}
                                     ,{field: 'limitCount', title: '免费接口日调用次数', width:150, sort: true}
                                     ,{field: 'description', title: '应用介绍', width:120, sort: true}
-                                    ,{field: 'cusId', title: '客户 id', width:100, sort: true}
+                                    ,{field: 'cusId', title: '客户 id', width:100, sort: true, templet:function (d) {
+                                            return '<label id="cusId'+ d.cusId+'" onmouseover="show('+d.cusId+',);">' + d.cusId + '</label>';}}
                                     ,{field: 'state', title: '状态', width:80, sort: true,
                                         templet: function(data){
                                             return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
@@ -307,7 +313,8 @@
                             ,{field: 'redirectUrl', title: '应用回调用 URL', width:150, sort: true}
                             ,{field: 'limitCount', title: '免费接口日调用次数', width:150, sort: true}
                             ,{field: 'description', title: '应用介绍', width:120, sort: true}
-                            ,{field: 'cusId', title: '客户 id', width:100, sort: true}
+                            ,{field: 'cusId', title: '客户 id', width:100, sort: true, templet:function (d) {
+                                    return '<label id="cusId'+ d.cusId+'" onmouseover="show('+d.cusId+',);">' + d.cusId + '</label>';}}
                             ,{field: 'state', title: '状态', width:80, sort: true,
                                 templet: function(data){
                                     return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
@@ -378,18 +385,24 @@
                             url : "/customer/list",
                             //数据，json字符串
                             //请求成功
-                            success : function(data) {
+                            success : function(datum) {
                                 var body = layer.getChildFrame('body', index);
                                 var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();比如iframeWin.alert11();
                                 //console.log(body.html()) //得到iframe页的body内容
 
                                 var sel=$(body).find("#select_cus");
 
-                                for (var i = 0; i < data.message.length; i++) {
-                                    $(sel).append('<option value="' + data.message[i].id + '">' + data.message[i].username + '</option>');
-                                }
+                                var num=0;
+                                for (var i = 0; i < datum.message.length; i++) {
+                                    // alert(datum.cusId);
+                                    // alert(data.cusId);
+                                    if(datum.message[i].id==data.cusId){
+                                        $(sel).append('<option value="' + datum.message[i].id + '" selected>' + datum.message[i].username + '</option>');
+                                    }else{
+                                        $(sel).append('<option value="' + datum.message[i].id + '">' + datum.message[i].username + '</option>');
+                                    }
 
-                                $(form).find("[name=cusId][value="+data.cusId+"]").attr('selected','selected');
+                                }
                                 iframeWin.refresh();//刷新子页面
                             },
                             //请求失败，包含具体的错误信息
@@ -398,26 +411,12 @@
                             }
                         });
 
-
-
-                        //$(form).find("[name=cusId]").attr('value',data.cusId);
-
-
-
-                        //$(data.state) == 1 ?  $(form).find("#normal").attr('selected','selected') : $(form).find("#disabled").attr('selected','selected');//1为正常，0为停用
-                        //alert($.trim(data.state) == 1 );
                         if($.trim(data.state) == 1 ){
 
                             $(form).find("#normal").attr('checked','checked');
                         }else{
                             $(form).find("#disabled").attr('checked','checked');
                         }
-
-
-
-
-
-                        //$($.trim(data.state)) == 1 ?  $(form).find("#normal").attr('checked','checked') : $(form).find("#disabled").attr('checked','checked');//1为正常，0为停用
                     },
                     yes: function(index, layero){
                         var iframe = window['layui-layer-iframe' + index];//子窗口
@@ -481,4 +480,33 @@
         });
 
     });
+
+
+    function show(id) {
+        $.ajax({
+            //请求方式
+            type : "GET",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "/customer/getById?id="+id,
+            //数据，json字符串
+            //请求成功
+            success : function(data) {
+                // var a='cusId'+data.message.cusId;
+                // var that = this;
+                layer.tips('客户名:'+data.message.username, $('#cusId'+id),{
+                    tips: [1, "#4794ec"]
+                }); //在元素的事件回调体中，follow直接赋予this即可
+                // layer.tips("客户名", "："+data.message.username+"", {
+                //     tips: [4, "#4794ec"]
+                // });
+            },
+            //请求失败，包含具体的错误信息
+            error : function(data){
+                layer.msg(data.message);
+            }
+        });
+
+    }
 </script>

@@ -50,6 +50,24 @@ public class CustomerController {
         }
         return new Result(true, customers);
     }
+
+
+    /**
+     * 通过id获取用户
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/getById")
+    @ResponseBody
+    public Result getById(@RequestParam("id") Integer id) throws Exception {
+        Customer customer = customerService.getById(id);
+        if (customer == null) {
+            return new Result(false, "获取失败!");
+        }
+        return new Result(true, customer);
+    }
+
+
 //
 //    @GetMapping("/page")
 //    public ModelAndView findPage(@RequestParam(defaultValue = "1") Integer pageNum,

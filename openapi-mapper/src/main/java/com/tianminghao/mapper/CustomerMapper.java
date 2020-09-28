@@ -19,6 +19,11 @@ public interface CustomerMapper {
      */
     int update(Customer customer);
 
+    /**
+     * 查询客户
+     * @return
+     */
+    Customer findById(@Param("id") Integer id);
 
     /**
      * 查询所有客户

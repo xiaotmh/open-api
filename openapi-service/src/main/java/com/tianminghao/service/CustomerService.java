@@ -83,4 +83,13 @@ public interface CustomerService {
      * @throws Exception
      */
     int add(Customer customer) throws Exception;
+
+
+    /**
+     * 通过id获取客户
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    Customer getById(Integer id) throws Exception;
 }
