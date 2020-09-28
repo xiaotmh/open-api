@@ -61,8 +61,8 @@ public class RechargeServiceImpl implements RechargeService {
      */
     @Override
     public List<Recharge> findAll() throws Exception {
-        List<Recharge> Recharges = rechargeMapper.findAll();
-        return Recharges;
+        List<Recharge> recharges = rechargeMapper.findAll();
+        return recharges;
     }
 
     /**
@@ -76,8 +76,8 @@ public class RechargeServiceImpl implements RechargeService {
     @Override
     public PageInfo<Recharge> findPage(Integer pageNum, Integer pageSize) throws Exception {
         PageHelper.startPage(pageNum, pageSize);
-        List<Recharge> Recharges = rechargeMapper.findAll();
-        PageInfo<Recharge> pageInfo = new PageInfo<>(Recharges);
+        List<Recharge> recharges = rechargeMapper.findAll();
+        PageInfo<Recharge> pageInfo = new PageInfo<>(recharges);
         return pageInfo;
     }
 
@@ -93,8 +93,8 @@ public class RechargeServiceImpl implements RechargeService {
     public PageInfo<Recharge> searchPage(Integer pageNum, Integer pageSize, Integer cid, String state) throws Exception {
         //先用用户名搜索，然后用公司名搜索
         PageHelper.startPage(pageNum, pageSize);
-        List<Recharge> Recharges = rechargeMapper.ferretByCid(cid,state);
-        PageInfo<Recharge> pageInfo =new PageInfo<>(Recharges);
+        List<Recharge> recharges = rechargeMapper.ferretByCid(cid,state);
+        PageInfo<Recharge> pageInfo =new PageInfo<>(recharges);
         return pageInfo;
     }
 

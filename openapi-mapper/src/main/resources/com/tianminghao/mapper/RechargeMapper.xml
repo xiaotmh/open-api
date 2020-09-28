@@ -26,7 +26,7 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="Recharge" useGeneratedKeys="true">
     insert into tb_recharge (cus_id, createtime, updatetime, money,
       `state`, payment_type)
-    values (#{cusId,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+    values (#{cusId,jdbcType=INTEGER}, #{createtime,jdbcType=DATE}, #{updatetime,jdbcType=DATE},
       #{state,jdbcType=INTEGER}, #{paymentType,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="Recharge" useGeneratedKeys="true">
@@ -56,10 +56,10 @@
         #{cusId,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
+        #{createtime,jdbcType=DATE},
       </if>
       <if test="updatetime != null">
-        #{updatetime,jdbcType=TIMESTAMP},
+        #{updatetime,jdbcType=DATE},
       </if>
       <if test="money != null">
         #{money,jdbcType=DECIMAL},
@@ -79,10 +79,10 @@
         cus_id = #{cusId,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
-        createtime = #{createtime,jdbcType=TIMESTAMP},
+        createtime = #{createtime,jdbcType=DATE},
       </if>
       <if test="updatetime != null">
-        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+        updatetime = #{updatetime,jdbcType=DATE},
       </if>
       <if test="money != null">
         money = #{money,jdbcType=DECIMAL},
@@ -99,8 +99,8 @@
   <update id="updateByPrimaryKey" parameterType="Recharge">
     update tb_recharge
     set cus_id = #{cusId,jdbcType=INTEGER},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      createtime = #{createtime,jdbcType=DATE},
+      updatetime = #{updatetime,jdbcType=DATE},
       money = #{money,jdbcType=DECIMAL},
       `state` = #{state,jdbcType=INTEGER},
       payment_type = #{paymentType,jdbcType=INTEGER}

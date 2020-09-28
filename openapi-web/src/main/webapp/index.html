@@ -21,15 +21,15 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    贤心
+                    <img src="/slidingValidation/img/ve.jpg" class="layui-nav-img">
+                    <span id="username"></span>
                 </a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
-                </dl>
+<!--                <dl class="layui-nav-child">-->
+<!--                    <dd><a href="">基本资料</a></dd>-->
+<!--                    <dd><a href="">安全设置</a></dd>-->
+<!--                </dl>-->
             </li>
-            <li class="layui-nav-item"><a href="">退出</a></li>
+            <li class="layui-nav-item"><a href="/admin/logout">退出</a></li>
         </ul>
     </div>
 
@@ -72,6 +72,29 @@
     layui.use('element', function () {
         var element = layui.element;
 
+        var text=$.ajax({
+            //请求方式
+            type : "GET",
+            //请求的媒体类型
+            contentType: "text/plain;charset=UTF-8",
+            //请求地址
+            url : "/admin/getLoginState"
+            ,async:false,
+            //请求成功
+            success : function(data) {
+                //alert(data);
+                //var user=JSON.parse()
+
+
+
+            },
+            //请求失败，包含具体的错误信息
+            error : function(data){
+                //layer.msg(data.message);
+            }
+        });
+        //alert(text.responseText);
+        $('#username').append(text.responseText);
     });
 
 

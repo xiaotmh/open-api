@@ -17,17 +17,23 @@
 
     <mvc:default-servlet-handler/>
 
-    <!-- 视图解析器 -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/pages/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
+<!--    &lt;!&ndash; 视图解析器 &ndash;&gt;-->
+<!--    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+<!--        <property name="prefix" value="/WEB-INF/pages/"/>-->
+<!--        <property name="suffix" value=".jsp"/>-->
+<!--    </bean>-->
+
+    <mvc:resources mapping="/js/" location="/js/**"/>
+    <mvc:resources mapping="/layui/" location="/layui/**"/>
+    <mvc:resources mapping="/layuiadmin/" location="/layuiadmin/**"/>
+    <mvc:resources mapping="/slidingValidation/" location="/slidingValidation/**"/>
 
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-<!--            <mvc:exclude-mapping path="/user/login"/>-->
-            <mvc:exclude-mapping path="/**"/>
+            <mvc:exclude-mapping path="/admin/login"/>
+            <mvc:exclude-mapping path="/login.html"/>
+<!--            <mvc:exclude-mapping path="/**"/>-->
 
             <bean class="com.tianminghao.controller.interceptor.LoginInterceptor"/>
         </mvc:interceptor>

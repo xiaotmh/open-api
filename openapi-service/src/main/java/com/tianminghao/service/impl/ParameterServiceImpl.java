@@ -63,8 +63,8 @@ public class ParameterServiceImpl implements ParameterService {
     @Override
     public PageInfo<Parameter> findPage(Integer pageNum, Integer pageSize) throws Exception {
         PageHelper.startPage(pageNum, pageSize);
-        List<Parameter> Parameters = parameterMapper.findAll();
-        PageInfo<Parameter> pageInfo = new PageInfo<>(Parameters);
+        List<Parameter> parameters = parameterMapper.findAll();
+        PageInfo<Parameter> pageInfo = new PageInfo<>(parameters);
         return pageInfo;
     }
 

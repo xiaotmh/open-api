@@ -14,7 +14,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Result {
 
+    /**
+     * 返回状态
+     */
     private boolean status;
+
+    /**
+     * 返回的信息或数据
+     */
     private Object message;
 
 }

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.tianminghao.mapper.TokenMapper;
 import com.tianminghao.pojo.Token;
 import com.tianminghao.service.TokenService;
+
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.mapper.TokenMapper;
 import com.tianminghao.pojo.Token;
-import com.tianminghao.service.TokenService;
+
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,8 +57,8 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public List<Token> findAll() throws Exception {
-        List<Token> Tokens = tokenMapper.findAll();
-        return Tokens;
+        List<Token> tokens = tokenMapper.findAll();
+        return tokens;
     }
 
     /**
@@ -71,8 +72,8 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public PageInfo<Token> findPage(Integer pageNum, Integer pageSize) throws Exception {
         PageHelper.startPage(pageNum, pageSize);
-        List<Token> Tokens = tokenMapper.findAll();
-        PageInfo<Token> pageInfo = new PageInfo<>(Tokens);
+        List<Token> tokens = tokenMapper.findAll();
+        PageInfo<Token> pageInfo = new PageInfo<>(tokens);
         return pageInfo;
     }
 
@@ -88,8 +89,8 @@ public class TokenServiceImpl implements TokenService {
     public PageInfo<Token> searchPage(Integer pageNum, Integer pageSize, Integer uid, String state) throws Exception {
         //先用用户名搜索，然后用公司名搜索
         PageHelper.startPage(pageNum, pageSize);
-        List<Token> Tokens = tokenMapper.ferretByUid(uid,state);
-        PageInfo<Token> pageInfo =new PageInfo<>(Tokens);
+        List<Token> tokens = tokenMapper.ferretByUid(uid,state);
+        PageInfo<Token> pageInfo =new PageInfo<>(tokens);
         return pageInfo;
     }
 

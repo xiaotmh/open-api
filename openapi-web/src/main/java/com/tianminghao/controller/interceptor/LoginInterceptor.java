@@ -1,5 +1,6 @@
 package com.tianminghao.controller.interceptor;
 
+import com.tianminghao.pojo.Admin;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,10 +17,11 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
-        if (username == null) {
-            //response.sendRedirect("/user/login");
-            return true;
+        //未登录直接重定向跳转登录页面
+        Admin user = (Admin) session.getAttribute("user");
+        if (user == null) {
+            response.sendRedirect("/login.html");
+            return false;
         } else {
             return true;
         }

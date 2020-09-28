@@ -24,8 +24,8 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="Token" useGeneratedKeys="true">
     insert into tb_token (user_id, access_token, start_time, 
       expire_time)
-    values (#{userId,jdbcType=INTEGER}, #{accessToken,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{expireTime,jdbcType=TIMESTAMP})
+    values (#{userId,jdbcType=INTEGER}, #{accessToken,jdbcType=VARCHAR}, #{startTime,jdbcType=DATE},
+      #{expireTime,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="Token" useGeneratedKeys="true">
     insert into tb_token
@@ -51,10 +51,10 @@
         #{accessToken,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
-        #{startTime,jdbcType=TIMESTAMP},
+        #{startTime,jdbcType=DATE},
       </if>
       <if test="expireTime != null">
-        #{expireTime,jdbcType=TIMESTAMP},
+        #{expireTime,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -68,10 +68,10 @@
         access_token = #{accessToken,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
-        start_time = #{startTime,jdbcType=TIMESTAMP},
+        start_time = #{startTime,jdbcType=DATE},
       </if>
       <if test="expireTime != null">
-        expire_time = #{expireTime,jdbcType=TIMESTAMP},
+        expire_time = #{expireTime,jdbcType=DATE},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -80,8 +80,8 @@
     update tb_token
     set user_id = #{userId,jdbcType=INTEGER},
       access_token = #{accessToken,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      expire_time = #{expireTime,jdbcType=TIMESTAMP}
+      start_time = #{startTime,jdbcType=DATE},
+      expire_time = #{expireTime,jdbcType=DATE}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

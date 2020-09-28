@@ -7,10 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="openapi-service" />
+        <module name="openapi-mapper" />
         <module name="openapi-pojo" />
         <module name="openapi-common" />
-        <module name="openapi-mapper" />
+        <module name="openapi-service" />
         <module name="openapi-web" />
       </profile>
     </annotationProcessing>
