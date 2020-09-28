@@ -131,9 +131,9 @@
     select
     <include refid="Base_Column_List"></include>
     from  `tb_route`
-    where username LIKE '%${content}%'
+    where gateway_api_name LIKE '%${content}%'
     <if test="state != null and state!=''">
-      and state LIKE '%${state}%'
+      and state= #{state}
     </if>
   </select>
 

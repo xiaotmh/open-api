@@ -53,18 +53,18 @@
         <input id="stateDisabled" type="radio" name="state" value="0" title="停用">
       </div>
     </div>
-    <div class="layui-form-item" lay-filter="state">
+    <div class="layui-form-item" lay-filter="idempotents">
       <label class="layui-form-label">幂等性</label>
       <div class="layui-input-block">
-        <input id="idempotentsNormal" type="radio" name="state" value="1" title="幂等">
-        <input id="idempotentsDisabled" type="radio" name="state" value="0" title="非幂等">
+        <input id="idempotentsNormal" type="radio" name="idempotents" value="1" title="幂等">
+        <input id="idempotentsDisabled" type="radio" name="idempotents" value="0" title="非幂等">
       </div>
     </div>
-    <div class="layui-form-item" lay-filter="state">
+    <div class="layui-form-item" lay-filter="needfee">
       <label class="layui-form-label">是否收费</label>
       <div class="layui-input-block">
-        <input id="needfeeNormal" type="radio" name="state" value="1" title="收费">
-        <input id="needfeeDisabled" type="radio" name="state" value="0" title="免费">
+        <input id="needfeeNormal" type="radio" name="needfee" value="1" title="收费">
+        <input id="needfeeDisabled" type="radio" name="needfee" value="0" title="免费">
       </div>
     </div>
     <div class="layui-form-item layui-hide">
@@ -72,7 +72,6 @@
     </div>
   </div>
 </form>
-
 
 
 <script src="../layui/layui.js"></script>
@@ -83,35 +82,44 @@
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'form'], function(){
-    var $ = layui.$
-            ,form = layui.form;
+    var $ = layui.$;
+    // ,form = layui.form;
 
 
 
 
-  })
+  });
+  function refresh() {
+    layui.use('form', function(){
+      var form = layui.form;
+      form.render();
+      form.render('select','test');
+
+    });
+  }
 </script>
 
 <script>
-layui.use('layer', function(){
-  var $ = layui.$
-  ,layer = layui.layer
-  ,index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+  layui.use('layer', function(){
+    var $ = layui.$
+            ,layer = layui.layer
+            ,form = layui.form
+            ,index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 
 
-  var active = {
-    close: function(set){
-      parent.layer.close(index);
+    var active = {
+      close: function(set){
+        parent.layer.close(index);
+      }
+
     }
 
-  }
-  
-  $('.layui-btn-container .layui-btn').on('click', function(){
-    var othis = $(this)
-    ,type = othis.data('type');
-    active[type] && active[type].call(this);
+    $('.layui-btn-container .layui-btn').on('click', function(){
+      var othis = $(this)
+              ,type = othis.data('type');
+      active[type] && active[type].call(this);
+    });
   });
-});
 </script>
 </body>
 </html>

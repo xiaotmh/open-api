@@ -167,7 +167,8 @@
             loadCount = 0;
             that.text.removeClass('text-danger');
             if ($.isFunction(that.options.setSrc)) src = that.options.setSrc();
-            if (!src || src === '') src = 'https://picsum.photos/' + that.options.width + '/' + that.options.height + '/?image=' + Math.round(Math.random() * 20);
+            // if (!src || src === '') src = 'https://picsum.photos/' + that.options.width + '/' + that.options.height + '/?image=' + Math.round(Math.random() * 20);
+            if (!src || src === '') src = '/slidingValidation/img/ve.jpg' ;
             if (isIE) { // IE浏览器无法通过img.crossOrigin跨域，使用ajax获取图片blob然后转为dataURL显示
                 var xhr = new XMLHttpRequest()
                 xhr.onloadend = function (e) {

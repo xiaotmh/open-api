@@ -348,6 +348,7 @@
                     btn: ['确定', '关闭'],
                     success: function (layero, index) {    //成功获得加载changefile.html时，预先加载，将值从父窗口传到 子窗口
                         var iframe = window['layui-layer-iframe' + index];//子窗口
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
                         //父窗口向子窗口传值
                         var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
                         //使用#id就可以获取到弹出层里面的子元素。前面的写法都是固定的。
@@ -363,15 +364,20 @@
                             $(form).find("#stateDisabled").attr('checked','checked');
                         }
                         if($.trim(data.idempotents) == 1 ){
+
                             $(form).find("#idempotentsNormal").attr('checked','checked');
                         }else{
+
                             $(form).find("#idempotentsDisabled").attr('checked','checked');
                         }
                         if($.trim(data.needfee) == 1 ){
+
                             $(form).find("#needfeeNormal").attr('checked','checked');
                         }else{
+
                             $(form).find("#needfeeDisabled").attr('checked','checked');
                         }
+                        iframeWin.refresh();//刷新子页面
                     },
                     yes: function(index, layero){
                         var iframe = window['layui-layer-iframe' + index];//子窗口
