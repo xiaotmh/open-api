@@ -320,8 +320,8 @@
                         //alert(data.id);
                         //装载修改的原内容
                         $(form).find("[name=id]").attr('value',data.id);
-                        $(form).find("[name=name]").attr('value',data.username);
-                        $(form).find("[name=description]").attr('value',data.password);
+                        $(form).find("[name=name]").attr('value',data.name);
+                        $(form).find("[name=description]").attr('value',data.description);
                         if($.trim(data.state) == 1 ){
                             $(form).find("#normal").attr('checked','checked');
                         }else{

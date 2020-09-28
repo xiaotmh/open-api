@@ -1,5 +1,6 @@
 package com.tianminghao.controller;
 
+import cn.hutool.core.convert.Convert;
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.common.Result;
 import com.tianminghao.common.TableData;
@@ -32,6 +33,10 @@ public class RechargeController {
     public TableData<Recharge> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
                                              @RequestParam(defaultValue = "10") Integer limit) throws Exception {
         PageInfo<Recharge> pageInfo = rechargeService.findPage(page, limit);
+        for (Recharge recharge : pageInfo.getList()) {
+            log.fatal("=================>"+recharge.getCreatetime());
+            log.fatal("=================>"+recharge.getUpdatetime());
+        }
         TableData<Recharge> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
         tableData.setData(pageInfo.getList());
@@ -92,13 +97,13 @@ public class RechargeController {
     @ResponseBody
     public TableData<Recharge> search(@RequestParam(defaultValue = "1") Integer page,
                                       @RequestParam(defaultValue = "10") Integer limit,
-                                      @RequestParam("searchContent") Integer cid,
+                                      @RequestParam("searchContent") String cid,
                                       @RequestParam("searchState") String state) throws Exception {
 
         if(state.equals("")){
             state=null;
         }
-        PageInfo<Recharge> pageInfo = rechargeService.searchPage(page, limit,cid,state);
+        PageInfo<Recharge> pageInfo = rechargeService.searchPage(page, limit, Convert.toInt(cid),state);
         TableData<Recharge> tableData = new TableData<>();
         tableData.setCount(pageInfo.getTotal());  //从数据库获取
         tableData.setData(pageInfo.getList());

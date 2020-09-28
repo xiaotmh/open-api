@@ -78,20 +78,16 @@ public class ParameterServiceImpl implements ParameterService {
      */
     @Override
     public PageInfo<Parameter> searchPage(Integer pageNum, Integer pageSize, String content,String state) throws Exception {
-        //先用用户名搜索，然后用公司名搜索
         PageHelper.startPage(pageNum, pageSize);
         List<Parameter> parameters = parameterMapper.ferretByName(content, state);
         PageInfo<Parameter> pageInfo = new PageInfo<>(parameters);;
         if (parameters.size() == 0) {
             if (content.length() > 1) {
-                log.fatal("进入删减搜索");
                 for (int i = 0; i < content.length(); i++) {//jack1 01234     5
                     String newContent = content.substring(0, content.length() - i - 1);
-
                     PageHelper.startPage(pageNum, pageSize);
                     parameters = parameterMapper.ferretByName(newContent, state);
                     if (parameters.size() != 0) {
-                        log.fatal("删减搜索成功==>" + newContent);
                         break;
                     }
                 }
@@ -100,7 +96,6 @@ public class ParameterServiceImpl implements ParameterService {
                 return pageInfo;
             }
         }
-
         return pageInfo;
     }
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -44,12 +45,12 @@ public class RechargeServiceImpl implements RechargeService {
     /**
      * 增加
      *
-     * @param Recharge
+     * @param recharge
      * @return
      */
     @Override
-    public int save(Recharge Recharge) throws Exception {
-        int result = rechargeMapper.insertSelective(Recharge);
+    public int save(Recharge recharge) throws Exception {
+        int result = rechargeMapper.insertSelective(recharge);
         return result;
     }
 
@@ -91,7 +92,7 @@ public class RechargeServiceImpl implements RechargeService {
      */
     @Override
     public PageInfo<Recharge> searchPage(Integer pageNum, Integer pageSize, Integer cid, String state) throws Exception {
-        //先用用户名搜索，然后用公司名搜索
+        //直接用客户id搜索
         PageHelper.startPage(pageNum, pageSize);
         List<Recharge> recharges = rechargeMapper.ferretByCid(cid,state);
         PageInfo<Recharge> pageInfo =new PageInfo<>(recharges);
@@ -125,26 +126,34 @@ public class RechargeServiceImpl implements RechargeService {
     /**
      * 更新客户信息
      *
-     * @param Recharge
+     * @param recharge
      * @return
      * @throws Exception
      */
     @Override
-    public int alter(Recharge Recharge) throws Exception {
-        int update = rechargeMapper.updateByPrimaryKeySelective(Recharge);
+    public int alter(Recharge recharge) throws Exception {
+        //修改时避免修改原创建日期先查询原值
+        Recharge selectByPrimaryKey = rechargeMapper.selectByPrimaryKey(recharge.getId());
+        recharge.setCreatetime(selectByPrimaryKey.getCreatetime());
+        //更新修改日期
+        recharge.setUpdatetime(new Date());
+        int update = rechargeMapper.updateByPrimaryKeySelective(recharge);
         return update;
     }
 
     /**
      * 添加客户信息
      *
-     * @param Recharge
+     * @param recharge
      * @return
      * @throws Exception
      */
     @Override
-    public int add(Recharge Recharge) throws Exception {
-        int insert = rechargeMapper.insert(Recharge);
+    public int add(Recharge recharge) throws Exception {
+        //创建时修改日期和创建日期都是当前时间
+        recharge.setCreatetime(new Date());
+        recharge.setUpdatetime(new Date());
+        int insert = rechargeMapper.insert(recharge);
         return insert;
     }
 

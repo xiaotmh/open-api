@@ -25,16 +25,19 @@
       <label class="layui-form-label">客户 id</label>
       <div class="layui-input-inline">
         <input type="hidden" name="id">
-        <input type="text" name="cusId" lay-verify="required" placeholder="请输入客户 id" autocomplete="off" class="layui-input">
+<!--        <input type="text" name="cusId" lay-verify="required" placeholder="请输入客户 id" autocomplete="off" class="layui-input">-->
+        <select name="cusId" id="select_cus">-->
+          //自动填充的客户信息
+        </select>
       </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item" id="creatTime">
       <label class="layui-form-label">创建订单时间</label>
       <div class="layui-input-inline">
         <input type="text" name="createtime" disabled readonly autocomplete="off" class="layui-input">
       </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item" id="updateTime">
       <label class="layui-form-label">更新时间</label>
       <div class="layui-input-inline">
         <input type="text" name="updatetime" disabled readonly autocomplete="off" class="layui-input">
@@ -53,13 +56,17 @@
         <input id="normal" type="radio" name="state" value="1" title="正常">
         <input id="disabled" type="radio" name="state" value="0" title="停用">
       </div>
-<!--      <div class="layui-input-inline">-->
-<!--        <select name="top">-->
-<!--          <option id="normal" value="1" >正常</option>-->
-<!--          <option id="disabled" value="0">停用</option>-->
-<!--        </select>-->
-<!--      </div>-->
     </div>
+
+    <div class="layui-form-item" lay-filter="paymentType">
+      <label class="layui-form-label">支付类型</label>
+      <div class="layui-input-block">
+        <input id="unionPay" type="radio" name="paymentType" value="0" title="银联">
+        <input id="wechatPay" type="radio" name="paymentType" value="1" title="微信">
+        <input id="aliPay" type="radio" name="paymentType" value="2" title="支付宝">
+      </div>
+    </div>
+
     <div class="layui-form-item layui-hide">
       <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
     </div>
@@ -76,35 +83,44 @@
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'form'], function(){
-    var $ = layui.$
-            ,form = layui.form;
+    var $ = layui.$;
+    // ,form = layui.form;
 
 
 
 
-  })
+  });
+  function refresh() {
+    layui.use('form', function(){
+      var form = layui.form;
+      form.render();
+      form.render('select','test');
+
+    });
+  }
 </script>
 
 <script>
-layui.use('layer', function(){
-  var $ = layui.$
-  ,layer = layui.layer
-  ,index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+  layui.use('layer', function(){
+    var $ = layui.$
+            ,layer = layui.layer
+            ,form = layui.form
+            ,index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 
 
-  var active = {
-    close: function(set){
-      parent.layer.close(index);
+    var active = {
+      close: function(set){
+        parent.layer.close(index);
+      }
+
     }
 
-  }
-  
-  $('.layui-btn-container .layui-btn').on('click', function(){
-    var othis = $(this)
-    ,type = othis.data('type');
-    active[type] && active[type].call(this);
+    $('.layui-btn-container .layui-btn').on('click', function(){
+      var othis = $(this)
+              ,type = othis.data('type');
+      active[type] && active[type].call(this);
+    });
   });
-});
 </script>
 </body>
 </html>

@@ -44,7 +44,8 @@
                 ,{field: 'limitCount', title: '免费接口日调用次数', width:150, sort: true}
                 ,{field: 'description', title: '应用介绍', width:120, sort: true}
                 ,{field: 'cusId', title: '客户 id', width:100, sort: true, templet:function (d) {
-                        return '<label id="cusId'+ d.cusId+'" onmouseover="show('+d.cusId+',);">' + d.cusId + '</label>';}}
+
+                        return '<label id="cusId'+ d.cusId+'_'+d.id+'" onmouseover="show('+d.cusId+','+d.id+');">' + d.cusId + '</label>';}}
                 ,{field: 'state', title: '状态', width:80, sort: true,
                     templet: function(data){
                         return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
@@ -254,7 +255,8 @@
                                     ,{field: 'limitCount', title: '免费接口日调用次数', width:150, sort: true}
                                     ,{field: 'description', title: '应用介绍', width:120, sort: true}
                                     ,{field: 'cusId', title: '客户 id', width:100, sort: true, templet:function (d) {
-                                            return '<label id="cusId'+ d.cusId+'" onmouseover="show('+d.cusId+',);">' + d.cusId + '</label>';}}
+
+                                            return '<label id="cusId'+ d.cusId+'_'+d.id+'" onmouseover="show('+d.cusId+','+d.id+');">' + d.cusId + '</label>';}}
                                     ,{field: 'state', title: '状态', width:80, sort: true,
                                         templet: function(data){
                                             return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
@@ -314,7 +316,8 @@
                             ,{field: 'limitCount', title: '免费接口日调用次数', width:150, sort: true}
                             ,{field: 'description', title: '应用介绍', width:120, sort: true}
                             ,{field: 'cusId', title: '客户 id', width:100, sort: true, templet:function (d) {
-                                    return '<label id="cusId'+ d.cusId+'" onmouseover="show('+d.cusId+',);">' + d.cusId + '</label>';}}
+
+                                    return '<label id="cusId'+ d.cusId+'_'+d.id+'" onmouseover="show('+d.cusId+','+d.id+');">' + d.cusId + '</label>';}}
                             ,{field: 'state', title: '状态', width:80, sort: true,
                                 templet: function(data){
                                     return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
@@ -482,7 +485,7 @@
     });
 
 
-    function show(id) {
+    function show(id,rid) {
         $.ajax({
             //请求方式
             type : "GET",
@@ -495,7 +498,7 @@
             success : function(data) {
                 // var a='cusId'+data.message.cusId;
                 // var that = this;
-                layer.tips('客户名:'+data.message.username, $('#cusId'+id),{
+                layer.tips('客户名:'+data.message.username, $('#cusId'+id+'_'+rid),{
                     tips: [1, "#4794ec"]
                 }); //在元素的事件回调体中，follow直接赋予this即可
                 // layer.tips("客户名", "："+data.message.username+"", {
@@ -509,4 +512,5 @@
         });
 
     }
+
 </script>
