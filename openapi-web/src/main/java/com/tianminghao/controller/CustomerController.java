@@ -68,23 +68,16 @@ public class CustomerController {
     }
 
 
-//
-//    @GetMapping("/page")
-//    public ModelAndView findPage(@RequestParam(defaultValue = "1") Integer pageNum,
-//                                 @RequestParam(defaultValue = "5") Integer pageSize) throws Exception {
-//
-//        PageInfo<Customer> pageInfo = customerService.findPage(pageNum, pageSize);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("customer-page");
-//        modelAndView.addObject("pageInfo", pageInfo);
-//
-//        return modelAndView;
-//    }
-
-
+    /**
+     * 获取分页
+     * @param page
+     * @param limit
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/page")
     @ResponseBody
-    public TableData<Customer> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
+    public TableData<Customer> page(@RequestParam(defaultValue = "1") Integer page,
                                              @RequestParam(defaultValue = "10") Integer limit) throws Exception {
         PageInfo<Customer> pageInfo = customerService.findPage(page, limit);
         TableData<Customer> tableData = new TableData<>();
@@ -93,6 +86,12 @@ public class CustomerController {
         return tableData;
     }
 
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/delete")
     @ResponseBody
     public Result delete(Integer id) throws Exception {
@@ -107,6 +106,12 @@ public class CustomerController {
         return new Result(true, "删除成功!");
     }
 
+    /**
+     * 批量删除
+     * @param customerList
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/deleteBatch")
     @ResponseBody
     public Result deleteBatch(@RequestBody List<Customer> customerList ) throws Exception {
@@ -121,6 +126,12 @@ public class CustomerController {
     }
 
 
+    /**
+     * 更新
+     * @param customer
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/update")
     @ResponseBody
     public Result update(@RequestBody Customer customer) throws Exception {
@@ -132,6 +143,12 @@ public class CustomerController {
         return new Result(true, "更新成功!");
     }
 
+    /**
+     * 插入新的
+     * @param customer
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/insert")
     @ResponseBody
     public Result insert(@RequestBody Customer customer) throws Exception {
@@ -143,6 +160,15 @@ public class CustomerController {
         return new Result(true, "添加成功!");
     }
 
+    /**
+     * 搜索用户
+     * @param page
+     * @param limit
+     * @param content
+     * @param state
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/search")
     @ResponseBody
     public TableData<Customer> search(@RequestParam(defaultValue = "1") Integer page,

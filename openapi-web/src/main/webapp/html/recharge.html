@@ -399,6 +399,7 @@
                         if(result.status) {
                             //status 为 true时，代表删除成功
                             obj.del();
+                            layer.msg("删除成功!" );
                         } else {
                             layer.msg("删除失败!" + result.message);
                         }

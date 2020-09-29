@@ -85,13 +85,11 @@ public class ApplicationServiceImpl implements ApplicationService {
         //先用用户名搜索，然后用公司名搜索
         PageHelper.startPage(pageNum, pageSize);
         List<Application> applicationList = applicationMapper.ferretByAppName(content, state);
-
         PageInfo<Application> pageInfo = new PageInfo<>(applicationList);
-        System.out.println(applicationList);
         if (applicationList.size() == 0) {
             if (content.length() > 1) {
                 log.fatal("进入删减搜索");
-                for (int i = 0; i < content.length(); i++) {//jack1 01234     5
+                for (int i = 0; i < content.length(); i++) {
                     String newContent = content.substring(0, content.length() - i - 1);
                     PageHelper.startPage(pageNum, pageSize);
                     applicationList = applicationMapper.ferretByAppName(newContent, state);
@@ -160,7 +158,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         //判空
         boolean flag = objCheckIsNull(application);
-        if (!flag) {
+        if (flag) {
             throw new ClassCastException("输入格式异常");
         }
 
@@ -190,11 +188,10 @@ public class ApplicationServiceImpl implements ApplicationService {
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            if(fieldValue != null){  //只要有一个属性值不为null 就返回false 表示对象不为null,除了Id属性
-                if(!field.getName().equals("Id")){
-                    flag = false;
-                    break;
-                }
+            if(fieldValue != null||field.getName().equals("id")){
+                //只要有一个属性值不为null 就返回false 表示对象不为null,除了Id属性
+                flag = false;
+                break;
             }
         }
         return flag;

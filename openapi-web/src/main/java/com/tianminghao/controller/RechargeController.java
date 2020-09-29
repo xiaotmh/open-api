@@ -27,10 +27,16 @@ public class RechargeController {
     RechargeService rechargeService;
 
 
-
+    /**
+     * 获取分页
+     * @param page
+     * @param limit
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/page")
     @ResponseBody
-    public TableData<Recharge> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
+    public TableData<Recharge> page(@RequestParam(defaultValue = "1") Integer page,
                                              @RequestParam(defaultValue = "10") Integer limit) throws Exception {
         PageInfo<Recharge> pageInfo = rechargeService.findPage(page, limit);
         for (Recharge recharge : pageInfo.getList()) {
@@ -43,6 +49,12 @@ public class RechargeController {
         return tableData;
     }
 
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/delete")
     @ResponseBody
     public Result delete(Integer id) throws Exception {
@@ -57,6 +69,12 @@ public class RechargeController {
         return new Result(true, "删除成功!");
     }
 
+    /**
+     * 批量删除
+     * @param rechargeList
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/deleteBatch")
     @ResponseBody
     public Result deleteBatch(@RequestBody List<Recharge> rechargeList ) throws Exception {
@@ -70,7 +88,12 @@ public class RechargeController {
         return new Result(true, "删除成功!");
     }
 
-
+    /**
+     * 更新
+     * @param recharge
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/update")
     @ResponseBody
     public Result update(@RequestBody Recharge recharge) throws Exception {
@@ -82,6 +105,12 @@ public class RechargeController {
         return new Result(true, "更新成功!");
     }
 
+    /**
+     * 插入新的
+     * @param recharge
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/insert")
     @ResponseBody
     public Result insert(@RequestBody Recharge recharge) throws Exception {
@@ -93,6 +122,15 @@ public class RechargeController {
         return new Result(true, "添加成功!");
     }
 
+    /**
+     * 搜索
+     * @param page
+     * @param limit
+     * @param cid
+     * @param state
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/search")
     @ResponseBody
     public TableData<Recharge> search(@RequestParam(defaultValue = "1") Integer page,

@@ -26,10 +26,16 @@ public class RouteController {
     RouteService routeService;
 
 
-
+    /**
+     * 获取分页
+     * @param page
+     * @param limit
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/page")
     @ResponseBody
-    public TableData<Route> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
+    public TableData<Route> page(@RequestParam(defaultValue = "1") Integer page,
                                           @RequestParam(defaultValue = "10") Integer limit) throws Exception {
         PageInfo<Route> pageInfo = routeService.findPage(page, limit);
         TableData<Route> tableData = new TableData<>();
@@ -38,6 +44,12 @@ public class RouteController {
         return tableData;
     }
 
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/delete")
     @ResponseBody
     public Result delete(Integer id) throws Exception {
@@ -52,6 +64,12 @@ public class RouteController {
         return new Result(true, "删除成功!");
     }
 
+    /**
+     * 批量删除
+     * @param routeList
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/deleteBatch")
     @ResponseBody
     public Result deleteBatch(@RequestBody List<Route> routeList ) throws Exception {
@@ -65,7 +83,12 @@ public class RouteController {
         return new Result(true, "删除成功!");
     }
 
-
+    /**
+     * 更新
+     * @param route
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/update")
     @ResponseBody
     public Result update(@RequestBody Route route) throws Exception {
@@ -77,6 +100,12 @@ public class RouteController {
         return new Result(true, "更新成功!");
     }
 
+    /**
+     * 插入新的
+     * @param route
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/insert")
     @ResponseBody
     public Result insert(@RequestBody Route route) throws Exception {
@@ -88,14 +117,21 @@ public class RouteController {
         return new Result(true, "添加成功!");
     }
 
+    /**
+     * 搜索
+     * @param page
+     * @param limit
+     * @param content
+     * @param state
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/search")
     @ResponseBody
     public TableData<Route> search(@RequestParam(defaultValue = "1") Integer page,
                                       @RequestParam(defaultValue = "10") Integer limit,
                                       @RequestParam("searchContent") String content,
                                       @RequestParam("searchState") String state) throws Exception {
-        log.fatal("searchContent====>"+content);
-        log.fatal("searchState====>"+state);
         if(state.equals("")){
             state=null;
         }

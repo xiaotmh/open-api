@@ -33,10 +33,16 @@ public class TokenController {
     TokenService tokenService;
 
 
-
+    /**
+     * 获取分页
+     * @param page
+     * @param limit
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/page")
     @ResponseBody
-    public TableData<Token> findLayuiPage(@RequestParam(defaultValue = "1") Integer page,
+    public TableData<Token> page(@RequestParam(defaultValue = "1") Integer page,
                                           @RequestParam(defaultValue = "10") Integer limit) throws Exception {
         PageInfo<Token> pageInfo = tokenService.findPage(page, limit);
         TableData<Token> tableData = new TableData<>();
@@ -45,6 +51,12 @@ public class TokenController {
         return tableData;
     }
 
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/delete")
     @ResponseBody
     public Result delete(Integer id) throws Exception {
@@ -59,6 +71,12 @@ public class TokenController {
         return new Result(true, "删除成功!");
     }
 
+    /**
+     * 批量删除
+     * @param tokenList
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/deleteBatch")
     @ResponseBody
     public Result deleteBatch(@RequestBody List<Token> tokenList ) throws Exception {
@@ -72,7 +90,12 @@ public class TokenController {
         return new Result(true, "删除成功!");
     }
 
-
+    /**
+     * 更新
+     * @param paramsMap
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/update")
     @ResponseBody
     public Result update(@RequestBody Map<String,Object> paramsMap) throws Exception {
@@ -96,17 +119,15 @@ public class TokenController {
         return new Result(true, "更新成功!");
     }
 
+    /**
+     * 插入新的
+     * @param paramsMap
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/insert")
     @ResponseBody//@RequestBody Token token @RequestBody Map<String,Object> paramsMap
     public Result insert(@RequestBody Map<String,Object> paramsMap) throws Exception {
-        //@RequestParam("accessToken") String accessToken,@RequestParam("expireDate") String expireDate
-        //            ,@RequestParam("expireTimey") String expireTimey,@RequestParam("startDate") String startDate
-        //            ,@RequestParam("startTimey") String startTimey
-
-        //Set<Map.Entry<String, Object>> entries = paramsMap.entrySet();
-//        for (Map.Entry<String, Object> entry : paramsMap.entrySet()) {
-//            log.fatal("key= " + entry.getKey() + " and value= " + entry.getValue());
-//        }
 
         String cusId = (String) paramsMap.get("cusId");
         String accessToken = (String) paramsMap.get("accessToken");
@@ -115,12 +136,6 @@ public class TokenController {
         String expireDate = (String) paramsMap.get("expireDate");
         String expireTimey = (String) paramsMap.get("expireTimey");
 
-        log.fatal("cusId===========>"+cusId);
-//        log.fatal("accessToken===========>"+accessToken);
-//        log.fatal("expireDate===========>"+expireDate);
-//        log.fatal("expireTime===========>"+expireTimey);
-//        log.fatal("startDate===========>"+startDate);
-//        log.fatal("startTime===========>"+startTimey);
         Token token=new Token();
         token.setUserId(Convert.toInt(cusId));
         token.setAccessToken(accessToken);
@@ -133,6 +148,15 @@ public class TokenController {
         return new Result(true, "添加成功!");
     }
 
+    /**
+     * 搜索
+     * @param page
+     * @param limit
+     * @param uid
+     * @param state
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/search")
     @ResponseBody
     public TableData<Token> search(@RequestParam(defaultValue = "1") Integer page,

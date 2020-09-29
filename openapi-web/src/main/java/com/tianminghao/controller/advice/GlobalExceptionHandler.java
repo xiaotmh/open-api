@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 
         if(e instanceof RuntimeException) {
             return new Result(false, "服务器正忙，请稍后再试");
-        }else if(e instanceof ClassCastException){
+        }else if(e instanceof ClassCastException||e instanceof RuntimeException){
             return new Result(false, "输入格式有误！");
         }else {
             return new Result(false, "服务器开小差啦");

@@ -191,7 +191,7 @@ public class TokenServiceImpl implements TokenService {
 
         //判空
         boolean flag = objCheckIsNull(token);
-        if (!flag) {
+        if (flag) {
             throw new ClassCastException("输入格式异常");
         }
 
@@ -222,11 +222,10 @@ public class TokenServiceImpl implements TokenService {
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            if(fieldValue != null){  //只要有一个属性值不为null 就返回false 表示对象不为null,除了Id属性
-                if(!field.getName().equals("Id")){
-                    flag = false;
-                    break;
-                }
+            if(fieldValue != null||field.getName().equals("id")){
+                //只要有一个属性值不为null 就返回false 表示对象不为null,除了Id属性
+                flag = false;
+                break;
             }
         }
         return flag;
