@@ -22,29 +22,38 @@
 <form id="form">
   <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
     <div class="layui-form-item">
-      <label class="layui-form-label">客户id</label>
+      <label class="layui-form-label">客户 id</label>
       <div class="layui-input-inline">
         <input type="hidden" name="id">
-        <input type="text" name="userId" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        <!--        <input type="text" name="cusId" lay-verify="required" placeholder="请输入客户 id" autocomplete="off" class="layui-input">-->
+        <select name="cusId" id="select_cus">-->
+          //自动填充的客户信息
+        </select>
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">token 内容</label>
       <div class="layui-input-inline">
-        <input type="text" name="accessToken" lay-verify="password" placeholder="请输入号码" autocomplete="off" class="layui-input">
+        <input type="text" name="accessToken" lay-verify="password" placeholder="token 内容" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">开始时间</label>
-      <div class="layui-input-inline">
-        <input type="text" name="startTime" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
-      </div>
+      <div class="layui-input-inline" id="startDateDiv" ></div>
+      <div class="layui-input-inline" id="startTimeyDiv" style="margin-left: 80px;"></div>
+<!--      <div class="layui-input-inline">-->
+        <input id="startDate" type="hidden" name="startDate" lay-verify="required" placeholder="开始日期" value="" autocomplete="off" class="layui-input">
+        <input id="startTimey" type="hidden" name="startTimey" lay-verify="required" placeholder="开始时间" value="" autocomplete="off" class="layui-input">
+<!--      </div>-->
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">结束时间</label>
-      <div class="layui-input-inline">
-        <input type="text" name="expireTime" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
-      </div>
+      <div class="layui-input-inline" id="expireDateDiv" ></div>
+      <div class="layui-input-inline" id="expireTimeyDiv" style="margin-left: 80px;"></div>
+<!--      <div class="layui-input-inline">-->
+        <input id="expireDate" type="hidden" name="expireDate" lay-verify="required" placeholder="结束日期" value="" autocomplete="off" class="layui-input">
+        <input id="expireTimey" type="hidden" name="expireTimey" lay-verify="required" placeholder="结束时间" value="" autocomplete="off" class="layui-input">
+<!--      </div>-->
     </div>
 
     <div class="layui-form-item layui-hide">
@@ -63,35 +72,221 @@
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'form'], function(){
-    var $ = layui.$
-            ,form = layui.form;
+    var $ = layui.$;
+    // ,form = layui.form;
 
 
 
 
-  })
+  });
+  function refresh() {
+    layui.use('form', function(){
+      var form = layui.form;
+      form.render();
+      form.render('select','test');
+
+    });
+  }
 </script>
 
+
 <script>
-layui.use('layer', function(){
-  var $ = layui.$
-  ,layer = layui.layer
-  ,index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+  layui.use('layer','laydate', function(){
+    var $ = layui.$
+            ,layer = layui.layer
+            ,form = layui.form
+            ,index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    var laydate = layui.laydate;
+    // laydate.render({
+    //   type:'date',
+    //   elem: '#startDateDiv'
+    //   ,position: 'static'
+    //   ,value: new Date()
+    //   ,trigger: 'click'
+    //   ,change: function(value, date){ //监听日期被切换
+    //     lay('#startDate').attr('value',value);
+    //   }
+    //   ,ready: function(value, date){
+    //     lay('#startDate').attr('value','2018-08-20');
+    //   }
+    // });
+    // laydate.render({
+    //   type:'time',
+    //   elem: '#startTimeyDiv'
+    //   ,position: 'static'
+    //   ,value: new Date(1534766888000)
+    //   ,trigger: 'click'
+    //   ,change: function(value, date){ //监听日期被切换
+    //     lay('#startTimey').attr('value',value);
+    //   }
+    //   ,ready: function(value, date){
+    //     lay('#startTimey').attr('value','20:08:08');
+    //   }
+    // });
+    // laydate.render({
+    //   type:'date',
+    //   elem: '#expireDateDiv'
+    //   ,position: 'static'
+    //   ,value: new Date()
+    //   ,trigger: 'click'
+    //   ,change: function(value, date){ //监听日期被切换
+    //     lay('#expireDate').attr('value',value);
+    //   }
+    //   ,ready: function(value, date){
+    //     lay('#expireDate').attr('value','2018-08-20');
+    //   }
+    // });
+    // laydate.render({
+    //   type:'time',
+    //   elem: '#expireTimeyDiv'
+    //   ,position: 'static'
+    //   ,value: new Date(1534766888000)
+    //   ,trigger: 'click'
+    //   ,change: function(value, date){ //监听日期被切换
+    //     lay('#expireTimey').attr('value',value);
+    //   }
+    //   ,ready: function(value, date){
+    //     lay('#expireTimey').attr('value','20:08:08');
+    //   }
+    // });
 
 
-  var active = {
-    close: function(set){
-      parent.layer.close(index);
+    var active = {
+      close: function(set){
+        parent.layer.close(index);
+      }
+
     }
 
-  }
-  
-  $('.layui-btn-container .layui-btn').on('click', function(){
-    var othis = $(this)
-    ,type = othis.data('type');
-    active[type] && active[type].call(this);
+    // $('.layui-btn-container .layui-btn').on('click', function(){
+    //   var othis = $(this)
+    //           ,type = othis.data('type');
+    //   active[type] && active[type].call(this);
+    // });
   });
-});
+  
+  function flushDate() {
+    layui.use(['laydate'], function() {
+      var laydate = layui.laydate;
+      laydate.render({
+        type:'date',
+        elem: '#startDateDiv'
+        ,position: 'static'
+        ,value: new Date()
+        ,trigger: 'click'
+        ,change: function(value, date){ //监听日期被切换
+          lay('#startDate').attr('value',value);
+        }
+        ,ready: function(value, date){
+          lay('#startDate').attr('value','2018-08-20');
+        }
+      });
+      laydate.render({
+        type:'time',
+        elem: '#startTimeyDiv'
+        ,position: 'static'
+        ,value: new Date(1534766888000)
+        ,trigger: 'click'
+        ,change: function(value, date){ //监听日期被切换
+          lay('#startTimey').attr('value',value);
+        }
+        ,ready: function(value, date){
+          lay('#startTimey').attr('value','20:08:08');
+        }
+      });
+      laydate.render({
+        type:'date',
+        elem: '#expireDateDiv'
+        ,position: 'static'
+        ,value: new Date()
+        ,trigger: 'click'
+        ,change: function(value, date){ //监听日期被切换
+          lay('#expireDate').attr('value',value);
+        }
+        ,ready: function(value, date){
+          lay('#expireDate').attr('value','2018-08-20');
+        }
+
+      });
+      laydate.render({
+        type:'time',
+        elem: '#expireTimeyDiv'
+        ,position: 'static'
+        ,value: new Date(1534766888000)
+        ,trigger: 'click'
+        ,change: function(value, date){ //监听日期被切换
+          lay('#expireTimey').attr('value',value);
+        }
+        ,ready: function(value, date){
+          lay('#expireTimey').attr('value','20:08:08');
+        }
+      });
+    });
+
+
+  }
+
+
+  function editDate(startDate,startTimey,expireDate,expireTimey) {
+    layui.use(['laydate'], function() {
+      var laydate = layui.laydate;
+      laydate.render({
+        type:'date',
+        elem: '#startDateDiv'
+        ,position: 'static'
+        ,value: new Date()
+        ,trigger: 'click'
+        ,change: function(value, date){ //监听日期被切换
+          lay('#startDate').attr('value',value);
+        }
+        ,ready: function(value, date){
+          lay('#startDate').attr('value',startDate);
+        }
+      });
+      laydate.render({
+        type:'time',
+        elem: '#startTimeyDiv'
+        ,position: 'static'
+        ,value: new Date(1534766888000)
+        ,trigger: 'click'
+        ,change: function(value, date){ //监听日期被切换
+          lay('#startTimey').attr('value',value);
+        }
+        ,ready: function(value, date){
+          lay('#startTimey').attr('value',startTimey);
+        }
+      });
+      laydate.render({
+        type:'date',
+        elem: '#expireDateDiv'
+        ,position: 'static'
+        ,value: new Date()
+        ,trigger: 'click'
+        ,change: function(value, date){ //监听日期被切换
+          lay('#expireDate').attr('value',value);
+        }
+        ,ready: function(value, date){
+          lay('#expireDate').attr('value',expireDate);
+        }
+
+      });
+      laydate.render({
+        type:'time',
+        elem: '#expireTimeyDiv'
+        ,position: 'static'
+        ,value: new Date(1534766888000)
+        ,trigger: 'click'
+        ,change: function(value, date){ //监听日期被切换
+          lay('#expireTimey').attr('value',value);
+        }
+        ,ready: function(value, date){
+          lay('#expireTimey').attr('value',expireTimey);
+        }
+      });
+    });
+
+
+  }
 </script>
 </body>
 </html>

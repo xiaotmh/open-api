@@ -1,5 +1,6 @@
 package com.tianminghao.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianminghao.mapper.TokenMapper;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -120,26 +122,72 @@ public class TokenServiceImpl implements TokenService {
 
     /**
      * 更新信息
-     *
      * @param token
+     * @param expireDate
+     * @param expireTime
+     * @param startDate
+     * @param startTime
      * @return
      * @throws Exception
      */
     @Override
-    public int alter(Token token) throws Exception {
+    public int alter(Token token,String expireDate,String expireTime,String startDate,String startTime) throws Exception {
+        //分别将过期时间和开始时间的日期与时间拼接
+        StringBuilder stringBuilderExpire=new StringBuilder();
+        stringBuilderExpire.append(expireDate);
+        stringBuilderExpire.append(" ");
+        stringBuilderExpire.append(expireTime);
+
+        StringBuilder stringBuilderStart=new StringBuilder();
+        stringBuilderStart.append(startDate);
+        stringBuilderStart.append(" ");
+        stringBuilderStart.append(startTime);
+
+        //将拼接的日期时间字符串转为UitlDate
+        Date finalExpireTime = DateUtil.parse(stringBuilderExpire);
+        Date finalStartTime = DateUtil.parse(stringBuilderStart);
+
+        //将插入的日期时间赋值
+        token.setExpireTime(finalExpireTime);
+        token.setStartTime(finalStartTime);
+
+        //调用mapper插入
         int update = tokenMapper.updateByPrimaryKeySelective(token);
         return update;
     }
 
     /**
      * 添加信息
-     *
      * @param token
+     * @param expireDate
+     * @param expireTime
+     * @param startDate
+     * @param startTime
      * @return
      * @throws Exception
      */
     @Override
-    public int add(Token token) throws Exception {
+    public int add(Token token,String expireDate,String expireTime,String startDate,String startTime) throws Exception {
+        //分别将过期时间和开始时间的日期与时间拼接
+        StringBuilder stringBuilderExpire=new StringBuilder();
+        stringBuilderExpire.append(expireDate);
+        stringBuilderExpire.append(" ");
+        stringBuilderExpire.append(expireTime);
+
+        StringBuilder stringBuilderStart=new StringBuilder();
+        stringBuilderStart.append(startDate);
+        stringBuilderStart.append(" ");
+        stringBuilderStart.append(startTime);
+
+        //将拼接的日期时间字符串转为UitlDate
+        Date finalExpireTime = DateUtil.parse(stringBuilderExpire);
+        Date finalStartTime = DateUtil.parse(stringBuilderStart);
+
+        //将插入的日期时间赋值
+        token.setExpireTime(finalExpireTime);
+        token.setStartTime(finalStartTime);
+
+        //调用mapper插入
         int insert = tokenMapper.insert(token);
         return insert;
     }

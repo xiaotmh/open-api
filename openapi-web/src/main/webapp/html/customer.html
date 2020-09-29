@@ -37,7 +37,7 @@
             ,page: true
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', sort: true, width:60}
+                ,{field: 'id', title: 'ID', sort: true, width:80}
                 ,{field: 'username', title: '用户名', width:120}
                 ,{field: 'nickname', title: '公司名称', width:180}
                 ,{field: 'address', title: '住址', width:200}
@@ -207,7 +207,7 @@
                                 ,where: {searchContent: searchContent, searchState: searchState}
                                 ,cols: [[ //表头
                                     {type: 'checkbox', fixed: 'left'}
-                                    ,{field: 'id', title: 'ID', sort: true, width:60}
+                                    ,{field: 'id', title: 'ID', sort: true, width:80}
                                     ,{field: 'username', title: '用户名', width:120}
                                     ,{field: 'nickname', title: '公司名称', width:180}
                                     ,{field: 'address', title: '住址', width:200}
@@ -262,7 +262,7 @@
                         ,page: true
                         ,cols: [[ //表头
                             {type: 'checkbox', fixed: 'left'}
-                            ,{field: 'id', title: 'ID', sort: true, width:60}
+                            ,{field: 'id', title: 'ID', sort: true, width:80}
                             ,{field: 'username', title: '用户名', width:120}
                             ,{field: 'nickname', title: '公司名称', width:180}
                             ,{field: 'address', title: '住址', width:200}
@@ -328,7 +328,10 @@
                         //装载修改的原内容
                         $(form).find("[name=id]").attr('value',data.id);
                         $(form).find("[name=username]").attr('value',data.username);
-                        $(form).find("[name=password]").attr('value',data.password);
+                        //$(form).find("[name=password]").attr('value',data.password);
+                        //隐藏密码
+                        $(form).find("[name=password]").hide();
+                        $(form).find("[name=password]").parent().parent().hide();
                         $(form).find("[name=nickname]").attr('value',data.nickname);
                         $(form).find("[name=address]").attr('value',data.address);
                         $(form).find("[name=money]").attr('value',data.money);

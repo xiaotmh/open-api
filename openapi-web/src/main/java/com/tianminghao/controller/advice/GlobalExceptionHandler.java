@@ -1,5 +1,6 @@
 package com.tianminghao.controller.advice;
 
+import com.tianminghao.common.Result;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,14 +15,19 @@ import org.springframework.web.servlet.ModelAndView;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView selectException(Exception e){
-        ModelAndView modelAndView = new ModelAndView();
+    @ResponseBody
+    public Result allException(Exception e){
+
         if(e instanceof RuntimeException) {
-            modelAndView.setViewName("error");
-            modelAndView.addObject("errorMsg", "服务器正忙，请稍后再试");
+            return new Result(false, "服务器正忙，请稍后再试");
+        }else if(e instanceof ClassCastException){
+            return new Result(false, "输入格式有误！");
+        }else {
+            return new Result(false, "服务器开小差啦");
         }
-        return modelAndView;
     }
+
+
 
 
 

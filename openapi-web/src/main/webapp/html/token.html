@@ -22,9 +22,16 @@
 
 
 <script>
-    layui.use(['table','form'], function(){
+    layui.use(['table','form','laydate'], function(){
         var table = layui.table;
         var form = layui.form;
+        var laydate = layui.laydate;
+        //
+        laydate.render({
+            elem: '#startTimeDiv' //指定元素
+            ,trigger: 'click' //自动弹出控件的事件，采用click弹出
+        });
+
         //第一个实例
         table.render({
             elem: '#demo'
@@ -34,8 +41,10 @@
             ,page: true
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', sort: true, width:60}
-                ,{field: 'userId', title: '客户 id', width:120}
+                ,{field: 'id', title: 'ID', sort: true, width:80}
+                ,{field: 'userId', title: '客户 id', width:120, templet:function (d) {
+
+                        return '<label id="cusId'+ d.userId+'_'+d.id+'" onmouseover="show('+d.userId+','+d.id+');">' + d.userId + '</label>';}}
                 ,{field: 'accessToken', title: 'token 内容', width:220}
                 ,{field: 'startTime', title: '开始时间', width:180}
                 ,{field: 'expireTime', title: '结束时间',width:180, sort: true}
@@ -53,16 +62,50 @@
                     window.PartitionId=data;
                     layer.open({
                         type: 2,
-                        content: ['html/tokenForm.html','no'] ,//加no不允许出现滚动条
-                        title:'修改信息',
+                        content: ['html/tokenForm.html'] ,//加no不允许出现滚动条
+                        title:'添加信息',
                         //area: ['500px', '300px'],
-                        area: ['50%', '70%'],
+                        area: ['50%', '95%'],
                         skin: "layui-layer-molv",
                         btn: ['确定', '关闭'],
                         success: function (layero, index) {    //成功获得加载changefile.html时，预先加载，将值从父窗口传到 子窗口
                             var iframe = window['layui-layer-iframe' + index];//子窗口
                             //父窗口向子窗口传值
                             var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
+                            //动态加载用户
+                            $.ajax({
+                                //请求方式
+                                type : "GET",
+                                //请求的媒体类型
+                                contentType: "application/json;charset=UTF-8",
+                                //请求地址
+                                url : "/customer/list",
+                                //数据，json字符串
+                                //请求成功
+                                success : function(data) {
+                                    var body = layer.getChildFrame('body', index);
+                                    var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();比如iframeWin.alert11();
+                                    //console.log(body.html()) //得到iframe页的body内容
+
+                                    var sel=$(body).find("#select_cus");
+
+                                    for (var i = 0; i < data.message.length; i++) {
+                                        if(i==0){
+                                            $(sel).append('<option value="' + data.message[i].id + '" selected>' + data.message[i].username + '</option>');
+                                        }else{
+                                            $(sel).append('<option value="' + data.message[i].id + '">' + data.message[i].username + '</option>');
+                                        }
+                                    }
+                                    $(form).find("#unionPay").attr('checked','checked');
+                                    iframeWin.refresh();//刷新子页面
+                                },
+                                //请求失败，包含具体的错误信息
+                                error : function(data){
+                                    layer.msg(data.message);
+                                }
+                            });
+                            var iframeWin = window[layero.find('iframe')[0]['name']];
+                            iframeWin.flushDate();//刷新子页面
                         },
                         yes: function(index, layero){
                             var iframe = window['layui-layer-iframe' + index];//子窗口
@@ -198,8 +241,10 @@
                                 ,where: {searchContent: searchContent, searchState: searchState}
                                 ,cols:[[ //表头
                                     {type: 'checkbox', fixed: 'left'}
-                                    ,{field: 'id', title: 'ID', sort: true, width:60}
-                                    ,{field: 'userId', title: '客户 id', width:120}
+                                    ,{field: 'id', title: 'ID', sort: true, width:80}
+                                    ,{field: 'userId', title: '客户 id', width:120, templet:function (d) {
+
+                                            return '<label id="cusId'+ d.userId+'_'+d.id+'" onmouseover="show('+d.userId+','+d.id+');">' + d.userId + '</label>';}}
                                     ,{field: 'accessToken', title: 'token 内容', width:220}
                                     ,{field: 'startTime', title: '开始时间', width:180}
                                     ,{field: 'expireTime', title: '结束时间',width:180, sort: true}
@@ -244,8 +289,9 @@
                         ,page: true
                         ,cols: [[ //表头
                             {type: 'checkbox', fixed: 'left'}
-                            ,{field: 'id', title: 'ID', sort: true, width:60}
-                            ,{field: 'userId', title: '客户 id', width:120}
+                            ,{field: 'id', title: 'ID', sort: true, width:80}
+                            ,{field: 'userId', title: '客户 id', width:120, templet:function (d) {
+                                    return '<label id="cusId'+ d.userId+'_'+d.id+'" onmouseover="show('+d.userId+','+d.id+');">' + d.userId + '</label>';}}
                             ,{field: 'accessToken', title: 'token 内容', width:220}
                             ,{field: 'startTime', title: '开始时间', width:180}
                             ,{field: 'expireTime', title: '结束时间',width:180, sort: true}
@@ -284,10 +330,10 @@
                 window.PartitionId=data;
                 layer.open({
                     type: 2,
-                    content: ['html/tokenForm.html','no'] ,//加no不允许出现滚动条
+                    content: ['html/tokenForm.html'] ,//加no不允许出现滚动条
                     title:'修改信息',
                     //area: ['500px', '300px'],
-                    area: ['50%', '70%'],
+                    area: ['50%', '95%'],
                     skin: "layui-layer-molv",
                     btn: ['确定', '关闭'],
                     success: function (layero, index) {    //成功获得加载changefile.html时，预先加载，将值从父窗口传到 子窗口
@@ -295,14 +341,57 @@
                         //父窗口向子窗口传值
                         var form = $(layero).find("iframe").contents().find(".layui-form");//获取子页面元素
                         $(form).find("[name=id]").attr('value',data.id);
-                        $(form).find("[name=userId]").attr('value',data.username);
-                        $(form).find("[name=accessToken]").attr('value',data.password);
-                        $(form).find("[name=startTime]").attr('value',data.nickname);
-                        $(form).find("[name=startTime]").attr('disabled','disabled');
-                        $(form).find("[name=startTime]").attr('readonly','readonly');
-                        $(form).find("[name=expireTime]").attr('value',data.address);
-                        $(form).find("[name=expireTime]").attr('disabled','disabled');
-                        $(form).find("[name=expireTime]").attr('readonly','readonly');
+                        $(form).find("[name=cusId]").attr('value',data.userId);
+                        $(form).find("[name=accessToken]").attr('value',data.accessToken);
+                        $(form).find("[name=accessToken]").attr('disabled','disabled');
+                        $(form).find("[name=accessToken]").attr('readonly','readonly');
+                        var startTime=data.startTime.split(' ');
+                        var expireTime=data.expireTime.split(' ');
+
+                        $(form).find("#unionPay").attr('checked','checked');
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
+                        iframeWin.editDate(startTime[0],startTime[1],expireTime[0],expireTime[1],);//刷新子页面
+
+                        // $(form).find("[name=startTime]").attr('value',data.nickname);
+                        // $(form).find("[name=startTime]").attr('disabled','disabled');
+                        // $(form).find("[name=startTime]").attr('readonly','readonly');
+                        // $(form).find("[name=expireTime]").attr('value',data.address);
+                        // $(form).find("[name=expireTime]").attr('disabled','disabled');
+                        // $(form).find("[name=expireTime]").attr('readonly','readonly');
+                        //装填用户
+
+                        $.ajax({
+                            //请求方式
+                            type : "GET",
+                            //请求的媒体类型
+                            contentType: "application/json;charset=UTF-8",
+                            //请求地址
+                            url : "/customer/list",
+                            //数据，json字符串
+                            //请求成功
+                            success : function(datum) {
+                                var body = layer.getChildFrame('body', index);
+                                var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();比如iframeWin.alert11();
+                                //console.log(body.html()) //得到iframe页的body内容
+
+                                var sel=$(body).find("#select_cus");
+
+                                for (var i = 0; i < datum.message.length; i++) {
+                                    if(data.cusId==datum.message[i].id){
+                                        $(sel).append('<option value="' + datum.message[i].id + '" selected>' + datum.message[i].username + '</option>');
+                                    }else{
+                                        $(sel).append('<option value="' + datum.message[i].id + '">' + datum.message[i].username + '</option>');
+                                    }
+                                }
+                                iframeWin.refresh();//刷新子页面
+                            },
+                            //请求失败，包含具体的错误信息
+                            error : function(data){
+                                layer.msg(data.message);
+                            }
+                        });
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
+                        //iframeWin.flushDate();//刷新子页面
                     },
                     yes: function(index, layero){
                         var iframe = window['layui-layer-iframe' + index];//子窗口
@@ -328,7 +417,7 @@
                                 layer.msg(data.message);
                                 //同步更新缓存对应的值
                                 obj.update({
-                                    userId: formdata.userId,
+                                    userId: formdata.cusId,
                                     accessToken: formdata.accessToken
                                     ,startTime: formdata.startTime
                                     ,expireTime: formdata.expireTime
@@ -360,4 +449,32 @@
         });
 
     });
+
+    function show(id,rid) {
+        $.ajax({
+            //请求方式
+            type : "GET",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "/customer/getById?id="+id,
+            //数据，json字符串
+            //请求成功
+            success : function(data) {
+                // var a='cusId'+data.message.cusId;
+                // var that = this;
+                layer.tips('客户名:'+data.message.username, $('#cusId'+id+'_'+rid),{
+                    tips: [1, "#4794ec"]
+                }); //在元素的事件回调体中，follow直接赋予this即可
+                // layer.tips("客户名", "："+data.message.username+"", {
+                //     tips: [4, "#4794ec"]
+                // });
+            },
+            //请求失败，包含具体的错误信息
+            error : function(data){
+                layer.msg(data.message);
+            }
+        });
+
+    }
 </script>

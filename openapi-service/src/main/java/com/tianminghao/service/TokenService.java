@@ -70,10 +70,14 @@ public interface TokenService {
     /**
      * 更新客户信息
      * @param token
+     * @param expireDate
+     * @param expireTime
+     * @param startDate
+     * @param startTime
      * @return
      * @throws Exception
      */
-    int alter(Token token) throws Exception;
+    int alter(Token token,String expireDate,String expireTime,String startDate,String startTime) throws Exception;
 
 
     /**
@@ -82,5 +86,5 @@ public interface TokenService {
      * @return
      * @throws Exception
      */
-    int add(Token token) throws Exception;
+    int add(Token token,String expireDate,String expireTime,String startDate,String startTime) throws Exception;
 }
