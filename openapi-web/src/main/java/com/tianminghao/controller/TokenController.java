@@ -130,7 +130,7 @@ public class TokenController {
     public Result insert(@RequestBody Map<String,Object> paramsMap) throws Exception {
 
         String cusId = (String) paramsMap.get("cusId");
-        String accessToken = (String) paramsMap.get("accessToken");
+        //String accessToken = (String) paramsMap.get("accessToken");
         String startDate = (String) paramsMap.get("startDate");
         String startTimey = (String) paramsMap.get("startTimey");
         String expireDate = (String) paramsMap.get("expireDate");
@@ -138,7 +138,7 @@ public class TokenController {
 
         Token token=new Token();
         token.setUserId(Convert.toInt(cusId));
-        token.setAccessToken(accessToken);
+        //token.setAccessToken(accessToken);
         //将日期时间分别传给service进行处理
         try {
             tokenService.add(token,expireDate,expireTimey,startDate,startTimey);

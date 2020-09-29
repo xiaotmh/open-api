@@ -150,7 +150,11 @@ public class ParameterServiceImpl implements ParameterService {
 
         //判空
         boolean flag = objCheckIsNull(parameter);
+
         if (flag) {
+            throw new ClassCastException("输入格式异常");
+        }
+        if (parameter.getName().trim().equals("")||parameter.getName()==null) {
             throw new ClassCastException("输入格式异常");
         }
 
@@ -164,26 +168,36 @@ public class ParameterServiceImpl implements ParameterService {
      * @return
      */
     public  boolean objCheckIsNull(Object object){
-        Class clazz = (Class)object.getClass(); // 得到类对象
-        Field fields[] = clazz.getDeclaredFields(); // 得到所有属性
-        boolean flag = true; //定义返回结果，默认为true
+        // 得到类对象
+        Class clazz = (Class)object.getClass();
+        // 得到所有属性
+        Field fields[] = clazz.getDeclaredFields();
+        boolean flag = false; //定义返回结果，默认为不为空
         for(Field field : fields){
             field.setAccessible(true);
             Object fieldValue = null;
             try {
-                fieldValue = field.get(object); //得到属性值
-                Type fieldType =field.getGenericType();//得到属性类型
-                String fieldName = field.getName(); // 得到属性名
+                //得到属性值
+                fieldValue = field.get(object);
+                //得到属性类型
+                Type fieldType =field.getGenericType();
+                // 得到属性名
+                String fieldName = field.getName();
                 System.out.println("属性类型："+fieldType+",属性名："+fieldName+",属性值："+fieldValue);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            if(fieldValue != null||field.getName().equals("id")){
+            if(fieldValue == null){
+                if(field.getName().toString().trim().equals("id")){
+                    continue;
+                }
                 //只要有一个属性值不为null 就返回false 表示对象不为null,除了Id属性
-                flag = false;
-                break;
+                if(fieldValue.toString().trim().equals("")){
+                    flag = false;
+                    break;
+                }
             }
         }
         return flag;

@@ -7,9 +7,9 @@
 <script type="text/html" id="toolbarDemo">
 
     <div class="layui-btn-fluid">
-        <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索</button>
-        <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加</button>
-        <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除</button>
+        <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索参数</button>
+        <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加参数</button>
+        <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除参数</button>
         <button class="layui-btn" lay-event="refresh"><i class="layui-icon layui-icon-refresh" ></i>刷新</button>
 
     </div>
@@ -42,7 +42,7 @@
                 ,{field: 'description', title: '参数介绍', width:220}
                 ,{field: 'state', title: '状态', width:80, sort: true,
                     templet: function(data){
-                        return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                        return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                     }
                 }
                 ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
@@ -209,7 +209,7 @@
                                     ,{field: 'description', title: '参数介绍', width:220}
                                     ,{field: 'state', title: '状态', width:80, sort: true,
                                         templet: function(data){
-                                            return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                            return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                                         }
                                     }
                                     ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
@@ -262,7 +262,7 @@
                             ,{field: 'description', title: '参数介绍', width:220}
                             ,{field: 'state', title: '状态', width:80, sort: true,
                                 templet: function(data){
-                                    return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                    return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                                 }
                             }
                             ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}

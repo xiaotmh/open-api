@@ -7,9 +7,9 @@
 <script type="text/html" id="toolbarDemo">
 
     <div class="layui-btn-fluid">
-        <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索</button>
-        <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加</button>
-        <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除</button>
+        <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索应用</button>
+        <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加应用</button>
+        <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除应用</button>
         <button class="layui-btn" lay-event="refresh"><i class="layui-icon layui-icon-refresh" ></i>刷新</button>
     </div>
 
@@ -39,16 +39,16 @@
                 ,{field: 'corpName', title: '企业名称', width:100}
                 ,{field: 'appName', title: '应用名称', width:100}
                 ,{field: 'appKey', title: '应用唯一标示', width:150}
-                ,{field: 'appSecret', title: '应用签名秘钥',width:150, sort: true}
-                ,{field: 'redirectUrl', title: '应用回调用 URL', width:150, sort: true}
-                ,{field: 'limitCount', title: '免费接口日调用次数', width:150, sort: true}
+                ,{field: 'appSecret', title: '应用签名秘钥',width:150}
+                ,{field: 'redirectUrl', title: '应用回调用 URL', width:150}
+                ,{field: 'limitCount', title: '免费接口日调用次数', width:150}
                 ,{field: 'description', title: '应用介绍', width:120, sort: true}
                 ,{field: 'cusId', title: '客户 id', width:100, sort: true, templet:function (d) {
 
                         return '<label id="cusId'+ d.cusId+'_'+d.id+'" onmouseover="show('+d.cusId+','+d.id+');">' + d.cusId + '</label>';}}
                 ,{field: 'state', title: '状态', width:80, sort: true,
                     templet: function(data){
-                        return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                        return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                     }
                 }
                 ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
@@ -252,16 +252,16 @@
                                     ,{field: 'corpName', title: '企业名称', width:100}
                                     ,{field: 'appName', title: '应用名称', width:100}
                                     ,{field: 'appKey', title: '应用唯一标示', width:150}
-                                    ,{field: 'appSecret', title: '应用签名秘钥',width:150, sort: true}
-                                    ,{field: 'redirectUrl', title: '应用回调用 URL', width:150, sort: true}
-                                    ,{field: 'limitCount', title: '免费接口日调用次数', width:150, sort: true}
+                                    ,{field: 'appSecret', title: '应用签名秘钥',width:150}
+                                    ,{field: 'redirectUrl', title: '应用回调用 URL', width:150}
+                                    ,{field: 'limitCount', title: '免费接口日调用次数', width:150}
                                     ,{field: 'description', title: '应用介绍', width:120, sort: true}
                                     ,{field: 'cusId', title: '客户 id', width:100, sort: true, templet:function (d) {
 
                                             return '<label id="cusId'+ d.cusId+'_'+d.id+'" onmouseover="show('+d.cusId+','+d.id+');">' + d.cusId + '</label>';}}
                                     ,{field: 'state', title: '状态', width:80, sort: true,
                                         templet: function(data){
-                                            return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                            return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                                         }
                                     }
                                     ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
@@ -313,16 +313,16 @@
                             ,{field: 'corpName', title: '企业名称', width:100}
                             ,{field: 'appName', title: '应用名称', width:100}
                             ,{field: 'appKey', title: '应用唯一标示', width:150}
-                            ,{field: 'appSecret', title: '应用签名秘钥',width:150, sort: true}
-                            ,{field: 'redirectUrl', title: '应用回调用 URL', width:150, sort: true}
-                            ,{field: 'limitCount', title: '免费接口日调用次数', width:150, sort: true}
+                            ,{field: 'appSecret', title: '应用签名秘钥',width:150}
+                            ,{field: 'redirectUrl', title: '应用回调用 URL', width:150}
+                            ,{field: 'limitCount', title: '免费接口日调用次数', width:150}
                             ,{field: 'description', title: '应用介绍', width:120, sort: true}
                             ,{field: 'cusId', title: '客户 id', width:100, sort: true, templet:function (d) {
 
                                     return '<label id="cusId'+ d.cusId+'_'+d.id+'" onmouseover="show('+d.cusId+','+d.id+');">' + d.cusId + '</label>';}}
                             ,{field: 'state', title: '状态', width:80, sort: true,
                                 templet: function(data){
-                                    return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                    return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                                 }
                             }
                             ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}

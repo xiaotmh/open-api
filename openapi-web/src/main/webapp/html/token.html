@@ -8,7 +8,7 @@
 
     <div class="layui-btn-fluid">
         <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索</button>
-        <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加</button>
+        <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>为用户生成新的Token</button>
         <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除</button>
         <button class="layui-btn" lay-event="refresh"><i class="layui-icon layui-icon-refresh" ></i>刷新</button>
     </div>
@@ -42,12 +42,12 @@
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', sort: true, width:80}
-                ,{field: 'userId', title: '客户 id', width:120, templet:function (d) {
+                ,{field: 'userId', title: '客户 id', width:120, sort: true ,templet:function (d) {
 
                         return '<label id="cusId'+ d.userId+'_'+d.id+'" onmouseover="show('+d.userId+','+d.id+');">' + d.userId + '</label>';}}
-                ,{field: 'accessToken', title: 'token 内容', width:220}
+                ,{field: 'accessToken', title: 'token 内容', width:300}
                 ,{field: 'startTime', title: '开始时间', width:180}
-                ,{field: 'expireTime', title: '结束时间',width:180, sort: true}
+                ,{field: 'expireTime', title: '结束时间',width:180}
                 ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
             ]]
         });
@@ -63,9 +63,9 @@
                     layer.open({
                         type: 2,
                         content: ['html/tokenForm.html'] ,//加no不允许出现滚动条
-                        title:'添加信息',
+                        title:'生成新的Token',
                         //area: ['500px', '300px'],
-                        area: ['50%', '95%'],
+                        area: ['60%', '95%'],
                         skin: "layui-layer-molv",
                         btn: ['确定', '关闭'],
                         success: function (layero, index) {    //成功获得加载changefile.html时，预先加载，将值从父窗口传到 子窗口
@@ -97,6 +97,10 @@
                                         }
                                     }
                                     $(form).find("#unionPay").attr('checked','checked');
+                                    //关闭token输入框
+                                    $(form).find("[name=accessToken]").hide();
+                                    $(form).find("[name=accessToken]").parent().parent().hide();
+
                                     iframeWin.refresh();//刷新子页面
                                 },
                                 //请求失败，包含具体的错误信息
@@ -180,7 +184,7 @@
                     } else{
                         layer.confirm('确定要删除这'+data.length+'个吗？', {icon: 3, title:'提示'}, function(index){
                             //do something
-                            alert(JSON.stringify(data));
+                            //alert(JSON.stringify(data));
                             $.ajax({
                                 //请求方式
                                 type : "POST",
@@ -242,12 +246,12 @@
                                 ,cols:[[ //表头
                                     {type: 'checkbox', fixed: 'left'}
                                     ,{field: 'id', title: 'ID', sort: true, width:80}
-                                    ,{field: 'userId', title: '客户 id', width:120, templet:function (d) {
+                                    ,{field: 'userId', title: '客户 id', width:120, sort: true ,templet:function (d) {
 
                                             return '<label id="cusId'+ d.userId+'_'+d.id+'" onmouseover="show('+d.userId+','+d.id+');">' + d.userId + '</label>';}}
-                                    ,{field: 'accessToken', title: 'token 内容', width:220}
+                                    ,{field: 'accessToken', title: 'token 内容', width:300}
                                     ,{field: 'startTime', title: '开始时间', width:180}
-                                    ,{field: 'expireTime', title: '结束时间',width:180, sort: true}
+                                    ,{field: 'expireTime', title: '结束时间',width:180}
                                     ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
                                 ]],
                                 done: function(res, curr, count){
@@ -290,11 +294,12 @@
                         ,cols: [[ //表头
                             {type: 'checkbox', fixed: 'left'}
                             ,{field: 'id', title: 'ID', sort: true, width:80}
-                            ,{field: 'userId', title: '客户 id', width:120, templet:function (d) {
+                            ,{field: 'userId', title: '客户 id', width:120, sort: true ,templet:function (d) {
+
                                     return '<label id="cusId'+ d.userId+'_'+d.id+'" onmouseover="show('+d.userId+','+d.id+');">' + d.userId + '</label>';}}
-                            ,{field: 'accessToken', title: 'token 内容', width:220}
+                            ,{field: 'accessToken', title: 'token 内容', width:300}
                             ,{field: 'startTime', title: '开始时间', width:180}
-                            ,{field: 'expireTime', title: '结束时间',width:180, sort: true}
+                            ,{field: 'expireTime', title: '结束时间',width:180}
                             ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
                         ]]
                     });
@@ -334,7 +339,7 @@
                     content: ['html/tokenForm.html'] ,//加no不允许出现滚动条
                     title:'修改信息',
                     //area: ['500px', '300px'],
-                    area: ['50%', '95%'],
+                    area: ['60%', '100%'],
                     skin: "layui-layer-molv",
                     btn: ['确定', '关闭'],
                     success: function (layero, index) {    //成功获得加载changefile.html时，预先加载，将值从父窗口传到 子窗口

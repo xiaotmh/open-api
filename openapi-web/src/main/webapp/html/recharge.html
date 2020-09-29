@@ -7,9 +7,9 @@
 <script type="text/html" id="toolbarDemo">
 
     <div class="layui-btn-fluid">
-        <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索</button>
-        <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加</button>
-        <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除</button>
+        <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索充值记录</button>
+        <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>为客户充值</button>
+        <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除充值记录</button>
         <button class="layui-btn" lay-event="refresh"><i class="layui-icon layui-icon-refresh" ></i>刷新</button>
 
     </div>
@@ -38,14 +38,14 @@
             ,cols:[[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'id', title: 'ID', sort: true, width:80}
-                ,{field: 'cusId', title: '客户 id', width:120, templet:function (d) {
+                ,{field: 'cusId', title: '客户 id', width:120, sort: true, templet:function (d) {
                         return '<label id="cusId'+ d.cusId+'_'+d.id+'" onmouseover="show('+d.cusId+','+d.id+');">' + d.cusId + '</label>';}}
                 ,{field: 'createtime', title: '创建订单时间', width:200}
                 ,{field: 'updatetime', title: '更新时间', width:200}
-                ,{field: 'money', title: '充值金额', width:120}
+                ,{field: 'money', title: '充值金额',sort: true, width:120}
                 ,{field: 'state', title: '状态', width:80, sort: true,
                     templet: function(data){
-                        return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                        return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                     }
                 }
                 ,{field: 'paymentType', title: '支付类型', width:120, sort: true,
@@ -287,14 +287,14 @@
                                 ,cols:[[ //表头
                                     {type: 'checkbox', fixed: 'left'}
                                     ,{field: 'id', title: 'ID', sort: true, width:80}
-                                    ,{field: 'cusId', title: '客户 id', width:120, templet:function (d) {
+                                    ,{field: 'cusId', title: '客户 id', width:120, sort: true, templet:function (d) {
                                             return '<label id="cusId'+ d.cusId+'_'+d.id+'" onmouseover="show('+d.cusId+','+d.id+');">' + d.cusId + '</label>';}}
                                     ,{field: 'createtime', title: '创建订单时间', width:200}
                                     ,{field: 'updatetime', title: '更新时间', width:200}
-                                    ,{field: 'money', title: '充值金额', width:120}
+                                    ,{field: 'money', title: '充值金额',sort: true, width:120}
                                     ,{field: 'state', title: '状态', width:80, sort: true,
                                         templet: function(data){
-                                            return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                            return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                                         }
                                     }
                                     ,{field: 'paymentType', title: '支付类型', width:120, sort: true,
@@ -354,14 +354,14 @@
                         ,cols:[[ //表头
                             {type: 'checkbox', fixed: 'left'}
                             ,{field: 'id', title: 'ID', sort: true, width:80}
-                            ,{field: 'cusId', title: '客户 id', width:120, templet:function (d) {
+                            ,{field: 'cusId', title: '客户 id', width:120, sort: true, templet:function (d) {
                                     return '<label id="cusId'+ d.cusId+'_'+d.id+'" onmouseover="show('+d.cusId+','+d.id+');">' + d.cusId + '</label>';}}
                             ,{field: 'createtime', title: '创建订单时间', width:200}
                             ,{field: 'updatetime', title: '更新时间', width:200}
-                            ,{field: 'money', title: '充值金额', width:120}
+                            ,{field: 'money', title: '充值金额',sort: true, width:120}
                             ,{field: 'state', title: '状态', width:80, sort: true,
                                 templet: function(data){
-                                    return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                    return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                                 }
                             }
                             ,{field: 'paymentType', title: '支付类型', width:120, sort: true,
@@ -539,7 +539,8 @@
                         });
 
 
-                        layui.table.render()
+                        layui.table.render();
+                        table.reload("demo");
                         layer.close(index); //如果设定了yes回调，需进行手工关闭
                     },
                     cancel: function(index, layero){

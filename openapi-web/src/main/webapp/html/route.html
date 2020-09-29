@@ -7,9 +7,9 @@
 <script type="text/html" id="toolbarDemo">
 
     <div class="layui-btn-fluid">
-        <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索</button>
-        <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加</button>
-        <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除</button>
+        <button class="layui-btn layui-btn-warm" lay-event="search"><i class="layui-icon layui-icon-search" ></i>搜索路由</button>
+        <button class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition" ></i>添加路由</button>
+        <button class="layui-btn layui-btn-danger" lay-event="delbat"><i class="layui-icon layui-icon-delete" ></i>删除路由</button>
         <button class="layui-btn" lay-event="refresh"><i class="layui-icon layui-icon-refresh" ></i>刷新</button>
 
     </div>
@@ -41,20 +41,20 @@
                 ,{field: 'gatewayApiName', title: '路由名称标识', width:180}
                 ,{field: 'insideApiUrl', title: '服务接口地址', width:180}
                 ,{field: 'serviceId', title: '服务名称', width:120}
-                ,{field: 'description', title: '介绍信息',width:180, sort: true}
+                ,{field: 'description', title: '介绍信息',width:180}
                 ,{field: 'state', title: '状态', width:80, sort: true,
                     templet: function(data){
-                        return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                        return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                     }
                 }
-                ,{field: 'idempotents', title: '幂等性', width:80, sort: true,
+                ,{field: 'idempotents', title: '幂等性', width:120, sort: true,
                     templet: function(data){
-                        return data.idempotents == 1 ? '<span style="color: green;">幂等</span>' : '<span style="color: red;">非幂等</span>';
+                        return data.idempotents == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-form"></i> 幂等</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-layer"></i> 非幂等</span>';
                     }
                 }
-                ,{field: 'needfee', title: '是否收费', width:80, sort: true,
+                ,{field: 'needfee', title: '是否收费', width:120, sort: true,
                     templet: function(data){
-                        return data.needfee == 0 ? '<span style="color: green;">免费</span>' : '<span style="color: red;">收费</span>';
+                        return data.needfee == 0 ? '<span style="color: green;"><i class="layui-icon layui-icon-gift"></i> 免费</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-rmb"></i> 收费</span>';
                     }
                 }
                 ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
@@ -217,26 +217,26 @@
                                 ,url: '/route/search' //数据接口地址：将来一个handler对应的url
                                 ,page: true
                                 ,where: {searchContent: searchContent, searchState: searchState}
-                                ,cols: [[ //表头
+                                ,cols:  [[ //表头
                                     {type: 'checkbox', fixed: 'left'}
                                     ,{field: 'id', title: 'ID', sort: true, width:80}
                                     ,{field: 'gatewayApiName', title: '路由名称标识', width:180}
                                     ,{field: 'insideApiUrl', title: '服务接口地址', width:180}
                                     ,{field: 'serviceId', title: '服务名称', width:120}
-                                    ,{field: 'description', title: '介绍信息',width:180, sort: true}
+                                    ,{field: 'description', title: '介绍信息',width:180}
                                     ,{field: 'state', title: '状态', width:80, sort: true,
                                         templet: function(data){
-                                            return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                            return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                                         }
                                     }
-                                    ,{field: 'idempotents', title: '幂等性', width:80, sort: true,
+                                    ,{field: 'idempotents', title: '幂等性', width:120, sort: true,
                                         templet: function(data){
-                                            return data.idempotents == 1 ? '<span style="color: green;">幂等</span>' : '<span style="color: red;">非幂等</span>';
+                                            return data.idempotents == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-form"></i> 幂等</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-layer"></i> 非幂等</span>';
                                         }
                                     }
-                                    ,{field: 'needfee', title: '是否收费', width:80, sort: true,
+                                    ,{field: 'needfee', title: '是否收费', width:120, sort: true,
                                         templet: function(data){
-                                            return data.needfee == 0 ? '<span style="color: green;">免费</span>' : '<span style="color: red;">收费</span>';
+                                            return data.needfee == 0 ? '<span style="color: green;"><i class="layui-icon layui-icon-gift"></i> 免费</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-rmb"></i> 收费</span>';
                                         }
                                     }
                                     ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
@@ -288,20 +288,20 @@
                             ,{field: 'gatewayApiName', title: '路由名称标识', width:180}
                             ,{field: 'insideApiUrl', title: '服务接口地址', width:180}
                             ,{field: 'serviceId', title: '服务名称', width:120}
-                            ,{field: 'description', title: '介绍信息',width:180, sort: true}
+                            ,{field: 'description', title: '介绍信息',width:180}
                             ,{field: 'state', title: '状态', width:80, sort: true,
                                 templet: function(data){
-                                    return data.state == 1 ? '<span style="color: green;">正常</span>' : '<span style="color: red;">停用</span>';
+                                    return data.state == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-ok"></i> 正常</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-close"></i> 停用</span>';
                                 }
                             }
-                            ,{field: 'idempotents', title: '幂等性', width:80, sort: true,
+                            ,{field: 'idempotents', title: '幂等性', width:120, sort: true,
                                 templet: function(data){
-                                    return data.idempotents == 1 ? '<span style="color: green;">幂等</span>' : '<span style="color: red;">非幂等</span>';
+                                    return data.idempotents == 1 ? '<span style="color: green;"><i class="layui-icon layui-icon-form"></i> 幂等</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-layer"></i> 非幂等</span>';
                                 }
                             }
-                            ,{field: 'needfee', title: '是否收费', width:80, sort: true,
+                            ,{field: 'needfee', title: '是否收费', width:120, sort: true,
                                 templet: function(data){
-                                    return data.needfee == 0 ? '<span style="color: green;">免费</span>' : '<span style="color: red;">收费</span>';
+                                    return data.needfee == 0 ? '<span style="color: green;"><i class="layui-icon layui-icon-gift"></i> 免费</span>' : '<span style="color: red;"><i class="layui-icon layui-icon-rmb"></i> 收费</span>';
                                 }
                             }
                             ,{fixed: 'right', title:'操作', align:'center', toolbar: '#barDemo', width:160}
